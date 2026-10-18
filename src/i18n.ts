@@ -6,8 +6,8 @@ export const LINKEDIN_COMPANY = 'https://www.linkedin.com/company/samservicesllc
 export const LINKEDIN_PERSON = 'https://www.linkedin.com/in/arieskienmendoza/';
 
 export const paths = {
-  es: { home: '/', privacy: '/privacidad/', terms: '/terminos/', sms: '/sms/', accessibility: '/accesibilidad/' },
-  en: { home: '/en/', privacy: '/en/privacy/', terms: '/en/terms/', sms: '/en/sms/', accessibility: '/en/accessibility/' },
+  es: { home: '/', case: '/proyectos/gonichea/', privacy: '/privacidad/', terms: '/terminos/', sms: '/sms/', accessibility: '/accesibilidad/' },
+  en: { home: '/en/', case: '/en/projects/gonichea/', privacy: '/en/privacy/', terms: '/en/terms/', sms: '/en/sms/', accessibility: '/en/accessibility/' },
 } as const;
 
 export const t = {
@@ -19,7 +19,7 @@ export const t = {
       'Sitios web, software a la medida, integraciones, servidores, correo corporativo y telefonía FusionPBX para pequeñas y medianas empresas en EE. UU. Naples, Florida.',
     og: '/og-es.png',
     skip: 'Saltar al contenido',
-    nav: { services: 'Servicios', calc: 'Calculadora', projects: 'Proyectos', about: 'Nosotros', cta: 'Hablemos' },
+    nav: { services: 'Servicios', calc: 'Calculadora', projects: 'Casos', about: 'Nosotros', cta: 'Hablemos' },
     switchLabel: 'View this site in English',
     switchText: 'EN',
     hero: {
@@ -36,11 +36,11 @@ export const t = {
       center: ['su', 'sistema'],
       nodes: ['Square POS', 'eBay', 'Sitio web', 'FedEx', 'Correo', 'FusionPBX'],
       stats: [
+        ['64,539', 'facturas desde 2018'],
         ['10', 'sedes · 7 estados'],
-        ['~10K', 'facturas / año'],
-        ['1,200+', 'productos'],
+        ['42,312', 'envíos rastreados'],
       ],
-      statsNote: 'Cliente: Gonichea',
+      statsNote: 'Caso destacado: Gonichea',
     },
     calc: {
       kicker: 'Calculadora de ahorro',
@@ -67,8 +67,10 @@ export const t = {
       ],
     },
     projects: {
-      kicker: 'Proyectos',
+      kicker: 'Casos',
       h2: 'Resultados para clientes reales.',
+      featured: 'Caso destacado',
+      more: 'Otros proyectos',
       log: [
         ['ok', 'square.sync', 'pedidos importados'],
         ['ok', 'ebay.orders', 'inventario actualizado'],
@@ -78,8 +80,10 @@ export const t = {
       gonichea: {
         client: 'Gonichea · Distribuidor HVAC y electrodomésticos',
         title: 'Ingeniería backend e integraciones',
-        text: '10 sedes en 7 estados, cerca de 10,000 facturas al año y más de 1,200 productos en un solo sistema, en producción desde 2018.',
+        text: 'El sistema que mueve la operación de Gonichea: inventario, punto de venta, facturación, compras, envíos y garantías de 10 sedes en 7 estados, integrado con Square, eBay, Walmart, Shopify y FedEx. En producción desde 2018.',
         stack: 'Python · Django · MariaDB · Celery · Docker',
+        metrics: [['64,539', 'facturas'], ['42,312', 'envíos'], ['32,079', 'órdenes eBay'], ['118', 'almacenes']],
+        cta: 'Ver caso completo',
       },
       paellas: {
         client: 'Paellas by Carlitin · Catering en Miami',
@@ -127,7 +131,7 @@ export const t = {
       'Websites, custom software, integrations, servers, business email and FusionPBX phone systems for small and medium businesses across the US. Naples, Florida.',
     og: '/og-en.png',
     skip: 'Skip to content',
-    nav: { services: 'Services', calc: 'Calculator', projects: 'Projects', about: 'About', cta: "Let's talk" },
+    nav: { services: 'Services', calc: 'Calculator', projects: 'Case studies', about: 'About', cta: "Let's talk" },
     switchLabel: 'Ver el sitio en español',
     switchText: 'ES',
     hero: {
@@ -144,11 +148,11 @@ export const t = {
       center: ['your', 'system'],
       nodes: ['Square POS', 'eBay', 'Website', 'FedEx', 'Email', 'FusionPBX'],
       stats: [
+        ['64,539', 'invoices since 2018'],
         ['10', 'locations · 7 states'],
-        ['~10K', 'invoices / year'],
-        ['1,200+', 'products'],
+        ['42,312', 'tracked shipments'],
       ],
-      statsNote: 'Client: Gonichea',
+      statsNote: 'Featured case: Gonichea',
     },
     calc: {
       kicker: 'Savings calculator',
@@ -175,8 +179,10 @@ export const t = {
       ],
     },
     projects: {
-      kicker: 'Projects',
+      kicker: 'Case studies',
       h2: 'Results for real clients.',
+      featured: 'Featured case',
+      more: 'Other projects',
       log: [
         ['ok', 'square.sync', 'orders imported'],
         ['ok', 'ebay.orders', 'inventory updated'],
@@ -186,8 +192,10 @@ export const t = {
       gonichea: {
         client: 'Gonichea · HVAC and appliance distributor',
         title: 'Backend engineering & integrations',
-        text: '10 locations in 7 states, about 10,000 invoices a year and more than 1,200 products in one system, in production since 2018.',
+        text: 'The system that runs Gonichea’s operation: inventory, point of sale, invoicing, purchasing, shipping and warranties for 10 locations in 7 states, integrated with Square, eBay, Walmart, Shopify and FedEx. In production since 2018.',
         stack: 'Python · Django · MariaDB · Celery · Docker',
+        metrics: [['64,539', 'invoices'], ['42,312', 'shipments'], ['32,079', 'eBay orders'], ['118', 'warehouses']],
+        cta: 'Read the full case',
       },
       paellas: {
         client: 'Paellas by Carlitin · Catering in Miami',

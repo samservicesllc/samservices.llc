@@ -51,7 +51,7 @@ const pos: [number, number][] = [[70, 60], [370, 60], [60, 150], [380, 150], [70
           <div><dt>{l}</dt><dd>{n}</dd></div>
         ))}
       </dl>
-      <p class="stats-note mono">{c.hero.statsNote}</p>
+      <a class="stats-note mono" href={paths[lang].case}>{c.hero.statsNote} →</a>
     </div>
   </div>
 </section>
@@ -103,35 +103,41 @@ const pos: [number, number][] = [[70, 60], [370, 60], [60, 150], [380, 150], [70
 <section id="proyectos" class="wrap sec" aria-labelledby="proj-title">
   <p class="kicker">{c.projects.kicker}</p>
   <h2 id="proj-title" class="h2">{c.projects.h2}</h2>
-  <div class="grid2">
-    <article class="card proj reveal">
-      <div class="term mono" aria-hidden="true">
-        {c.projects.log.map(([st, k, v], i) => (
-          <div class="ln" style={`--i:${i}`}>
-            {st === 'ok' ? <span class="g">✓</span> : <span class="b">›</span>} {k} <span class="w">{v}</span>
-            {st === 'run' && <span class="caret b">▌</span>}
-          </div>
-        ))}
-      </div>
-      <div class="pbody">
-        <p class="client">{c.projects.gonichea.client}</p>
-        <h3>{c.projects.gonichea.title}</h3>
-        <p class="muted">{c.projects.gonichea.text}</p>
+  <article class="card feat reveal">
+    <div class="term mono" aria-hidden="true">
+      <p class="tag">{c.projects.featured}</p>
+      {c.projects.log.map(([st, k, v], i) => (
+        <div class="ln" style={`--i:${i}`}>
+          {st === 'ok' ? <span class="g">✓</span> : <span class="b">›</span>} {k} <span class="w">{v}</span>
+          {st === 'run' && <span class="caret b">▌</span>}
+        </div>
+      ))}
+    </div>
+    <div class="pbody">
+      <p class="client">{c.projects.gonichea.client}</p>
+      <h3>{c.projects.gonichea.title}</h3>
+      <p class="muted">{c.projects.gonichea.text}</p>
+      <dl class="fm mono">
+        {c.projects.gonichea.metrics.map(([n, l]) => <div><dd data-count={n}>{n}</dd><dt>{l}</dt></div>)}
+      </dl>
+      <div class="frow">
+        <a class="btn btn-dark" href={paths[lang].case}>{c.projects.gonichea.cta} <span aria-hidden="true">→</span></a>
         <p class="mono stack-line">{c.projects.gonichea.stack}</p>
       </div>
-    </article>
-    <article class="card proj reveal">
-      <a href="https://paellasbycarlitin.com/" rel="noopener" class="shot" tabindex="-1" aria-hidden="true">
-        <img src="/img/paellas-by-carlitin.webp" alt="" width="960" height="600" loading="lazy" decoding="async" />
-      </a>
-      <div class="pbody">
-        <p class="client">{c.projects.paellas.client}</p>
-        <h3>{c.projects.paellas.title}</h3>
-        <p class="muted">{c.projects.paellas.text}</p>
-        <a href="https://paellasbycarlitin.com/" rel="noopener" class="more">{c.projects.paellas.link} <span aria-hidden="true">→</span></a>
-      </div>
-    </article>
-  </div>
+    </div>
+  </article>
+  <p class="kicker more-k">{c.projects.more}</p>
+  <article class="card mini reveal">
+    <a href="https://paellasbycarlitin.com/" rel="noopener" class="shot" tabindex="-1" aria-hidden="true">
+      <img src="/img/paellas-by-carlitin.webp" alt="" width="960" height="600" loading="lazy" decoding="async" />
+    </a>
+    <div class="pbody">
+      <p class="client">{c.projects.paellas.client}</p>
+      <h3>{c.projects.paellas.title}</h3>
+      <p class="muted">{c.projects.paellas.text}</p>
+      <a href="https://paellasbycarlitin.com/" rel="noopener" class="more">{c.projects.paellas.link} <span aria-hidden="true">→</span></a>
+    </div>
+  </article>
 </section>
 
 <section id="nosotros" class="wrap sec" aria-labelledby="about-title">
@@ -298,7 +304,8 @@ const pos: [number, number][] = [[70, 60], [370, 60], [60, 150], [380, 150], [70
   .stats div { background: rgba(8,13,22,.8); border-radius: 8px; padding: 12px; display: flex; flex-direction: column-reverse; }
   .stats dd { margin: 0; font-size: 20px; color: #fff; }
   .stats dt { font-size: 11px; color: #8A96A3; }
-  .stats-note { font-size: 11px; color: #6B7785; margin-top: 10px; text-align: right; }
+  .stats-note { display: block; font-size: 12px; color: var(--blue-soft); margin-top: 12px; text-align: right; text-decoration: none; }
+  .stats-note:hover { color: #fff; }
 
   .calc-sec { background: var(--mist); border-bottom: 1px solid #E6EAEF; }
   .two {
@@ -357,6 +364,27 @@ const pos: [number, number][] = [[70, 60], [370, 60], [60, 150], [380, 150], [70
   .term .b { color: var(--blue); }
   .term .w { color: #D7DEE6; }
   .ln { animation: rise .5s ease both; animation-delay: calc(var(--i) * .25s + .3s); }
+  .feat { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); overflow: hidden; border-color: #CFE3F5; }
+  .feat .term { min-height: 100%; padding: 32px; }
+  .feat .tag { color: var(--blue); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; margin-bottom: 14px; }
+  .feat .pbody { padding: 32px; gap: 14px; }
+  .feat h3 { font-size: 26px; }
+  .fm { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin: 6px 0; }
+  .fm div { background: var(--mist); border-radius: 10px; padding: 12px; display: flex; flex-direction: column; }
+  .fm dd { margin: 0; font-size: 22px; color: var(--ink); font-variant-numeric: tabular-nums; }
+  .fm dt { font-size: 12px; color: var(--muted-2); }
+  .frow { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px; margin-top: auto; }
+  .frow .stack-line { margin: 0; }
+  .more-k { margin-top: 40px; }
+  .mini { display: grid; grid-template-columns: 300px 1fr; overflow: hidden; }
+  .mini .shot { aspect-ratio: auto; height: 100%; }
+  .mini .pbody { padding: 22px 26px; gap: 8px; }
+  .mini h3 { font-size: 19px; }
+  @media (max-width: 860px) {
+    .feat, .mini { grid-template-columns: 1fr; }
+    .fm { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .mini .shot { aspect-ratio: 16 / 10; }
+  }
   .shot { display: block; aspect-ratio: 16 / 10; overflow: hidden; background: var(--mist); }
   .shot img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .5s ease; }
   .proj:hover .shot img { transform: scale(1.03); }

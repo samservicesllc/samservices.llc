@@ -1,0 +1,288 @@
+---
+import NeuralBg from './NeuralBg.astro';
+import { paths, type Lang } from '../i18n';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+
+const T = {
+  es: {
+    kicker: 'Caso destacado · Gonichea',
+    h1a: 'El sistema que mueve',
+    h1b: '10 sedes en 7 estados.',
+    lead: 'Construimos y mantenemos el backend de Gonichea, distribuidor de HVAC y electrodomésticos, en producción desde 2018: una sola plataforma para tiendas, almacenes, marketplaces y envíos.',
+    metrics: [
+      ['64539', 'facturas despachadas'],
+      ['42312', 'envíos con seguimiento'],
+      ['32079', 'órdenes de eBay sincronizadas'],
+      ['49', 'puntos de venta'],
+      ['118', 'almacenes'],
+      ['1218', 'reclamos de garantía gestionados'],
+    ],
+    metricsNote: 'Datos del sistema en producción, septiembre 2018 – octubre 2026.',
+    ctxK: 'El reto',
+    ctxH: 'Una operación en muchos lugares, una sola fuente de verdad.',
+    ctxP: [
+      'Gonichea vende en tiendas físicas de Naples, Atlanta, Charlotte, Greensboro, Richmond, Houston, Dallas, Austin, Los Ángeles y Las Vegas, y además en eBay, Walmart y Shopify.',
+      'Cada venta tiene que descontar el inventario correcto, cobrarse, facturarse con el impuesto de su estado, enviarse y, si hace falta, atenderse en garantía. Sin un sistema central, eso se convierte en hojas de cálculo, doble captura y errores de stock.',
+    ],
+    modK: 'Qué construimos',
+    modH: 'Un backend a la medida, módulo por módulo.',
+    modules: [
+      ['Inventario multi-almacén', 'Existencias por sede y almacén: disponible, reservado y en tránsito, con movimientos y ajustes trazables.'],
+      ['Punto de venta', 'Ventas en tienda conectadas con Square, con cobros y pagos parciales registrados al momento.'],
+      ['Facturación e impuestos', 'Órdenes de venta, pagos y sales tax por estado, con reportes listos para contabilidad.'],
+      ['Compras y proveedores', 'Órdenes de compra, entradas a almacén, cuentas por pagar y devoluciones a proveedor.'],
+      ['Envíos', 'Guías y seguimiento con FedEx y otros transportistas, con evidencia fotográfica de despacho.'],
+      ['Garantías', 'Registro de productos, reclamos, piezas de reemplazo y su seguimiento hasta el cierre.'],
+      ['Marketplaces', 'Publicaciones, precios, inventario y órdenes sincronizados con eBay, Walmart y Shopify.'],
+      ['Catálogo web', 'El catálogo, precios y existencias de gonichea.com se alimentan de este backend.'],
+    ],
+    archK: 'Arquitectura',
+    archH: 'Todo conectado a un mismo núcleo.',
+    archLabel: 'Diagrama: el backend de Gonichea en el centro, conectado con tiendas y Square, eBay, Walmart, Shopify, FedEx, almacenes y gonichea.com',
+    core: ['Backend', 'Gonichea'],
+    nodes: ['Tiendas · Square', 'eBay', 'Walmart', 'Shopify', 'FedEx', 'Almacenes', 'gonichea.com', 'Reportes'],
+    timeK: 'Trayectoria',
+    timeH: 'Ocho años en producción.',
+    timeline: [
+      ['2018', 'Primeras facturas en el sistema (septiembre).'],
+      ['2020', '7,715 facturas en el año: el sistema escala con la expansión.'],
+      ['2021', '11,683 facturas, el año de mayor volumen.'],
+      ['2024', '10,703 facturas en el año.'],
+      ['Hoy', '10 sedes en 7 estados sobre la misma plataforma.'],
+    ],
+    stackK: 'Tecnología',
+    stack: ['Python', 'Django', 'MariaDB', 'Celery', 'Docker', 'APIs de Square, eBay, Walmart, Shopify y FedEx'],
+    ctaH: '¿Su negocio necesita algo así?',
+    ctaP: 'Le contamos cómo empezaríamos, sin compromiso.',
+    cta: 'Hablemos',
+    back: 'Volver al inicio',
+  },
+  en: {
+    kicker: 'Featured case · Gonichea',
+    h1a: 'The system that runs',
+    h1b: '10 locations in 7 states.',
+    lead: 'We build and maintain the backend of Gonichea, an HVAC and appliance distributor, in production since 2018: one platform for stores, warehouses, marketplaces and shipping.',
+    metrics: [
+      ['64539', 'invoices dispatched'],
+      ['42312', 'tracked shipments'],
+      ['32079', 'eBay orders synced'],
+      ['49', 'points of sale'],
+      ['118', 'warehouses'],
+      ['1218', 'warranty claims handled'],
+    ],
+    metricsNote: 'Production system data, September 2018 – October 2026.',
+    ctxK: 'The challenge',
+    ctxH: 'An operation in many places, one source of truth.',
+    ctxP: [
+      'Gonichea sells from stores in Naples, Atlanta, Charlotte, Greensboro, Richmond, Houston, Dallas, Austin, Los Angeles and Las Vegas, and also on eBay, Walmart and Shopify.',
+      'Every sale has to reduce the right inventory, be paid, be invoiced with the right state sales tax, be shipped and, when needed, be handled under warranty. Without a central system, that turns into spreadsheets, double entry and stock errors.',
+    ],
+    modK: 'What we built',
+    modH: 'A custom backend, module by module.',
+    modules: [
+      ['Multi-warehouse inventory', 'Stock by location and warehouse: available, reserved and in transit, with traceable moves and adjustments.'],
+      ['Point of sale', 'In-store sales connected to Square, with payments and partial payments recorded instantly.'],
+      ['Invoicing & taxes', 'Sales orders, payments and state sales tax, with reports ready for accounting.'],
+      ['Purchasing & suppliers', 'Purchase orders, warehouse receiving, accounts payable and supplier returns.'],
+      ['Shipping', 'Labels and tracking with FedEx and other carriers, with photo proof of dispatch.'],
+      ['Warranties', 'Product registration, claims, replacement parts and follow-up until closed.'],
+      ['Marketplaces', 'Listings, prices, inventory and orders synced with eBay, Walmart and Shopify.'],
+      ['Web catalog', 'The catalog, prices and stock on gonichea.com are fed by this backend.'],
+    ],
+    archK: 'Architecture',
+    archH: 'Everything connected to one core.',
+    archLabel: 'Diagram: Gonichea backend at the center, connected to stores and Square, eBay, Walmart, Shopify, FedEx, warehouses and gonichea.com',
+    core: ['Gonichea', 'backend'],
+    nodes: ['Stores · Square', 'eBay', 'Walmart', 'Shopify', 'FedEx', 'Warehouses', 'gonichea.com', 'Reports'],
+    timeK: 'Track record',
+    timeH: 'Eight years in production.',
+    timeline: [
+      ['2018', 'First invoices in the system (September).'],
+      ['2020', '7,715 invoices in the year: the system scales with expansion.'],
+      ['2021', '11,683 invoices, the highest-volume year.'],
+      ['2024', '10,703 invoices in the year.'],
+      ['Today', '10 locations in 7 states on the same platform.'],
+    ],
+    stackK: 'Technology',
+    stack: ['Python', 'Django', 'MariaDB', 'Celery', 'Docker', 'Square, eBay, Walmart, Shopify & FedEx APIs'],
+    ctaH: 'Does your business need something like this?',
+    ctaP: 'We will tell you how we would start, no strings attached.',
+    cta: "Let's talk",
+    back: 'Back to home',
+  },
+}[lang];
+
+const fmt = (n: string) => Number(n).toLocaleString('en-US');
+// 8 nodes around the core (cx 300, cy 200)
+const R: [number, number][] = [[100, 70], [300, 40], [500, 70], [530, 200], [500, 330], [300, 360], [100, 330], [70, 200]];
+---
+<section class="chero" aria-labelledby="case-title">
+  <NeuralBg />
+  <div class="wrap cin">
+    <p class="kicker k-dark mono rise">{T.kicker}</p>
+    <h1 id="case-title" class="rise">{T.h1a} <span class="accent">{T.h1b}</span></h1>
+    <p class="lead rise rise-2">{T.lead}</p>
+    <dl class="cm mono rise rise-2">
+      {T.metrics.map(([n, l]) => <div><dd data-count={n}>{fmt(n)}</dd><dt>{l}</dt></div>)}
+    </dl>
+    <p class="note mono">{T.metricsNote}</p>
+  </div>
+</section>
+
+<section class="wrap csec two-col">
+  <div class="reveal">
+    <p class="kicker">{T.ctxK}</p>
+    <h2 class="h2">{T.ctxH}</h2>
+  </div>
+  <div class="reveal stack">
+    {T.ctxP.map((p) => <p class="muted big">{p}</p>)}
+  </div>
+</section>
+
+<section class="wrap csec">
+  <p class="kicker">{T.modK}</p>
+  <h2 class="h2 mb">{T.modH}</h2>
+  <div class="mods">
+    {T.modules.map(([h, p], i) => (
+      <article class="card mod reveal">
+        <span class="num mono">{String(i + 1).padStart(2, '0')}</span>
+        <h3>{h}</h3>
+        <p class="muted">{p}</p>
+      </article>
+    ))}
+  </div>
+</section>
+
+<section class="arch-sec">
+  <div class="wrap csec">
+    <p class="kicker k-dark">{T.archK}</p>
+    <h2 class="h2 mb light">{T.archH}</h2>
+    <svg role="img" aria-label={T.archLabel} viewBox="0 0 600 400" class="arch reveal">
+      <g fill="none" stroke="#0099FF" stroke-width="1.6">
+        {R.map(([x, y], i) => <path class="flow" style={`animation-delay:${-i * 0.2}s`} d={`M300 200 L${x} ${y}`} />)}
+      </g>
+      <g font-family="IBM Plex Mono, monospace" font-size="12" text-anchor="middle">
+        {R.map(([x, y], i) => (
+          <g class="node">
+            <rect x={x - 62} y={y - 17} width="124" height="34" rx="8" fill="#13202F" stroke="#2D4256" />
+            <text x={x} y={y + 4} fill="#D7DEE6">{T.nodes[i]}</text>
+          </g>
+        ))}
+        <circle class="pulse" cx="300" cy="200" r="74" fill="none" stroke="#0099FF" stroke-width="1.5" />
+        <circle cx="300" cy="200" r="60" fill="#0099FF" />
+        <text x="300" y="196" fill="#0B0F14" font-size="14" font-weight="600">{T.core[0]}</text>
+        <text x="300" y="214" fill="#0B0F14" font-size="14" font-weight="600">{T.core[1]}</text>
+      </g>
+    </svg>
+  </div>
+</section>
+
+<section class="wrap csec two-col">
+  <div class="reveal">
+    <p class="kicker">{T.timeK}</p>
+    <h2 class="h2">{T.timeH}</h2>
+    <p class="kicker st">{T.stackK}</p>
+    <div class="chips mono">{T.stack.map((x) => <span>{x}</span>)}</div>
+  </div>
+  <ol class="tl reveal">
+    {T.timeline.map(([y, t]) => <li><span class="y mono">{y}</span><span>{t}</span></li>)}
+  </ol>
+</section>
+
+<section class="wrap csec last">
+  <div class="ccta reveal">
+    <NeuralBg density={0.5} />
+    <div>
+      <h2 class="h2 light">{T.ctaH}</h2>
+      <p class="on-dark">{T.ctaP}</p>
+    </div>
+    <div class="cbtns">
+      <a class="btn btn-blue" href={`${paths[lang].home}#contacto`}>{T.cta}</a>
+      <a class="btn btn-ghost" href={paths[lang].home}>{T.back}</a>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Count-up for metrics when they enter the viewport
+  const els = document.querySelectorAll<HTMLElement>('[data-count]');
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!reduce && 'IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (!e.isIntersecting) return;
+        io.unobserve(e.target);
+        const el = e.target as HTMLElement;
+        const end = Number(el.dataset.count);
+        const t0 = performance.now(), dur = 1400;
+        const step = (t: number) => {
+          const k = Math.min(1, (t - t0) / dur);
+          const v = Math.round(end * (1 - Math.pow(1 - k, 3)));
+          el.textContent = v.toLocaleString('en-US');
+          if (k < 1) requestAnimationFrame(step);
+        };
+        requestAnimationFrame(step);
+      });
+    }, { threshold: 0.4 });
+    els.forEach((el) => io.observe(el));
+  }
+</script>
+
+<style>
+  .chero {
+    position: relative; overflow: hidden; isolation: isolate; color: #fff;
+    background:
+      radial-gradient(1100px 560px at 85% 10%, rgba(0,153,255,.12), transparent 60%),
+      linear-gradient(180deg, #0B1626 0%, #0A1220 60%, #0B0F14 100%);
+  }
+  .cin { position: relative; z-index: 1; padding-block: 84px 72px; display: flex; flex-direction: column; gap: 20px; }
+  .k-dark { color: var(--blue-soft); margin: 0; }
+  h1 { font-family: var(--display); font-weight: 700; font-size: clamp(38px, 5.4vw, 60px); line-height: 1.05; max-width: 900px; }
+  .accent { color: var(--blue); }
+  .lead { font-size: 19px; color: var(--on-dark); max-width: 760px; }
+  .cm { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 10px; margin: 18px 0 0; }
+  .cm div { background: rgba(14,22,34,.72); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); border: 1px solid rgba(80,120,160,.25); border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 4px; }
+  .cm dd { margin: 0; font-size: clamp(22px, 2.4vw, 30px); color: #fff; font-variant-numeric: tabular-nums; }
+  .cm dt { font-size: 12px; color: #9AA7B5; }
+  .note { font-size: 12px; color: #6F7C8A; }
+  @media (max-width: 1000px) { .cm { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+  @media (max-width: 560px) { .cm { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+  .csec { padding-block: 80px 8px; }
+  .csec.last { padding-bottom: 88px; }
+  .two-col { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr)); gap: 40px; align-items: start; }
+  .stack { display: flex; flex-direction: column; gap: 14px; }
+  .big { font-size: 18px; }
+  .mb { margin-bottom: 32px; }
+  .light { color: #fff; }
+  .mods { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: 16px; }
+  .mod { padding: 24px; display: flex; flex-direction: column; gap: 8px; }
+  .mod .num { color: var(--blue-text); font-size: 13px; }
+  .mod h3 { font-size: 18px; font-weight: 600; }
+
+  .arch-sec { margin-top: 80px; background: linear-gradient(180deg, #0B1626, #0A1220); }
+  .arch-sec .csec { padding-block: 72px; }
+  .arch { width: 100%; max-width: 860px; display: block; margin: 0 auto; height: auto; }
+  .node rect { transition: stroke .2s ease; }
+  .node:hover rect { stroke: #0099FF; }
+
+  .st { margin-top: 28px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; font-size: 12px; }
+  .chips span { border: 1px solid #D5DBE2; border-radius: 999px; padding: 6px 12px; }
+  .tl { list-style: none; margin: 0; padding: 0 0 0 22px; border-left: 2px solid #D5E6F5; display: flex; flex-direction: column; gap: 22px; }
+  .tl li { position: relative; display: flex; flex-direction: column; gap: 2px; color: #36414D; }
+  .tl li::before { content: ''; position: absolute; left: -29px; top: 6px; width: 12px; height: 12px; border-radius: 50%; background: #fff; border: 2px solid var(--blue); }
+  .tl li:last-child::before { background: var(--blue); }
+  .tl .y { color: var(--blue-text); font-size: 14px; font-weight: 500; }
+
+  .ccta {
+    position: relative; overflow: hidden; isolation: isolate; border-radius: 18px; padding: clamp(28px, 4vw, 48px);
+    background: linear-gradient(160deg, #0B1626 0%, #0A1220 60%, #0B0F14 100%);
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 24px;
+  }
+  .ccta > :not(canvas) { position: relative; z-index: 1; }
+  .ccta .h2 { margin-bottom: 8px; }
+  .on-dark { color: var(--on-dark); }
+  .cbtns { display: flex; flex-wrap: wrap; gap: 12px; }
+</style>
