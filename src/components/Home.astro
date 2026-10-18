@@ -1,5 +1,6 @@
 ---
 import { t, paths, EMAIL, LINKEDIN_PERSON, type Lang } from '../i18n';
+import NeuralBg from './NeuralBg.astro';
 interface Props { lang: Lang }
 const { lang } = Astro.props;
 const c = t[lang];
@@ -15,6 +16,7 @@ const icons: Record<string, string> = {
 const pos: [number, number][] = [[70, 60], [370, 60], [60, 150], [380, 150], [70, 240], [370, 240]];
 ---
 <section class="hero" aria-labelledby="hero-title">
+  <NeuralBg />
   <div class="wrap hero-grid">
     <div class="hero-copy rise">
       <p class="status mono"><span class="dot pulse" aria-hidden="true"></span>{c.hero.status}</p>
@@ -149,6 +151,7 @@ const pos: [number, number][] = [[70, 60], [370, 60], [60, 150], [380, 150], [70
 
 <section id="contacto" class="wrap sec last" aria-labelledby="contact-title">
   <div class="contact reveal">
+    <NeuralBg density={0.6} />
     <div class="stack">
       <h2 id="contact-title" class="h2">{c.contact.h2}</h2>
       <p class="on-dark">{c.contact.lead}</p>
@@ -261,7 +264,18 @@ const pos: [number, number][] = [[70, 60], [370, 60], [60, 150], [380, 150], [70
 </script>
 
 <style>
-  .hero { background: var(--ink); color: #fff; }
+  .hero {
+    position: relative; overflow: hidden; color: #fff; isolation: isolate;
+    background:
+      radial-gradient(1200px 600px at 80% 20%, rgba(0,153,255,.10), transparent 60%),
+      radial-gradient(900px 500px at 10% 90%, rgba(0,90,180,.12), transparent 60%),
+      linear-gradient(180deg, #0B1626 0%, #0A1220 55%, #0B0F14 100%);
+  }
+  .hero::after {
+    content: ''; position: absolute; inset: 0; z-index: 0; pointer-events: none;
+    background: linear-gradient(90deg, rgba(10,18,32,.55) 0%, rgba(10,18,32,.15) 45%, transparent 70%);
+  }
+  .hero-grid { position: relative; z-index: 1; }
   .hero-grid {
     display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr));
     gap: 56px; align-items: center; padding-block: 88px 96px;
@@ -274,14 +288,14 @@ const pos: [number, number][] = [[70, 60], [370, 60], [60, 150], [380, 150], [70
   .lead { font-size: 19px; color: var(--on-dark); max-width: 540px; }
   .actions { display: flex; flex-wrap: wrap; gap: 12px; padding-top: 6px; }
 
-  .panel { background: var(--ink-2); border: 1px solid #222C38; border-radius: 16px; padding: 22px; }
+  .panel { background: rgba(14,22,34,.72); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); border: 1px solid rgba(80,120,160,.25); border-radius: 16px; padding: 22px; }
   .panel-top { display: flex; justify-content: space-between; font-size: 12px; color: #8A96A3; padding-bottom: 12px; }
   .ok { color: var(--green); }
   .diagram { width: 100%; height: auto; display: block; }
   .node rect { transition: stroke .2s ease; }
   .node:hover rect { stroke: #0099FF; }
   .stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin: 14px 0 0; }
-  .stats div { background: var(--ink); border-radius: 8px; padding: 12px; display: flex; flex-direction: column-reverse; }
+  .stats div { background: rgba(8,13,22,.8); border-radius: 8px; padding: 12px; display: flex; flex-direction: column-reverse; }
   .stats dd { margin: 0; font-size: 20px; color: #fff; }
   .stats dt { font-size: 11px; color: #8A96A3; }
   .stats-note { font-size: 11px; color: #6B7785; margin-top: 10px; text-align: right; }
@@ -367,16 +381,18 @@ const pos: [number, number][] = [[70, 60], [370, 60], [60, 150], [380, 150], [70
   }
 
   .contact {
-    background: var(--ink); color: #fff; border-radius: 18px; padding: clamp(24px, 4vw, 44px);
+    position: relative; overflow: hidden; isolation: isolate;
+    background: linear-gradient(160deg, #0B1626 0%, #0A1220 60%, #0B0F14 100%); color: #fff; border-radius: 18px; padding: clamp(24px, 4vw, 44px);
     display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); gap: 44px;
   }
+  .contact > :not(canvas) { position: relative; z-index: 1; }
   .on-dark { color: var(--on-dark); }
   .mail { color: var(--blue-soft); font-weight: 600; font-size: 18px; word-break: break-all; }
   .mail:hover { color: #fff; }
   .cform { display: flex; flex-direction: column; gap: 8px; }
   .cform label { font-size: 14px; font-weight: 500; margin-top: 6px; }
   .cform input, .cform textarea {
-    padding: 13px 14px; border-radius: 8px; border: 1px solid #39434F; background: var(--ink-2);
+    padding: 13px 14px; border-radius: 8px; border: 1px solid #39434F; background: rgba(14,22,34,.88);
     color: #fff; font-size: 16px; font-family: inherit; transition: border-color .15s ease;
   }
   .cform input:focus, .cform textarea:focus { outline: none; border-color: var(--blue); box-shadow: 0 0 0 3px rgba(0,153,255,.25); }
