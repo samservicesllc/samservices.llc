@@ -5,7 +5,9 @@
 //   CONTACT_TO         (text)    default contact@samservices.llc
 //   CONTACT_FROM       (text)    default web@samservices.llc (domain must be authenticated in Brevo)
 
-const MAX = { name: 120, email: 160, company: 160, message: 4000, estimate: 300 };
+const MAX = { name: 120, email: 160, company: 160, message: 4000, estimate: 300, phone: 25 };
+// Bump when the consent wording on the form changes (kept as opt-in evidence)
+const SMS_CONSENT_VERSION = '2026-10-18';
 const EMAIL_RE = /^[^\s@<>]+@[^\s@<>]+\.[^\s@<>]{2,}$/;
 
 const esc = (s) =>
@@ -50,10 +52,21 @@ export async function onRequestPost({ request, env }) {
     company: get('company'),
     message: get('message'),
     estimate: get('estimate'),
+    phone: get('phone'),
+    smsCare: form.get('sms_care') === 'yes',
+    smsMarketing: form.get('sms_marketing') === 'yes',
   };
   if (!data.name || !data.message || !EMAIL_RE.test(data.email)) {
     return reply(request, 422, { ok: false, error: 'invalid', lang });
   }
+  const phoneDigits = data.phone.replace(/\D/g, '');
+  if ((data.smsCare || data.smsMarketing) && (phoneDigits.length < 10 || phoneDigits.length > 15)) {
+    return reply(request, 422, { ok: false, error: 'phone', lang });
+  }
+  const consentAt = new Date().toISOString();
+  const smsConsent = data.smsCare || data.smsMarketing
+    ? `SÍ/YES · care=${data.smsCare ? 'yes' : 'no'} · marketing=${data.smsMarketing ? 'yes' : 'no'} · ${consentAt} · IP ${request.headers.get('CF-Connecting-IP') || '?'} · form v${SMS_CONSENT_VERSION} · ${request.headers.get('Referer') || ''}`
+    : 'NO';
 
   if (env.TURNSTILE_SECRET) {
     const token = String(form.get('cf-turnstile-response') ?? '');
@@ -78,6 +91,8 @@ export async function onRequestPost({ request, env }) {
     ['Nombre / Name', data.name],
     ['Correo / Email', data.email],
     ['Empresa / Company', data.company || '—'],
+    ['Teléfono / Phone', data.phone || '—'],
+    ['Consentimiento SMS / SMS consent', smsConsent],
     ['Idioma / Language', lang.toUpperCase()],
     ['Calculadora / Calculator', data.estimate || '—'],
   ];
@@ -99,7 +114,7 @@ export async function onRequestPost({ request, env }) {
       subject: `[Web] ${data.name}${data.company ? ' · ' + data.company : ''}`,
       htmlContent: html,
       textContent: text,
-      tags: ['web-contact'],
+      tags: data.smsCare || data.smsMarketing ? ['web-contact', 'sms-optin'] : ['web-contact'],
     }),
   }).catch(() => null);
 

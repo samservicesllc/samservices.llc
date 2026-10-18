@@ -1,0 +1,39 @@
+---
+import { paths, type Lang } from '../i18n';
+interface Props { lang: Lang; title: string; current: 'privacy' | 'terms' | 'sms' | 'accessibility' }
+const { lang, title, current } = Astro.props;
+const es = lang === 'es';
+const links = [
+  ['privacy', es ? 'Privacidad' : 'Privacy'],
+  ['terms', es ? 'Términos' : 'Terms'],
+  ['sms', es ? 'Términos SMS' : 'SMS Terms'],
+  ['accessibility', es ? 'Accesibilidad' : 'Accessibility'],
+] as const;
+---
+<article class="wrap legal">
+  <nav class="tabs mono" aria-label={es ? 'Políticas' : 'Policies'}>
+    {links.map(([k, label]) => (
+      <a href={paths[lang][k]} aria-current={k === current ? 'page' : undefined}>{label}</a>
+    ))}
+  </nav>
+  <h1 class="h2">{title}</h1>
+  <p class="updated">{es ? 'Vigente desde el 18 de octubre de 2026' : 'Effective October 18, 2026'}</p>
+  <slot />
+</article>
+<style>
+  .legal { max-width: 800px; padding-block: 56px 96px; }
+  .tabs { display: flex; flex-wrap: wrap; gap: 8px; font-size: 13px; margin-bottom: 28px; }
+  .tabs a { text-decoration: none; color: var(--muted-2); border: 1px solid #D5DBE2; border-radius: 999px; padding: 6px 12px; }
+  .tabs a:hover { border-color: var(--blue); color: var(--ink); }
+  .tabs a[aria-current='page'] { background: var(--ink); border-color: var(--ink); color: #fff; }
+  .updated { color: var(--muted-2); font-size: 14px; margin: 10px 0 28px; }
+  .legal :global(h2) { font-size: 21px; font-weight: 600; margin: 34px 0 10px; }
+  .legal :global(h3) { font-size: 17px; font-weight: 600; margin: 20px 0 6px; }
+  .legal :global(p), .legal :global(li) { color: #36414D; }
+  .legal :global(p) { margin: 0 0 12px; }
+  .legal :global(ul) { margin: 0 0 14px; padding-left: 22px; }
+  .legal :global(li) { margin-bottom: 6px; }
+  .legal :global(.box) { background: var(--mist); border: 1px solid var(--line); border-radius: 12px; padding: 18px 20px; margin: 16px 0; }
+  .legal :global(.box p:last-child) { margin-bottom: 0; }
+  .legal :global(code) { font-family: var(--mono); font-size: 14px; background: var(--mist); padding: 1px 6px; border-radius: 4px; }
+</style>

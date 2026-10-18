@@ -1,0 +1,83 @@
+---
+import Legal from './Legal.astro';
+import { EMAIL, paths, type Lang } from '../i18n';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const es = lang === 'es';
+const mail = `mailto:${EMAIL}`;
+---
+{es ? (
+<Legal lang={lang} current="terms" title="Términos de uso">
+  <p>Estos términos regulan el uso de samservices.llc, operado por Sam Services LLC, una sociedad de responsabilidad limitada de Florida con sede en 5630 Yahl St, Unit 3, Naples, FL 34109. Al usar el sitio, usted los acepta.</p>
+
+  <h2>1. Información del sitio</h2>
+  <p>El contenido es informativo. No constituye una oferta vinculante. Precios, plazos y alcance de cada servicio se fijan en una propuesta o contrato firmado por ambas partes, que prevalece sobre este sitio.</p>
+
+  <h2>2. Servicios</h2>
+  <p>Ofrecemos desarrollo de sitios web y software, integraciones, administración de servidores y correo corporativo, y administración de centrales telefónicas (FusionPBX). No somos operador de telecomunicaciones: no vendemos números de teléfono ni líneas; el cliente las contrata con su propio proveedor. Podemos apoyarnos en especialistas subcontratados bajo nuestra responsabilidad.</p>
+
+  <h2>3. Uso aceptable</h2>
+  <p>No debe usar el sitio para actividades ilegales, enviar spam o contenido malicioso, intentar acceder sin autorización a sistemas o interferir con su funcionamiento.</p>
+
+  <h2>4. Propiedad intelectual</h2>
+  <p>El diseño, textos, logotipos y código del sitio pertenecen a Sam Services LLC o se usan con permiso. Las marcas y nombres de clientes se muestran con su autorización y pertenecen a sus titulares.</p>
+
+  <h2>5. Enlaces a terceros</h2>
+  <p>El sitio puede enlazar a sitios de terceros. No somos responsables de su contenido ni de sus políticas.</p>
+
+  <h2>6. Mensajes de texto</h2>
+  <p>Si se suscribe a nuestros SMS, aplican los <a href={paths.es.sms}>Términos del programa SMS</a>. La frecuencia varía, pueden aplicarse tarifas de mensajes y datos, responda <code>STOP</code> para cancelar y <code>HELP</code> para ayuda. No compartimos su número ni su consentimiento con terceros para marketing.</p>
+
+  <h2>7. Exención de garantías</h2>
+  <p>El sitio se ofrece «tal cual». Procuramos que la información sea correcta y que el sitio esté disponible, pero no lo garantizamos.</p>
+
+  <h2>8. Limitación de responsabilidad</h2>
+  <p>En la medida en que la ley lo permita, Sam Services LLC no será responsable de daños indirectos o consecuentes derivados del uso del sitio. Las responsabilidades sobre servicios contratados se rigen por el contrato correspondiente.</p>
+
+  <h2>9. Ley aplicable</h2>
+  <p>Estos términos se rigen por las leyes del Estado de Florida. Cualquier disputa se resolverá en los tribunales del condado de Collier, Florida.</p>
+
+  <h2>10. Cambios</h2>
+  <p>Podemos actualizar estos términos. La versión vigente estará siempre en esta página.</p>
+
+  <h2>11. Contacto</h2>
+  <p><a href={mail}>{EMAIL}</a> · <a href={paths.es.privacy}>Política de privacidad</a></p>
+</Legal>
+) : (
+<Legal lang={lang} current="terms" title="Terms of Use">
+  <p>These terms govern the use of samservices.llc, operated by Sam Services LLC, a Florida limited liability company located at 5630 Yahl St, Unit 3, Naples, FL 34109. By using the site, you accept them.</p>
+
+  <h2>1. Site information</h2>
+  <p>Content is for information only and is not a binding offer. Prices, timelines and scope for each service are set in a proposal or agreement signed by both parties, which prevails over this site.</p>
+
+  <h2>2. Services</h2>
+  <p>We provide website and software development, integrations, server and business email administration, and phone system administration (FusionPBX). We are not a telecommunications carrier: we do not sell phone numbers or lines; clients obtain them from their own provider. We may work with subcontracted specialists under our responsibility.</p>
+
+  <h2>3. Acceptable use</h2>
+  <p>You may not use the site for unlawful activity, to send spam or malicious content, to attempt unauthorized access to systems or to interfere with their operation.</p>
+
+  <h2>4. Intellectual property</h2>
+  <p>The site's design, text, logos and code belong to Sam Services LLC or are used with permission. Client names and marks are shown with their permission and belong to their owners.</p>
+
+  <h2>5. Third-party links</h2>
+  <p>The site may link to third-party websites. We are not responsible for their content or policies.</p>
+
+  <h2>6. Text messages</h2>
+  <p>If you subscribe to our text messages, the <a href={paths.en.sms}>SMS Program Terms</a> apply. Message frequency varies, message and data rates may apply, reply <code>STOP</code> to opt out and <code>HELP</code> for help. We do not share your number or consent with third parties for marketing.</p>
+
+  <h2>7. Disclaimer</h2>
+  <p>The site is provided "as is". We aim to keep information accurate and the site available, but we do not guarantee it.</p>
+
+  <h2>8. Limitation of liability</h2>
+  <p>To the extent permitted by law, Sam Services LLC is not liable for indirect or consequential damages arising from use of the site. Liability for contracted services is governed by the applicable agreement.</p>
+
+  <h2>9. Governing law</h2>
+  <p>These terms are governed by the laws of the State of Florida. Any dispute will be resolved in the courts of Collier County, Florida.</p>
+
+  <h2>10. Changes</h2>
+  <p>We may update these terms. The current version is always posted on this page.</p>
+
+  <h2>11. Contact</h2>
+  <p><a href={mail}>{EMAIL}</a> · <a href={paths.en.privacy}>Privacy Policy</a></p>
+</Legal>
+)}

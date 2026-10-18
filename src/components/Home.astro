@@ -165,10 +165,17 @@ const pos: [number, number][] = [[70, 60], [370, 60], [60, 150], [380, 150], [70
       <input id="f-company" name="company" type="text" maxlength="160" autocomplete="organization" />
       <label for="f-msg">{c.contact.message}</label>
       <textarea id="f-msg" name="message" rows="4" required maxlength="4000"></textarea>
+      <label for="f-phone">{c.contact.phone}</label>
+      <input id="f-phone" name="phone" type="tel" maxlength="25" autocomplete="tel" inputmode="tel" data-error={c.contact.phoneError} />
+      <fieldset class="sms">
+        <label class="chk"><input type="checkbox" name="sms_care" value="yes" id="f-sms-care" /><span>{c.contact.smsCare}</span></label>
+        <label class="chk"><input type="checkbox" name="sms_marketing" value="yes" id="f-sms-mkt" /><span>{c.contact.smsMkt}</span></label>
+        <p class="fine">{c.contact.smsFine} <a href={paths[lang].sms}>{c.contact.termsLink}</a> · <a href={paths[lang].privacy}>{c.contact.privacyLink}</a></p>
+      </fieldset>
       <input type="hidden" name="estimate" id="f-estimate" />
       <div class="cf-turnstile" data-theme="dark" data-language={lang} data-sitekey={import.meta.env.PUBLIC_TURNSTILE_SITEKEY} hidden={!import.meta.env.PUBLIC_TURNSTILE_SITEKEY}></div>
       <button class="btn btn-blue" type="submit">{c.contact.send}</button>
-      <p class="fine">{c.contact.privacy} <a href={paths[lang].privacy}>{c.contact.privacyLink}</a></p>
+      <p class="fine">{c.contact.privacy} <a href={paths[lang].privacy}>{c.contact.privacyLink}</a> · <a href={paths[lang].terms}>{c.contact.termsGeneral}</a></p>
       <p class="form-status" role="status" aria-live="polite"></p>
     </form>
   </div>
@@ -213,8 +220,17 @@ const pos: [number, number][] = [[70, 60], [370, 60], [60, 150], [380, 150], [70
   if (form) {
     const status = form.querySelector('.form-status') as HTMLElement;
     const btn = form.querySelector('button[type=submit]') as HTMLButtonElement;
+    const clearPhone = () => (form.querySelector('#f-phone') as HTMLInputElement).setCustomValidity('');
+    form.querySelectorAll('#f-phone, #f-sms-care, #f-sms-mkt').forEach((el) => {
+      el.addEventListener('input', clearPhone);
+      el.addEventListener('change', clearPhone);
+    });
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
+      const phone = form.querySelector('#f-phone') as HTMLInputElement;
+      const wantsSms = (form.querySelector('#f-sms-care') as HTMLInputElement).checked || (form.querySelector('#f-sms-mkt') as HTMLInputElement).checked;
+      const digits = phone.value.replace(/\D/g, '');
+      phone.setCustomValidity(wantsSms && digits.length < 10 ? (phone.dataset.error || 'Phone required') : '');
       if (!form.reportValidity()) return;
       const label = btn.textContent;
       btn.disabled = true;
@@ -368,6 +384,9 @@ const pos: [number, number][] = [[70, 60], [370, 60], [60, 150], [380, 150], [70
   .cform .btn:disabled { opacity: .6; cursor: progress; }
   .hp { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
   .fine { font-size: 13px; color: #8A96A3; }
+  .sms { border: 1px solid #2D3846; border-radius: 10px; padding: 14px; margin: 8px 0 0; display: flex; flex-direction: column; gap: 10px; }
+  .cform .chk { display: flex; gap: 10px; align-items: flex-start; font-weight: 400; font-size: 14px; color: #D7DEE6; margin: 0; cursor: pointer; }
+  .cform .chk input { width: 18px; height: 18px; margin: 2px 0 0; padding: 0; flex: none; accent-color: var(--blue); }
   .fine a, .form-status a { color: var(--blue-soft); }
   .form-status:empty { display: none; }
   .form-status { font-size: 15px; padding: 12px 14px; border-radius: 8px; }

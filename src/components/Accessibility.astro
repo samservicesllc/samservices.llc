@@ -1,0 +1,41 @@
+---
+import Legal from './Legal.astro';
+import { EMAIL, type Lang } from '../i18n';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const es = lang === 'es';
+const mail = `mailto:${EMAIL}`;
+---
+{es ? (
+<Legal lang={lang} current="accessibility" title="Declaración de accesibilidad">
+  <p>Queremos que samservices.llc pueda usarlo cualquier persona. Nuestro objetivo es cumplir las Pautas de Accesibilidad para el Contenido Web (WCAG) 2.2, nivel AA.</p>
+  <h2>Qué hacemos</h2>
+  <ul>
+    <li>Colores con contraste suficiente y texto que se puede ampliar sin perder contenido.</li>
+    <li>Navegación completa con teclado, foco visible y enlace para saltar al contenido.</li>
+    <li>Etiquetas en formularios, textos alternativos y estructura de títulos clara.</li>
+    <li>Las animaciones se desactivan si su dispositivo tiene activada la opción de reducir movimiento.</li>
+    <li>Versiones del sitio en español e inglés.</li>
+  </ul>
+  <h2>Limitaciones conocidas</h2>
+  <p>La verificación anti-spam del formulario la presta un tercero (Cloudflare Turnstile). Si tiene dificultades con ella, escríbanos directamente al correo.</p>
+  <h2>Comentarios</h2>
+  <p>Si encuentra una barrera de accesibilidad, escríbanos a <a href={mail}>{EMAIL}</a>. Respondemos en un plazo de 5 días hábiles.</p>
+</Legal>
+) : (
+<Legal lang={lang} current="accessibility" title="Accessibility Statement">
+  <p>We want samservices.llc to be usable by everyone. Our goal is to conform to the Web Content Accessibility Guidelines (WCAG) 2.2, level AA.</p>
+  <h2>What we do</h2>
+  <ul>
+    <li>Sufficient color contrast and text that can be enlarged without losing content.</li>
+    <li>Full keyboard navigation, visible focus and a skip-to-content link.</li>
+    <li>Labeled form fields, alternative text and a clear heading structure.</li>
+    <li>Animations turn off when your device is set to reduce motion.</li>
+    <li>English and Spanish versions of the site.</li>
+  </ul>
+  <h2>Known limitations</h2>
+  <p>The contact form's spam check is provided by a third party (Cloudflare Turnstile). If it gives you trouble, please email us directly.</p>
+  <h2>Feedback</h2>
+  <p>If you find an accessibility barrier, email <a href={mail}>{EMAIL}</a>. We respond within 5 business days.</p>
+</Legal>
+)}

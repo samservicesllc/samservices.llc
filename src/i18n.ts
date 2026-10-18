@@ -6,8 +6,8 @@ export const LINKEDIN_COMPANY = 'https://www.linkedin.com/company/samservicesllc
 export const LINKEDIN_PERSON = 'https://www.linkedin.com/in/arieskienmendoza/';
 
 export const paths = {
-  es: { home: '/', privacy: '/privacidad/' },
-  en: { home: '/en/', privacy: '/en/privacy/' },
+  es: { home: '/', privacy: '/privacidad/', terms: '/terminos/', sms: '/sms/', accessibility: '/accesibilidad/' },
+  en: { home: '/en/', privacy: '/en/privacy/', terms: '/en/terms/', sms: '/en/sms/', accessibility: '/en/accessibility/' },
 } as const;
 
 export const t = {
@@ -109,8 +109,15 @@ export const t = {
       error: 'No pudimos enviar el mensaje. Escríbanos directamente a',
       privacy: 'Usamos sus datos solo para responderle.',
       privacyLink: 'Privacidad',
+      phone: 'Teléfono móvil (opcional, solo si acepta recibir SMS)',
+      phoneError: 'Para recibir SMS, escriba su número móvil.',
+      smsCare: 'Acepto recibir mensajes de texto de Sam Services LLC sobre mi consulta, citas, soporte y avisos de servicio.',
+      smsMkt: 'Acepto recibir mensajes de texto promocionales de Sam Services LLC (ofertas y novedades de servicios).',
+      smsFine: 'Las casillas son opcionales: puede enviar el formulario sin marcarlas. La frecuencia de mensajes varía. Pueden aplicarse tarifas de mensajes y datos. Responda STOP para cancelar o HELP para ayuda. El consentimiento no es condición de compra. Los operadores no son responsables por mensajes retrasados o no entregados.',
+      termsLink: 'Términos SMS',
+      termsGeneral: 'Términos',
     },
-    footer: { rights: 'Naples, Florida', privacy: 'Privacidad' },
+    footer: { rights: 'Naples, Florida', privacy: 'Privacidad', terms: 'Términos', sms: 'Términos SMS', accessibility: 'Accesibilidad' },
   },
   en: {
     htmlLang: 'en',
@@ -210,7 +217,14 @@ export const t = {
       error: 'We could not send your message. Please email us at',
       privacy: 'We only use your details to reply to you.',
       privacyLink: 'Privacy',
+      phone: 'Mobile phone (optional, only if you agree to receive texts)',
+      phoneError: 'To receive text messages, please enter your mobile number.',
+      smsCare: 'I agree to receive text messages from Sam Services LLC about my inquiry, appointments, support and service notices.',
+      smsMkt: 'I agree to receive promotional text messages from Sam Services LLC (offers and service news).',
+      smsFine: 'These boxes are optional: you can submit the form without checking them. Message frequency varies. Message and data rates may apply. Reply STOP to opt out or HELP for help. Consent is not a condition of purchase. Carriers are not liable for delayed or undelivered messages.',
+      termsLink: 'SMS Terms',
+      termsGeneral: 'Terms',
     },
-    footer: { rights: 'Naples, Florida', privacy: 'Privacy' },
+    footer: { rights: 'Naples, Florida', privacy: 'Privacy', terms: 'Terms', sms: 'SMS Terms', accessibility: 'Accessibility' },
   },
 } as const;

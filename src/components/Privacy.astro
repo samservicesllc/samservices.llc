@@ -1,39 +1,137 @@
 ---
-import { EMAIL, type Lang } from '../i18n';
+import Legal from './Legal.astro';
+import { EMAIL, paths, type Lang } from '../i18n';
 interface Props { lang: Lang }
 const { lang } = Astro.props;
 const es = lang === 'es';
+const mail = `mailto:${EMAIL}`;
 ---
-<article class="wrap legal">
-  <p class="kicker">{es ? 'Privacidad' : 'Privacy'}</p>
-  <h1 class="h2">{es ? 'Aviso de privacidad' : 'Privacy notice'}</h1>
-  <p class="muted">{es ? 'Última actualización: octubre de 2026' : 'Last updated: October 2026'}</p>
-  {es ? (
-    <>
-      <h2>Qué datos recogemos</h2>
-      <p>Solo los que usted escribe en el formulario de contacto (nombre, correo, empresa y mensaje) y, si usó la calculadora, los valores que eligió. No usamos cookies de publicidad ni de seguimiento.</p>
-      <h2>Para qué los usamos</h2>
-      <p>Para responder a su consulta y preparar una propuesta. No vendemos ni compartimos sus datos con terceros con fines comerciales.</p>
-      <h2>Proveedores</h2>
-      <p>El sitio se sirve desde Cloudflare, que además protege el formulario contra spam (Turnstile) y mide visitas de forma agregada sin cookies (Cloudflare Web Analytics). Los mensajes del formulario se entregan por correo mediante Brevo.</p>
-      <h2>Sus derechos</h2>
-      <p>Puede pedirnos en cualquier momento que le mostremos, corrijamos o borremos sus datos escribiendo a <a href={`mailto:${EMAIL}`}>{EMAIL}</a>.</p>
-    </>
-  ) : (
-    <>
-      <h2>What we collect</h2>
-      <p>Only what you type into the contact form (name, email, company and message) and, if you used the calculator, the values you chose. We do not use advertising or tracking cookies.</p>
-      <h2>How we use it</h2>
-      <p>To answer your inquiry and prepare a proposal. We do not sell or share your data with third parties for marketing.</p>
-      <h2>Providers</h2>
-      <p>This site is served by Cloudflare, which also protects the form from spam (Turnstile) and measures visits in aggregate without cookies (Cloudflare Web Analytics). Form messages are delivered by email through Brevo.</p>
-      <h2>Your rights</h2>
-      <p>You can ask us at any time to show, correct or delete your data by writing to <a href={`mailto:${EMAIL}`}>{EMAIL}</a>.</p>
-    </>
-  )}
-</article>
-<style>
-  .legal { max-width: 760px; padding-block: 72px 96px; display: flex; flex-direction: column; gap: 14px; }
-  .legal h2 { font-size: 20px; font-weight: 600; margin-top: 18px; }
-  .legal p { color: var(--muted); }
-</style>
+{es ? (
+<Legal lang={lang} current="privacy" title="Política de privacidad">
+  <p>Esta política explica cómo Sam Services LLC («Sam Services», «nosotros») recoge, usa y protege la información de las personas que visitan samservices.llc, nos contactan o reciben nuestros mensajes de texto (SMS).</p>
+  <div class="box">
+    <p><strong>Sam Services LLC</strong> · 5630 Yahl St, Unit 3, Naples, FL 34109, EE. UU. · <a href={mail}>{EMAIL}</a></p>
+  </div>
+
+  <h2>1. Información que recogemos</h2>
+  <ul>
+    <li><strong>La que usted nos da:</strong> nombre, correo, empresa, número de teléfono móvil (opcional), el contenido de su mensaje, los valores que eligió en la calculadora y sus preferencias de consentimiento para SMS.</li>
+    <li><strong>La que se genera al visitar el sitio:</strong> datos técnicos básicos (dirección IP, navegador, páginas visitadas, fecha y hora) que procesa nuestro proveedor de hosting por seguridad y para medir visitas de forma agregada.</li>
+    <li><strong>Registros de mensajes de texto:</strong> si se suscribe a SMS, guardamos su número, la fecha, hora, IP y versión del formulario con que dio su consentimiento, y las respuestas STOP/HELP, como prueba de consentimiento.</li>
+  </ul>
+  <p>No recogemos datos de tarjetas de pago en este sitio.</p>
+
+  <h2>2. Cómo usamos la información</h2>
+  <ul>
+    <li>Responder a sus consultas y preparar propuestas.</li>
+    <li>Prestar los servicios contratados y dar soporte.</li>
+    <li>Enviar los mensajes de texto que usted haya autorizado (ver la sección 4).</li>
+    <li>Proteger el sitio contra spam, fraude y abuso.</li>
+    <li>Cumplir obligaciones legales.</li>
+  </ul>
+
+  <h2>3. Con quién compartimos la información</h2>
+  <p>No vendemos, alquilamos ni intercambiamos su información personal. Solo la compartimos con proveedores que nos ayudan a operar, bajo obligación de confidencialidad y únicamente para ese fin:</p>
+  <ul>
+    <li><strong>Cloudflare</strong>: hosting del sitio, seguridad, protección anti-spam (Turnstile) y estadísticas agregadas sin cookies.</li>
+    <li><strong>Brevo</strong>: entrega por correo de los mensajes del formulario.</li>
+    <li><strong>Proveedor de mensajería SMS</strong> (por ejemplo, Telnyx): envío de los mensajes de texto que usted autorizó.</li>
+  </ul>
+  <p>También podemos revelar información si la ley lo exige o para proteger nuestros derechos o la seguridad de otras personas.</p>
+
+  <h2>4. Mensajes de texto (SMS) e información móvil</h2>
+  <div class="box">
+    <p><strong>No compartiremos su número de teléfono móvil ni su consentimiento para recibir SMS con terceros ni con empresas afiliadas para fines de marketing o promoción.</strong></p>
+    <p>Todas las categorías de información y de destinatarios descritas en esta política excluyen los datos de suscripción (opt-in) y el consentimiento para mensajes de texto: esa información no se venderá ni se compartirá con terceros, salvo con los proveedores que nos ayudan a prestar el servicio de mensajería (como el proveedor de SMS) y solo para ese fin.</p>
+  </div>
+  <p>Puede cancelar en cualquier momento respondiendo <code>STOP</code>. Las condiciones completas están en los <a href={paths.es.sms}>Términos del programa SMS</a>.</p>
+
+  <h2>5. Cookies</h2>
+  <p>Este sitio no usa cookies de publicidad ni de seguimiento. Las estadísticas de visitas de Cloudflare funcionan sin cookies. La verificación anti-spam de Turnstile puede usar almacenamiento técnico estrictamente necesario para funcionar.</p>
+
+  <h2>6. Conservación</h2>
+  <p>Guardamos los mensajes de contacto mientras exista una relación comercial o hasta 3 años desde el último contacto. Los registros de consentimiento SMS se conservan mientras esté suscrito y hasta 5 años después de cancelar, como prueba de cumplimiento.</p>
+
+  <h2>7. Seguridad</h2>
+  <p>Usamos cifrado HTTPS, acceso restringido y proveedores con estándares de seguridad reconocidos. Ningún sistema es 100% seguro, pero tomamos medidas razonables para proteger su información.</p>
+
+  <h2>8. Sus derechos</h2>
+  <p>Puede pedirnos que le mostremos, corrijamos o eliminemos sus datos, o que dejemos de contactarle, escribiendo a <a href={mail}>{EMAIL}</a>. Respondemos en un plazo máximo de 30 días. Si la ley de su estado le da derechos adicionales, los respetaremos.</p>
+
+  <h2>9. Datos de nuestros clientes</h2>
+  <p>Cuando administramos sistemas, servidores, correo o centrales telefónicas de un cliente, tratamos esos datos solo siguiendo las instrucciones del cliente y según el contrato firmado con él.</p>
+
+  <h2>10. Menores</h2>
+  <p>Nuestros servicios están dirigidos a empresas. No recogemos a sabiendas datos de menores de 18 años.</p>
+
+  <h2>11. Cambios</h2>
+  <p>Podemos actualizar esta política. Publicaremos la versión vigente en esta página con su fecha.</p>
+
+  <h2>12. Contacto</h2>
+  <p>Sam Services LLC · 5630 Yahl St, Unit 3, Naples, FL 34109 · <a href={mail}>{EMAIL}</a></p>
+</Legal>
+) : (
+<Legal lang={lang} current="privacy" title="Privacy Policy">
+  <p>This policy explains how Sam Services LLC ("Sam Services", "we", "us") collects, uses and protects information from people who visit samservices.llc, contact us or receive our text messages (SMS).</p>
+  <div class="box">
+    <p><strong>Sam Services LLC</strong> · 5630 Yahl St, Unit 3, Naples, FL 34109, USA · <a href={mail}>{EMAIL}</a></p>
+  </div>
+
+  <h2>1. Information we collect</h2>
+  <ul>
+    <li><strong>Information you give us:</strong> name, email, company, mobile phone number (optional), the content of your message, the values you chose in the calculator and your SMS consent choices.</li>
+    <li><strong>Information generated when you visit:</strong> basic technical data (IP address, browser, pages visited, date and time) processed by our hosting provider for security and aggregated visit statistics.</li>
+    <li><strong>Text message records:</strong> if you subscribe to SMS, we keep your number, the date, time, IP address and form version of your consent, and your STOP/HELP replies, as proof of consent.</li>
+  </ul>
+  <p>We do not collect payment card data on this website.</p>
+
+  <h2>2. How we use information</h2>
+  <ul>
+    <li>To answer your inquiries and prepare proposals.</li>
+    <li>To deliver contracted services and support.</li>
+    <li>To send the text messages you have authorized (see section 4).</li>
+    <li>To protect the site against spam, fraud and abuse.</li>
+    <li>To comply with legal obligations.</li>
+  </ul>
+
+  <h2>3. Who we share information with</h2>
+  <p>We do not sell, rent or trade your personal information. We only share it with providers that help us operate, under confidentiality obligations and only for that purpose:</p>
+  <ul>
+    <li><strong>Cloudflare</strong>: website hosting, security, spam protection (Turnstile) and cookieless aggregated analytics.</li>
+    <li><strong>Brevo</strong>: email delivery of contact form messages.</li>
+    <li><strong>SMS messaging provider</strong> (for example, Telnyx): delivery of the text messages you authorized.</li>
+  </ul>
+  <p>We may also disclose information when required by law or to protect our rights or the safety of others.</p>
+
+  <h2>4. Text messaging (SMS) and mobile information</h2>
+  <div class="box">
+    <p><strong>No mobile information will be shared with third parties or affiliates for marketing or promotional purposes.</strong></p>
+    <p>All of the above categories exclude text messaging originator opt-in data and consent; this information will not be sold or shared with any third parties, except with providers that help us deliver our messaging services (such as our SMS provider) and only for that purpose.</p>
+  </div>
+  <p>You can opt out at any time by replying <code>STOP</code>. Full terms are in the <a href={paths.en.sms}>SMS Program Terms</a>.</p>
+
+  <h2>5. Cookies</h2>
+  <p>This site does not use advertising or tracking cookies. Cloudflare visit statistics work without cookies. The Turnstile spam check may use strictly necessary technical storage to work.</p>
+
+  <h2>6. Retention</h2>
+  <p>We keep contact messages while a business relationship exists or up to 3 years after the last contact. SMS consent records are kept while you are subscribed and up to 5 years after you opt out, as proof of compliance.</p>
+
+  <h2>7. Security</h2>
+  <p>We use HTTPS encryption, restricted access and providers with recognized security standards. No system is 100% secure, but we take reasonable measures to protect your information.</p>
+
+  <h2>8. Your rights</h2>
+  <p>You can ask us to show, correct or delete your data, or to stop contacting you, by writing to <a href={mail}>{EMAIL}</a>. We respond within 30 days. If the law of your state gives you additional rights, we will honor them.</p>
+
+  <h2>9. Our clients' data</h2>
+  <p>When we manage a client's systems, servers, email or phone systems, we process that data only on the client's instructions and under the agreement signed with that client.</p>
+
+  <h2>10. Children</h2>
+  <p>Our services are aimed at businesses. We do not knowingly collect data from anyone under 18.</p>
+
+  <h2>11. Changes</h2>
+  <p>We may update this policy. The current version is always posted on this page with its date.</p>
+
+  <h2>12. Contact</h2>
+  <p>Sam Services LLC · 5630 Yahl St, Unit 3, Naples, FL 34109 · <a href={mail}>{EMAIL}</a></p>
+</Legal>
+)}
