@@ -1,0 +1,39 @@
+---
+import { EMAIL, type Lang } from '../i18n';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const es = lang === 'es';
+---
+<article class="wrap legal">
+  <p class="kicker">{es ? 'Privacidad' : 'Privacy'}</p>
+  <h1 class="h2">{es ? 'Aviso de privacidad' : 'Privacy notice'}</h1>
+  <p class="muted">{es ? 'Última actualización: octubre de 2026' : 'Last updated: October 2026'}</p>
+  {es ? (
+    <>
+      <h2>Qué datos recogemos</h2>
+      <p>Solo los que usted escribe en el formulario de contacto (nombre, correo, empresa y mensaje) y, si usó la calculadora, los valores que eligió. No usamos cookies de publicidad ni de seguimiento.</p>
+      <h2>Para qué los usamos</h2>
+      <p>Para responder a su consulta y preparar una propuesta. No vendemos ni compartimos sus datos con terceros con fines comerciales.</p>
+      <h2>Proveedores</h2>
+      <p>El sitio se sirve desde Cloudflare, que además protege el formulario contra spam (Turnstile) y mide visitas de forma agregada sin cookies (Cloudflare Web Analytics). Los mensajes del formulario se entregan por correo mediante Brevo.</p>
+      <h2>Sus derechos</h2>
+      <p>Puede pedirnos en cualquier momento que le mostremos, corrijamos o borremos sus datos escribiendo a <a href={`mailto:${EMAIL}`}>{EMAIL}</a>.</p>
+    </>
+  ) : (
+    <>
+      <h2>What we collect</h2>
+      <p>Only what you type into the contact form (name, email, company and message) and, if you used the calculator, the values you chose. We do not use advertising or tracking cookies.</p>
+      <h2>How we use it</h2>
+      <p>To answer your inquiry and prepare a proposal. We do not sell or share your data with third parties for marketing.</p>
+      <h2>Providers</h2>
+      <p>This site is served by Cloudflare, which also protects the form from spam (Turnstile) and measures visits in aggregate without cookies (Cloudflare Web Analytics). Form messages are delivered by email through Brevo.</p>
+      <h2>Your rights</h2>
+      <p>You can ask us at any time to show, correct or delete your data by writing to <a href={`mailto:${EMAIL}`}>{EMAIL}</a>.</p>
+    </>
+  )}
+</article>
+<style>
+  .legal { max-width: 760px; padding-block: 72px 96px; display: flex; flex-direction: column; gap: 14px; }
+  .legal h2 { font-size: 20px; font-weight: 600; margin-top: 18px; }
+  .legal p { color: var(--muted); }
+</style>

@@ -1,0 +1,161 @@
+---
+import '../styles/global.css';
+import { t, paths, SITE, EMAIL, LINKEDIN_COMPANY, LINKEDIN_PERSON, type Lang } from '../i18n';
+
+interface Props {
+  lang: Lang;
+  page: 'home' | 'privacy' | '404';
+  title?: string;
+  description?: string;
+  noindex?: boolean;
+}
+const { lang, page, title, description, noindex = false } = Astro.props;
+const c = t[lang];
+const other: Lang = lang === 'es' ? 'en' : 'es';
+const self = page === '404' ? null : paths[lang][page];
+const alt = page === '404' ? paths[other].home : paths[other][page];
+const home = paths[lang].home;
+const pageTitle = title ?? c.title;
+const desc = description ?? c.description;
+const canonical = self ? new URL(self, SITE).href : undefined;
+const year = new Date().getFullYear();
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'ProfessionalService',
+      '@id': `${SITE}/#org`,
+      name: 'Sam Services LLC',
+      url: `${SITE}/`,
+      logo: `${SITE}/icon-512.png`,
+      image: `${SITE}/og-en.png`,
+      email: EMAIL,
+      foundingDate: '2019-02-01',
+      founder: { '@id': `${SITE}/#founder` },
+      address: {
+        '@type': 'PostalAddress',
+        addressLocality: 'Naples',
+        addressRegion: 'FL',
+        postalCode: '34109',
+        addressCountry: 'US',
+      },
+      areaServed: { '@type': 'Country', name: 'United States' },
+      knowsLanguage: ['es', 'en'],
+      sameAs: [LINKEDIN_COMPANY],
+      description: t.en.description,
+    },
+    {
+      '@type': 'Person',
+      '@id': `${SITE}/#founder`,
+      name: 'Arieskien Mendoza Guerra',
+      jobTitle: 'Founder',
+      worksFor: { '@id': `${SITE}/#org` },
+      sameAs: [LINKEDIN_PERSON],
+    },
+  ],
+};
+---
+<!doctype html>
+<html lang={c.htmlLang}>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{pageTitle}</title>
+  <meta name="description" content={desc} />
+  {noindex && <meta name="robots" content="noindex" />}
+  {canonical && <link rel="canonical" href={canonical} />}
+  {page !== '404' && (
+    <>
+      <link rel="alternate" hreflang="es" href={new URL(paths.es[page as 'home'], SITE).href} />
+      <link rel="alternate" hreflang="en" href={new URL(paths.en[page as 'home'], SITE).href} />
+      <link rel="alternate" hreflang="x-default" href={new URL(paths.en[page as 'home'], SITE).href} />
+    </>
+  )}
+  <meta name="theme-color" content="#0B0F14" />
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="icon" type="image/png" href="/favicon-32.png" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <link rel="manifest" href="/site.webmanifest" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Sam Services LLC" />
+  <meta property="og:title" content={pageTitle} />
+  <meta property="og:description" content={desc} />
+  {canonical && <meta property="og:url" content={canonical} />}
+  <meta property="og:image" content={new URL(c.og, SITE).href} />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:locale" content={c.locale} />
+  <meta name="twitter:card" content="summary_large_image" />
+  {page === 'home' && <script type="application/ld+json" set:html={JSON.stringify(schema)} />}
+  <slot name="head" />
+</head>
+<body>
+  <a class="skip" href="#main">{c.skip}</a>
+  <header class="site-header">
+    <div class="wrap bar">
+      <a href={home} class="brand" aria-label="Sam Services LLC">
+        <img src="/img/logo.webp" alt="Sam Services LLC" width="237" height="36" />
+      </a>
+      <nav aria-label={lang === 'es' ? 'Principal' : 'Main'}>
+        <a class="nl" href={`${home}#servicios`}>{c.nav.services}</a>
+        <a class="nl" href={`${home}#calculadora`}>{c.nav.calc}</a>
+        <a class="nl" href={`${home}#proyectos`}>{c.nav.projects}</a>
+        <a class="nl" href={`${home}#nosotros`}>{c.nav.about}</a>
+        <a class="lang" href={alt} hreflang={other} lang={other} aria-label={c.switchLabel}>{c.switchText}</a>
+        <a class="btn btn-dark cta" href={`${home}#contacto`}>{c.nav.cta}</a>
+      </nav>
+    </div>
+  </header>
+  <main id="main">
+    <slot />
+  </main>
+  <footer class="site-footer">
+    <div class="wrap foot">
+      <span>© {year} Sam Services LLC · {c.footer.rights}</span>
+      <span>
+        <a href={LINKEDIN_COMPANY} rel="noopener">LinkedIn</a> ·
+        <a href={`mailto:${EMAIL}`}>{EMAIL}</a> ·
+        <a href={paths[lang].privacy}>{c.footer.privacy}</a>
+      </span>
+    </div>
+  </footer>
+</body>
+</html>
+
+<style>
+  .site-header {
+    position: sticky; top: 0; z-index: 20;
+    background: rgba(255,255,255,.86);
+    -webkit-backdrop-filter: saturate(160%) blur(12px);
+    backdrop-filter: saturate(160%) blur(12px);
+    border-bottom: 1px solid #E6EAEF;
+    view-transition-name: site-header;
+  }
+  .bar { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 12px; }
+  .brand img { display: block; height: 36px; width: auto; }
+  nav { display: flex; align-items: center; gap: 24px; font-size: 15px; font-weight: 500; }
+  .nl { color: var(--ink); text-decoration: none; position: relative; }
+  .nl::after {
+    content: ''; position: absolute; left: 0; right: 0; bottom: -4px; height: 2px;
+    background: var(--blue); transform: scaleX(0); transform-origin: left; transition: transform .2s ease;
+  }
+  .nl:hover { color: var(--ink); }
+  .nl:hover::after { transform: scaleX(1); }
+  .lang {
+    font-family: var(--mono); font-size: 13px; color: var(--muted-2); text-decoration: none;
+    border: 1px solid #D5DBE2; border-radius: 6px; padding: 6px 10px;
+  }
+  .lang:hover { border-color: var(--blue); color: var(--ink); }
+  .cta { padding: 10px 16px; font-size: 15px; }
+  @media (max-width: 860px) {
+    .nl { display: none; }
+    nav { gap: 12px; }
+    .brand img { height: 30px; }
+  }
+  .site-footer { border-top: 1px solid #E6EAEF; }
+  .foot {
+    display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px;
+    padding-block: 26px; font-size: 14px; color: var(--muted-2);
+  }
+</style>

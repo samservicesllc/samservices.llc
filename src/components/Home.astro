@@ -1,0 +1,381 @@
+---
+import { t, paths, EMAIL, LINKEDIN_PERSON, type Lang } from '../i18n';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const c = t[lang];
+
+const icons: Record<string, string> = {
+  web: '<rect x="3" y="4" width="18" height="14" rx="2"/><path d="M3 8h18M8 21h8"/>',
+  code: '<path d="M8 7l-5 5 5 5M16 7l5 5-5 5M13.5 5l-3 14"/>',
+  server: '<rect x="3" y="4" width="18" height="6" rx="1.5"/><rect x="3" y="14" width="18" height="6" rx="1.5"/><path d="M7 7h.01M7 17h.01"/>',
+  phone: '<path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/>',
+};
+
+// diagram nodes: [x, y] of box centers around the hub (220,150)
+const pos: [number, number][] = [[70, 60], [370, 60], [60, 150], [380, 150], [70, 240], [370, 240]];
+---
+<section class="hero" aria-labelledby="hero-title">
+  <div class="wrap hero-grid">
+    <div class="hero-copy rise">
+      <p class="status mono"><span class="dot pulse" aria-hidden="true"></span>{c.hero.status}</p>
+      <h1 id="hero-title">{c.hero.h1a} <span class="accent">{c.hero.h1b}</span></h1>
+      <p class="lead">{c.hero.lead}</p>
+      <div class="actions">
+        <a class="btn btn-blue" href="#calculadora">{c.hero.primary}</a>
+        <a class="btn btn-ghost" href="#proyectos">{c.hero.secondary}</a>
+      </div>
+    </div>
+    <div class="panel rise rise-2">
+      <div class="panel-top mono"><span>{c.hero.panel}</span><span class="ok">● {c.hero.online}</span></div>
+      <svg role="img" aria-label={c.hero.diagramLabel} viewBox="0 0 440 300" class="diagram">
+        <g fill="none" stroke="#0099FF" stroke-width="1.6">
+          {pos.map(([x, y]) => <path class="flow" d={`M220 150 L${x} ${y}`} />)}
+        </g>
+        <g font-family="IBM Plex Mono, monospace" font-size="12" text-anchor="middle">
+          {pos.map(([x, y], i) => (
+            <g class="node">
+              <rect x={x - 50} y={y - 18} width="100" height="36" rx="8" fill="#1A2330" stroke="#2D3846" />
+              <text x={x} y={y + 5} fill="#D7DEE6">{c.hero.nodes[i]}</text>
+            </g>
+          ))}
+          <circle class="pulse" cx="220" cy="150" r="58" fill="none" stroke="#0099FF" stroke-width="1.5" />
+          <circle cx="220" cy="150" r="46" fill="#0099FF" />
+          <text x="220" y="146" fill="#0B0F14" font-size="13" font-weight="600">{c.hero.center[0]}</text>
+          <text x="220" y="163" fill="#0B0F14" font-size="13" font-weight="600">{c.hero.center[1]}</text>
+        </g>
+      </svg>
+      <dl class="stats mono">
+        {c.hero.stats.map(([n, l]) => (
+          <div><dt>{l}</dt><dd>{n}</dd></div>
+        ))}
+      </dl>
+      <p class="stats-note mono">{c.hero.statsNote}</p>
+    </div>
+  </div>
+</section>
+
+<section id="calculadora" class="calc-sec" aria-labelledby="calc-title">
+  <div class="wrap two">
+    <div class="reveal stack">
+      <p class="kicker">{c.calc.kicker}</p>
+      <h2 id="calc-title" class="h2">{c.calc.h2}</h2>
+      <p class="muted big">{c.calc.lead}</p>
+    </div>
+    <form class="calc reveal" id="calc" data-locale={c.calc.numLocale} onsubmit="return false">
+      <div class="field">
+        <label for="c-orders"><span>{c.calc.orders}</span><output class="mono" id="o-orders" for="c-orders">800</output></label>
+        <input id="c-orders" type="range" min="50" max="3000" step="50" value="800" />
+      </div>
+      <div class="field">
+        <label for="c-mins"><span>{c.calc.mins}</span><output class="mono" id="o-mins" for="c-mins">6 {c.calc.minUnit}</output></label>
+        <input id="c-mins" type="range" min="1" max="15" step="1" value="6" data-unit={c.calc.minUnit} />
+      </div>
+      <div class="field">
+        <label for="c-rate"><span>{c.calc.rate}</span><output class="mono" id="o-rate" for="c-rate">$25</output></label>
+        <input id="c-rate" type="range" min="15" max="60" step="1" value="25" />
+      </div>
+      <div class="result" aria-live="polite">
+        <div><div class="num blue" id="r-hours">768</div><div class="lbl">{c.calc.hours}</div></div>
+        <div><div class="num" id="r-money">$19,200</div><div class="lbl">{c.calc.money}</div></div>
+      </div>
+      <p class="note">{c.calc.note}</p>
+      <a class="btn btn-blue" href="#contacto" id="calc-cta">{c.calc.cta}</a>
+    </form>
+  </div>
+</section>
+
+<section id="servicios" class="wrap sec" aria-labelledby="svc-title">
+  <p class="kicker">{c.services.kicker}</p>
+  <h2 id="svc-title" class="h2 narrow">{c.services.h2}</h2>
+  <div class="grid4">
+    {c.services.items.map(([k, title, text]) => (
+      <article class="card svc reveal">
+        <svg aria-hidden="true" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#0099FF" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" set:html={icons[k]} />
+        <h3>{title}</h3>
+        <p class="muted">{text}</p>
+      </article>
+    ))}
+  </div>
+</section>
+
+<section id="proyectos" class="wrap sec" aria-labelledby="proj-title">
+  <p class="kicker">{c.projects.kicker}</p>
+  <h2 id="proj-title" class="h2">{c.projects.h2}</h2>
+  <div class="grid2">
+    <article class="card proj reveal">
+      <div class="term mono" aria-hidden="true">
+        {c.projects.log.map(([st, k, v], i) => (
+          <div class="ln" style={`--i:${i}`}>
+            {st === 'ok' ? <span class="g">✓</span> : <span class="b">›</span>} {k} <span class="w">{v}</span>
+            {st === 'run' && <span class="caret b">▌</span>}
+          </div>
+        ))}
+      </div>
+      <div class="pbody">
+        <p class="client">{c.projects.gonichea.client}</p>
+        <h3>{c.projects.gonichea.title}</h3>
+        <p class="muted">{c.projects.gonichea.text}</p>
+        <p class="mono stack-line">{c.projects.gonichea.stack}</p>
+      </div>
+    </article>
+    <article class="card proj reveal">
+      <a href="https://paellasbycarlitin.com/" rel="noopener" class="shot" tabindex="-1" aria-hidden="true">
+        <img src="/img/paellas-by-carlitin.webp" alt="" width="960" height="600" loading="lazy" decoding="async" />
+      </a>
+      <div class="pbody">
+        <p class="client">{c.projects.paellas.client}</p>
+        <h3>{c.projects.paellas.title}</h3>
+        <p class="muted">{c.projects.paellas.text}</p>
+        <a href="https://paellasbycarlitin.com/" rel="noopener" class="more">{c.projects.paellas.link} <span aria-hidden="true">→</span></a>
+      </div>
+    </article>
+  </div>
+</section>
+
+<section id="nosotros" class="wrap sec" aria-labelledby="about-title">
+  <div class="about reveal">
+    <div class="mark"><img src="/img/mark.png" alt="" width="320" height="203" loading="lazy" /></div>
+    <div class="stack">
+      <p class="kicker">{c.about.kicker}</p>
+      <h2 id="about-title" class="h2 sm">{c.about.h2}</h2>
+      <p class="muted">{c.about.text}</p>
+      <div class="chips mono">
+        {c.about.chips.map((x) => <span>{x}</span>)}
+        <a href={LINKEDIN_PERSON} rel="noopener">{c.about.linkedin} →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contacto" class="wrap sec last" aria-labelledby="contact-title">
+  <div class="contact reveal">
+    <div class="stack">
+      <h2 id="contact-title" class="h2">{c.contact.h2}</h2>
+      <p class="on-dark">{c.contact.lead}</p>
+      <a class="mail" href={`mailto:${EMAIL}`}>{EMAIL}</a>
+    </div>
+    <form id="contact-form" class="cform" action="/api/contact" method="post" data-error={c.contact.error} data-sending={c.contact.sending} data-ok={c.contact.ok} data-email={EMAIL}>
+      <input type="hidden" name="lang" value={lang} />
+      <div class="hp" aria-hidden="true"><label>Website<input type="text" name="website" tabindex="-1" autocomplete="off" /></label></div>
+      <label for="f-name">{c.contact.name}</label>
+      <input id="f-name" name="name" type="text" required maxlength="120" autocomplete="name" />
+      <label for="f-email">{c.contact.email}</label>
+      <input id="f-email" name="email" type="email" required maxlength="160" autocomplete="email" />
+      <label for="f-company">{c.contact.company}</label>
+      <input id="f-company" name="company" type="text" maxlength="160" autocomplete="organization" />
+      <label for="f-msg">{c.contact.message}</label>
+      <textarea id="f-msg" name="message" rows="4" required maxlength="4000"></textarea>
+      <input type="hidden" name="estimate" id="f-estimate" />
+      <div class="cf-turnstile" data-theme="dark" data-language={lang} data-sitekey={import.meta.env.PUBLIC_TURNSTILE_SITEKEY} hidden={!import.meta.env.PUBLIC_TURNSTILE_SITEKEY}></div>
+      <button class="btn btn-blue" type="submit">{c.contact.send}</button>
+      <p class="fine">{c.contact.privacy} <a href={paths[lang].privacy}>{c.contact.privacyLink}</a></p>
+      <p class="form-status" role="status" aria-live="polite"></p>
+    </form>
+  </div>
+</section>
+
+{import.meta.env.PUBLIC_TURNSTILE_SITEKEY && (
+  <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+)}
+
+<script>
+  // Savings calculator
+  const calc = document.getElementById('calc') as HTMLFormElement | null;
+  if (calc) {
+    const loc = calc.dataset.locale || 'en-US';
+    const fmt = (n: number) => n.toLocaleString(loc);
+    const $ = (id: string) => document.getElementById(id) as HTMLInputElement;
+    const orders = $('c-orders'), mins = $('c-mins'), rate = $('c-rate');
+    const unit = mins.dataset.unit || 'min';
+    const paint = (el: HTMLInputElement) => {
+      const p = ((+el.value - +el.min) / (+el.max - +el.min)) * 100;
+      el.style.setProperty('--p', p + '%');
+    };
+    const update = () => {
+      const o = +orders.value, m = +mins.value, r = +rate.value;
+      const hours = Math.round((o * 12 * m) / 60 * 0.8);
+      const money = Math.round(hours * r);
+      $('o-orders').textContent = fmt(o);
+      $('o-mins').textContent = `${m} ${unit}`;
+      $('o-rate').textContent = `$${r}`;
+      $('r-hours').textContent = fmt(hours);
+      $('r-money').textContent = `$${fmt(money)}`;
+      [orders, mins, rate].forEach(paint);
+      const est = document.getElementById('f-estimate') as HTMLInputElement | null;
+      if (est) est.value = `orders/mo=${o}; min/order=${m}; $/h=${r}; hours/yr=${hours}; $/yr=${money}`;
+    };
+    [orders, mins, rate].forEach((el) => el.addEventListener('input', update));
+    update();
+  }
+
+  // Contact form (progressive enhancement; without JS it posts normally)
+  const form = document.getElementById('contact-form') as HTMLFormElement | null;
+  if (form) {
+    const status = form.querySelector('.form-status') as HTMLElement;
+    const btn = form.querySelector('button[type=submit]') as HTMLButtonElement;
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (!form.reportValidity()) return;
+      const label = btn.textContent;
+      btn.disabled = true;
+      btn.textContent = form.dataset.sending || '…';
+      status.className = 'form-status';
+      try {
+        const res = await fetch(form.action, {
+          method: 'POST',
+          body: new FormData(form),
+          headers: { Accept: 'application/json' },
+        });
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok || !data.ok) throw new Error(data.error || String(res.status));
+        status.textContent = form.dataset.ok || 'OK';
+        status.classList.add('is-ok');
+        form.reset();
+      } catch {
+        const email = form.dataset.email!;
+        status.innerHTML = `${form.dataset.error} <a href="mailto:${email}">${email}</a>`;
+        status.classList.add('is-err');
+      } finally {
+        btn.disabled = false;
+        btn.textContent = label;
+        (window as any).turnstile?.reset?.();
+      }
+    });
+  }
+</script>
+
+<style>
+  .hero { background: var(--ink); color: #fff; }
+  .hero-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr));
+    gap: 56px; align-items: center; padding-block: 88px 96px;
+  }
+  .hero-copy { display: flex; flex-direction: column; gap: 22px; }
+  .status { display: flex; align-items: center; gap: 10px; font-size: 13px; letter-spacing: .06em; color: var(--blue-soft); }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); display: inline-block; }
+  h1 { font-family: var(--display); font-weight: 700; font-size: clamp(40px, 5.6vw, 62px); line-height: 1.04; }
+  .accent { color: var(--blue); }
+  .lead { font-size: 19px; color: var(--on-dark); max-width: 540px; }
+  .actions { display: flex; flex-wrap: wrap; gap: 12px; padding-top: 6px; }
+
+  .panel { background: var(--ink-2); border: 1px solid #222C38; border-radius: 16px; padding: 22px; }
+  .panel-top { display: flex; justify-content: space-between; font-size: 12px; color: #8A96A3; padding-bottom: 12px; }
+  .ok { color: var(--green); }
+  .diagram { width: 100%; height: auto; display: block; }
+  .node rect { transition: stroke .2s ease; }
+  .node:hover rect { stroke: #0099FF; }
+  .stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin: 14px 0 0; }
+  .stats div { background: var(--ink); border-radius: 8px; padding: 12px; display: flex; flex-direction: column-reverse; }
+  .stats dd { margin: 0; font-size: 20px; color: #fff; }
+  .stats dt { font-size: 11px; color: #8A96A3; }
+  .stats-note { font-size: 11px; color: #6B7785; margin-top: 10px; text-align: right; }
+
+  .calc-sec { background: var(--mist); border-bottom: 1px solid #E6EAEF; }
+  .two {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr));
+    gap: 48px; align-items: center; padding-block: 88px;
+  }
+  .stack { display: flex; flex-direction: column; gap: 14px; }
+  .stack .kicker { margin-bottom: 0; }
+  .big { font-size: 18px; }
+  .calc { background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: 28px; display: flex; flex-direction: column; gap: 22px; }
+  .field { display: flex; flex-direction: column; gap: 8px; }
+  .field label { display: flex; justify-content: space-between; gap: 12px; font-weight: 500; }
+  .field output { color: var(--blue-text); white-space: nowrap; }
+  input[type=range] {
+    --p: 50%;
+    -webkit-appearance: none; appearance: none; width: 100%; height: 28px; background: transparent; cursor: pointer;
+  }
+  input[type=range]::-webkit-slider-runnable-track {
+    height: 6px; border-radius: 3px;
+    background: linear-gradient(to right, var(--blue) var(--p), #DCE3EA var(--p));
+  }
+  input[type=range]::-moz-range-track { height: 6px; border-radius: 3px; background: #DCE3EA; }
+  input[type=range]::-moz-range-progress { height: 6px; border-radius: 3px; background: var(--blue); }
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none; width: 22px; height: 22px; margin-top: -8px; border-radius: 50%;
+    background: #fff; border: 2px solid var(--blue); box-shadow: 0 2px 6px rgba(11,15,20,.18);
+    transition: transform .15s ease;
+  }
+  input[type=range]::-moz-range-thumb {
+    width: 18px; height: 18px; border-radius: 50%; background: #fff; border: 2px solid var(--blue);
+  }
+  input[type=range]:active::-webkit-slider-thumb { transform: scale(1.15); }
+  .result {
+    background: var(--ink); color: #fff; border-radius: 12px; padding: 22px;
+    display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px;
+  }
+  .num { font-family: var(--display); font-size: clamp(30px, 4vw, 40px); font-weight: 700; font-variant-numeric: tabular-nums; }
+  .num.blue { color: var(--blue); }
+  .lbl { font-size: 14px; color: var(--on-dark); }
+  .note { font-size: 13px; color: var(--muted-2); }
+  .calc .btn { align-self: flex-start; }
+
+  .sec { padding-block: 88px 24px; }
+  .sec.last { padding-bottom: 88px; }
+  .h2.narrow { max-width: 700px; }
+  .h2.sm { font-size: clamp(28px, 3.4vw, 34px); }
+  .sec > .h2 { margin-bottom: 36px; }
+  .grid4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr)); gap: 18px; }
+  .svc { padding: 26px; display: flex; flex-direction: column; gap: 10px; }
+  .svc h3 { font-size: 19px; font-weight: 600; }
+
+  .grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr)); gap: 22px; }
+  .proj { overflow: hidden; display: flex; flex-direction: column; }
+  .term { background: var(--ink); padding: 22px; font-size: 13px; line-height: 1.85; color: #8A96A3; min-height: 190px; display: flex; flex-direction: column; justify-content: center; }
+  .term .g { color: var(--green); }
+  .term .b { color: var(--blue); }
+  .term .w { color: #D7DEE6; }
+  .ln { animation: rise .5s ease both; animation-delay: calc(var(--i) * .25s + .3s); }
+  .shot { display: block; aspect-ratio: 16 / 10; overflow: hidden; background: var(--mist); }
+  .shot img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .5s ease; }
+  .proj:hover .shot img { transform: scale(1.03); }
+  .pbody { padding: 26px; display: flex; flex-direction: column; gap: 10px; flex: 1; }
+  .client { font-size: 13px; font-weight: 600; color: var(--blue-text); }
+  .pbody h3 { font-size: 22px; font-weight: 600; }
+  .stack-line { font-size: 12px; color: var(--muted-2); margin-top: auto; }
+  .more { font-weight: 600; margin-top: auto; }
+
+  .about {
+    border: 1px solid var(--line); border-radius: 16px; padding: 36px;
+    display: grid; grid-template-columns: minmax(0, 260px) 1fr; gap: 40px; align-items: center;
+  }
+  .mark { background: var(--mist); border-radius: 12px; aspect-ratio: 1; display: grid; place-items: center; padding: 36px; }
+  .mark img { width: 100%; height: auto; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; font-size: 12px; align-items: center; }
+  .chips span { border: 1px solid #D5DBE2; border-radius: 999px; padding: 6px 12px; }
+  .chips a { margin-left: 4px; font-weight: 500; }
+  @media (max-width: 720px) {
+    .about { grid-template-columns: 1fr; padding: 24px; }
+    .mark { max-width: 200px; }
+  }
+
+  .contact {
+    background: var(--ink); color: #fff; border-radius: 18px; padding: clamp(24px, 4vw, 44px);
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); gap: 44px;
+  }
+  .on-dark { color: var(--on-dark); }
+  .mail { color: var(--blue-soft); font-weight: 600; font-size: 18px; word-break: break-all; }
+  .mail:hover { color: #fff; }
+  .cform { display: flex; flex-direction: column; gap: 8px; }
+  .cform label { font-size: 14px; font-weight: 500; margin-top: 6px; }
+  .cform input, .cform textarea {
+    padding: 13px 14px; border-radius: 8px; border: 1px solid #39434F; background: var(--ink-2);
+    color: #fff; font-size: 16px; font-family: inherit; transition: border-color .15s ease;
+  }
+  .cform input:focus, .cform textarea:focus { outline: none; border-color: var(--blue); box-shadow: 0 0 0 3px rgba(0,153,255,.25); }
+  .cform .btn { margin-top: 12px; align-self: flex-start; }
+  .cform .btn:disabled { opacity: .6; cursor: progress; }
+  .hp { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
+  .fine { font-size: 13px; color: #8A96A3; }
+  .fine a, .form-status a { color: var(--blue-soft); }
+  .form-status:empty { display: none; }
+  .form-status { font-size: 15px; padding: 12px 14px; border-radius: 8px; }
+  .form-status.is-ok { background: rgba(43,212,125,.12); color: #8EF0BE; }
+  .form-status.is-err { background: rgba(255,120,120,.12); color: #FFB4B4; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ln { animation: none; }
+    .shot img { transition: none; }
+  }
+</style>

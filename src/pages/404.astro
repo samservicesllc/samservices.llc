@@ -1,0 +1,15 @@
+---
+import Base from '../layouts/Base.astro';
+---
+<Base lang="es" page="404" title="Página no encontrada · Sam Services LLC" noindex>
+  <section class="wrap nf">
+    <p class="kicker mono">404</p>
+    <h1 class="h2">Esta página no existe. <span lang="en">This page does not exist.</span></h1>
+    <p><a class="btn btn-dark" href="/">Ir al inicio</a> <a class="btn btn-dark" href="/en/" lang="en">Go home</a></p>
+  </section>
+</Base>
+<style>
+  .nf { padding-block: 120px; display: flex; flex-direction: column; gap: 20px; }
+  .nf span { display: block; color: var(--muted-2); }
+  .nf p:last-child { display: flex; gap: 12px; flex-wrap: wrap; }
+</style>
