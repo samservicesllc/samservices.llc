@@ -11,7 +11,7 @@ interface Props {
   ogImage?: string;
 }
 const { lang, page, title, description, noindex = false, ogImage } = Astro.props;
-const ogUrl = new URL((ogImage ?? t[lang].og) + '?v=3', SITE).href;
+const ogUrl = new URL((ogImage ?? t[lang].og) + '?v=4', SITE).href;
 const c = t[lang];
 const other: Lang = lang === 'es' ? 'en' : 'es';
 const self = page === '404' ? null : paths[lang][page];
