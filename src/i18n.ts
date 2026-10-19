@@ -92,6 +92,12 @@ export const t = {
         alt: 'Portada del sitio paellasbycarlitin.com',
         link: 'Ver el sitio',
       },
+      pbx: {
+        client: 'Sam PBX · Producto propio',
+        title: 'Portal de telefonía FusionPBX',
+        text: 'Portal propio para administrar centrales FusionPBX, con funciones personalizadas, acceso seguro y en español e inglés.',
+        link: 'Ir al portal',
+      },
     },
     about: {
       kicker: 'Nosotros',
@@ -113,7 +119,7 @@ export const t = {
       error: 'No pudimos enviar el mensaje. Escríbanos directamente a',
       privacy: 'Usamos sus datos solo para responderle.',
       privacyLink: 'Privacidad',
-      phone: 'Teléfono móvil (opcional, solo si acepta recibir SMS)',
+      phone: 'Móvil (opcional, para SMS)',
       phoneError: 'Para recibir SMS, escriba su número móvil.',
       smsCare: 'Acepto recibir mensajes de texto de Sam Services LLC sobre mi consulta, citas, soporte y avisos de servicio.',
       smsMkt: 'Acepto recibir mensajes de texto promocionales de Sam Services LLC (ofertas y novedades de servicios).',
@@ -204,6 +210,12 @@ export const t = {
         alt: 'Home page of paellasbycarlitin.com',
         link: 'Visit the site',
       },
+      pbx: {
+        client: 'Sam PBX · Our own product',
+        title: 'FusionPBX phone portal',
+        text: 'Our own portal to manage FusionPBX phone systems, with custom features, secure access, in English and Spanish.',
+        link: 'Go to the portal',
+      },
     },
     about: {
       kicker: 'About',
@@ -225,7 +237,7 @@ export const t = {
       error: 'We could not send your message. Please email us at',
       privacy: 'We only use your details to reply to you.',
       privacyLink: 'Privacy',
-      phone: 'Mobile phone (optional, only if you agree to receive texts)',
+      phone: 'Mobile (optional, for texts)',
       phoneError: 'To receive text messages, please enter your mobile number.',
       smsCare: 'I agree to receive text messages from Sam Services LLC about my inquiry, appointments, support and service notices.',
       smsMkt: 'I agree to receive promotional text messages from Sam Services LLC (offers and service news).',

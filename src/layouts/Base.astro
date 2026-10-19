@@ -104,9 +104,9 @@ const schema = {
         <img src="/img/logo.webp" alt="Sam Services LLC" width="237" height="36" />
       </a>
       <nav aria-label={lang === 'es' ? 'Principal' : 'Main'}>
+        <a class="nl" href={`${home}#proyectos`}>{c.nav.projects}</a>
         <a class="nl" href={`${home}#servicios`}>{c.nav.services}</a>
         <a class="nl" href={`${home}#calculadora`}>{c.nav.calc}</a>
-        <a class="nl" href={`${home}#proyectos`}>{c.nav.projects}</a>
         <a class="nl" href={`${home}#nosotros`}>{c.nav.about}</a>
         <a class="lang" href={alt} hreflang={other} lang={other} aria-label={c.switchLabel}>{c.switchText}</a>
         <a class="btn btn-dark cta" href={`${home}#contacto`}>{c.nav.cta}</a>
