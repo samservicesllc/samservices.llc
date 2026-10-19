@@ -104,15 +104,10 @@ const pos: [number, number][] = [[70, 60], [370, 60], [60, 150], [380, 150], [70
   <p class="kicker">{c.projects.kicker}</p>
   <h2 id="proj-title" class="h2">{c.projects.h2}</h2>
   <article class="card feat reveal">
-    <div class="term mono" aria-hidden="true">
-      <p class="tag">{c.projects.featured}</p>
-      {c.projects.log.map(([st, k, v], i) => (
-        <div class="ln" style={`--i:${i}`}>
-          {st === 'ok' ? <span class="g">✓</span> : <span class="b">›</span>} {k} <span class="w">{v}</span>
-          {st === 'run' && <span class="caret b">▌</span>}
-        </div>
-      ))}
-    </div>
+    <a class="fimg" href={paths[lang].case} tabindex="-1" aria-hidden="true">
+      <img src="/img/gonichea-case.webp" alt="" width="1200" height="960" loading="lazy" decoding="async" />
+      <span class="tag mono">{c.projects.featured}</span>
+    </a>
     <div class="pbody">
       <p class="client">{c.projects.gonichea.client}</p>
       <h3>{c.projects.gonichea.title}</h3>
@@ -365,8 +360,10 @@ const pos: [number, number][] = [[70, 60], [370, 60], [60, 150], [380, 150], [70
   .term .w { color: #D7DEE6; }
   .ln { animation: rise .5s ease both; animation-delay: calc(var(--i) * .25s + .3s); }
   .feat { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); overflow: hidden; border-color: #CFE3F5; }
-  .feat .term { min-height: 100%; padding: 32px; }
-  .feat .tag { color: var(--blue); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; margin-bottom: 14px; }
+  .fimg { position: relative; display: block; overflow: hidden; background: #0B1626; min-height: 100%; }
+  .fimg img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .6s ease; }
+  .feat:hover .fimg img { transform: scale(1.03); }
+  .fimg .tag { position: absolute; left: 16px; bottom: 16px; background: rgba(11,15,20,.82); color: var(--blue-soft); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; padding: 6px 10px; border-radius: 6px; }
   .feat .pbody { padding: 32px; gap: 14px; }
   .feat h3 { font-size: 26px; }
   .fm { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin: 6px 0; }
@@ -382,6 +379,7 @@ const pos: [number, number][] = [[70, 60], [370, 60], [60, 150], [380, 150], [70
   .mini h3 { font-size: 19px; }
   @media (max-width: 860px) {
     .feat, .mini { grid-template-columns: 1fr; }
+    .fimg { aspect-ratio: 5 / 4; min-height: 0; }
     .fm { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .mini .shot { aspect-ratio: 16 / 10; }
   }
