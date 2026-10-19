@@ -11,3 +11,6 @@
 
 /img/*
   Cache-Control: public, max-age=2592000
+
+/img/gbp/*
+  Access-Control-Allow-Origin: *
