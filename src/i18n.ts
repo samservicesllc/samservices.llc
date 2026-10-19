@@ -6,8 +6,8 @@ export const LINKEDIN_COMPANY = 'https://www.linkedin.com/company/samservicesllc
 export const LINKEDIN_PERSON = 'https://www.linkedin.com/in/arieskienmendoza/';
 
 export const paths = {
-  es: { home: '/', projects: '/proyectos/', case: '/proyectos/gonichea/', casePaellas: '/proyectos/paellas-by-carlitin/', casePbx: '/proyectos/sam-pbx/', privacy: '/privacidad/', terms: '/terminos/', sms: '/sms/', accessibility: '/accesibilidad/' },
-  en: { home: '/en/', projects: '/en/projects/', case: '/en/projects/gonichea/', casePaellas: '/en/projects/paellas-by-carlitin/', casePbx: '/en/projects/sam-pbx/', privacy: '/en/privacy/', terms: '/en/terms/', sms: '/en/sms/', accessibility: '/en/accessibility/' },
+  es: { home: '/es/', projects: '/es/proyectos/', case: '/es/proyectos/gonichea/', casePaellas: '/es/proyectos/paellas-by-carlitin/', casePbx: '/es/proyectos/sam-pbx/', privacy: '/es/privacidad/', terms: '/es/terminos/', sms: '/es/sms/', accessibility: '/es/accesibilidad/' },
+  en: { home: '/', projects: '/projects/', case: '/projects/gonichea/', casePaellas: '/projects/paellas-by-carlitin/', casePbx: '/projects/sam-pbx/', privacy: '/privacy/', terms: '/terms/', sms: '/sms/', accessibility: '/accessibility/' },
 } as const;
 
 export const t = {

@@ -1,7 +1,13 @@
-/es /  301
-/es/ / 301
-/privacy /en/privacy/ 301
-/terms /en/terms/ 301
-/accessibility /en/accessibility/ 301
-/privacy-policy /en/privacy/ 301
-/terms-of-service /en/terms/ 301
+# Old URLs (before English became the default, Oct 2026)
+/en /  301
+/en/* /:splat 301
+/proyectos /es/proyectos/ 301
+/proyectos/* /es/proyectos/:splat 301
+/privacidad /es/privacidad/ 301
+/privacidad/ /es/privacidad/ 301
+/terminos /es/terminos/ 301
+/terminos/ /es/terminos/ 301
+/accesibilidad /es/accesibilidad/ 301
+/accesibilidad/ /es/accesibilidad/ 301
+/privacy-policy /privacy/ 301
+/terms-of-service /terms/ 301

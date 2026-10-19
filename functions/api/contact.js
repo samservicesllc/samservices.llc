@@ -26,7 +26,7 @@ function reply(request, status, body) {
   const msg = body.ok
     ? en ? 'Thank you. We received your message and will reply soon.' : 'Gracias. Recibimos su mensaje y le responderemos pronto.'
     : en ? 'We could not send your message. Please email contact@samservices.llc' : 'No pudimos enviar el mensaje. Escríbanos a contact@samservices.llc';
-  const back = en ? '/en/' : '/';
+  const back = en ? '/' : '/es/';
   return new Response(
     `<!doctype html><html lang="${en ? 'en' : 'es'}"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex"><title>Sam Services LLC</title><body style="font-family:system-ui,sans-serif;max-width:560px;margin:15vh auto;padding:0 24px;color:#0B0F14"><p style="font-size:20px">${msg}</p><p><a href="${back}" style="color:#0070C0">${en ? 'Back to site' : 'Volver al sitio'}</a></p></body></html>`,
     { status, headers: { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-store' } },
