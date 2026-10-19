@@ -1,0 +1,283 @@
+---
+import NeuralBg from './NeuralBg.astro';
+import { paths, type Lang } from '../i18n';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+
+const T = {
+  es: {
+    kicker: 'Caso · Paellas by Carlitin',
+    h1a: 'Un sitio que convierte visitas',
+    h1b: 'en cotizaciones.',
+    lead: 'Diseñamos y desarrollamos el sitio de Paellas by Carlitin, catering de paella española cocinada en vivo en Miami y el sur de Florida: identidad propia, planificador interactivo, cotización en un toque y SEO local en 5 idiomas.',
+    metrics: [
+      ['5', 'idiomas: español, inglés, francés, portugués y criollo haitiano'],
+      ['16', 'zonas de servicio con SEO local'],
+      ['3', 'vías de contacto a un toque: llamada, WhatsApp y cotización'],
+      ['9', 'servicios descritos en datos estructurados para Google'],
+    ],
+    metricsNote: 'Sitio en producción en paellasbycarlitin.com (oct. 2026).',
+    visit: 'Ver el sitio',
+    ctxK: 'El reto',
+    ctxH: 'Un negocio que se vive en persona, explicado en una pantalla.',
+    ctxP: [
+      'Paellas by Carlitin cocina paellas gigantes frente a los invitados en bodas, cumpleaños y fiestas de Miami-Dade, Broward y los Cayos. Su público en el sur de Florida es multicultural.',
+      'Necesitaba un sitio que transmitiera la experiencia, respondiera las dudas antes de que el cliente preguntara y llevara cada visita a una cotización, desde el celular y en el idioma de cada cliente.',
+    ],
+    modK: 'Qué construimos',
+    modH: 'De la primera búsqueda a la cotización.',
+    modules: [
+      ['Identidad visual', 'Una portada con la historia “de la Gran Vía de Madrid a Miami”, fotos reales del chef y de los eventos.'],
+      ['Planificador de paellas', 'El cliente mueve el número de invitados, elige sus paellas y extras; el sitio calcula las paelleras.'],
+      ['Cotización en un toque', 'El plan armado viaja a la cotización. Barra fija en el celular con Llamar, WhatsApp y Cotizar.'],
+      ['5 idiomas', 'Español, inglés, francés, portugués y criollo haitiano, con hreflang para que Google muestre el correcto.'],
+      ['SEO local', '16 zonas de servicio, preguntas frecuentes y datos estructurados (Organization, Service, FAQPage).'],
+      ['Rápido y ligero', 'Sitio estático, móvil primero, servido desde la red de Cloudflare.'],
+    ],
+    planK: 'Planificador interactivo',
+    planH: 'El cliente arma su paella antes de escribir.',
+    planP: 'Con un control elige cuántos invitados tendrá y qué paellas quiere. El sitio calcula las paelleras y el plan pasa directo a la cotización, así el chef responde con el menú ya definido.',
+    planAlt: 'Planificador de paellas del sitio paellasbycarlitin.com',
+    flowK: 'Recorrido del cliente',
+    flowH: 'Cada paso lleva al siguiente.',
+    flowLabel: 'Recorrido: búsqueda en Google, sitio en 5 idiomas, planificador, WhatsApp o formulario, cotización',
+    flow: ['Google', 'Sitio en 5 idiomas', 'Planificador', 'WhatsApp / formulario', 'Cotización'],
+    stackK: 'Tecnología',
+    stack: ['HTML, CSS y JavaScript', 'Cloudflare Pages', 'Schema.org', 'hreflang', 'Móvil primero'],
+    ctaH: '¿Quiere un sitio que traiga clientes?',
+    ctaP: 'Le contamos cómo lo haríamos para su negocio.',
+    cta: 'Hablemos',
+    back: 'Volver al inicio',
+  },
+  en: {
+    kicker: 'Case study · Paellas by Carlitin',
+    h1a: 'A website that turns visits',
+    h1b: 'into quote requests.',
+    lead: 'We designed and built the website for Paellas by Carlitin, a live Spanish paella catering business in Miami and South Florida: its own identity, an interactive planner, one-tap quotes and local SEO in 5 languages.',
+    metrics: [
+      ['5', 'languages: Spanish, English, French, Portuguese and Haitian Creole'],
+      ['16', 'service areas with local SEO'],
+      ['3', 'one-tap contact options: call, WhatsApp and quote'],
+      ['9', 'services described in structured data for Google'],
+    ],
+    metricsNote: 'Live at paellasbycarlitin.com (Oct 2026).',
+    visit: 'Visit the site',
+    ctxK: 'The challenge',
+    ctxH: 'A business you live in person, explained on a screen.',
+    ctxP: [
+      'Paellas by Carlitin cooks giant paellas in front of guests at weddings, birthdays and parties across Miami-Dade, Broward and the Keys. Its South Florida audience is multicultural.',
+      'It needed a site that conveys the experience, answers questions before customers ask, and takes every visit to a quote request, on mobile and in each customer’s language.',
+    ],
+    modK: 'What we built',
+    modH: 'From the first search to the quote.',
+    modules: [
+      ['Visual identity', 'A home page with the “from Madrid’s Gran Vía to Miami” story, real photos of the chef and events.'],
+      ['Paella planner', 'Visitors set the guest count, pick paellas and extras; the site works out the pans.'],
+      ['One-tap quote', 'The plan carries into the quote request. Sticky mobile bar with Call, WhatsApp and Quote.'],
+      ['5 languages', 'Spanish, English, French, Portuguese and Haitian Creole, with hreflang so Google shows the right one.'],
+      ['Local SEO', '16 service areas, FAQs and structured data (Organization, Service, FAQPage).'],
+      ['Fast and light', 'Static, mobile-first site served from Cloudflare’s network.'],
+    ],
+    planK: 'Interactive planner',
+    planH: 'Customers build their paella before they write.',
+    planP: 'With one slider they set the guest count and pick their paellas. The site works out the pans and the plan goes straight into the quote, so the chef replies with the menu already defined.',
+    planAlt: 'Paella planner on paellasbycarlitin.com',
+    flowK: 'Customer journey',
+    flowH: 'Every step leads to the next.',
+    flowLabel: 'Journey: Google search, site in 5 languages, planner, WhatsApp or form, quote',
+    flow: ['Google', 'Site in 5 languages', 'Planner', 'WhatsApp / form', 'Quote'],
+    stackK: 'Technology',
+    stack: ['HTML, CSS & JavaScript', 'Cloudflare Pages', 'Schema.org', 'hreflang', 'Mobile-first'],
+    ctaH: 'Want a website that brings customers?',
+    ctaP: 'We will tell you how we would do it for your business.',
+    cta: "Let's talk",
+    back: 'Back to home',
+  },
+}[lang];
+const fx = [90, 270, 450, 630, 810];
+---
+<section class="chero" aria-labelledby="case-title">
+  <NeuralBg />
+  <div class="wrap cin">
+    <p class="kicker k-dark mono rise">{T.kicker}</p>
+    <h1 id="case-title" class="rise">{T.h1a} <span class="accent">{T.h1b}</span></h1>
+    <p class="lead rise rise-2">{T.lead}</p>
+    <dl class="cm cm4 mono rise rise-2">
+      {T.metrics.map(([n, l]) => <div><dd data-count={n}>{n}</dd><dt>{l}</dt></div>)}
+    </dl>
+    <p class="note mono">{T.metricsNote} <a href="https://paellasbycarlitin.com/" rel="noopener">{T.visit} →</a></p>
+  </div>
+</section>
+
+<section class="wrap csec">
+  <figure class="hero-shot reveal">
+    <img src="/img/paellas-case.webp" alt="" width="1200" height="960" loading="lazy" decoding="async" />
+  </figure>
+</section>
+
+<section class="wrap csec two-col">
+  <div class="reveal">
+    <p class="kicker">{T.ctxK}</p>
+    <h2 class="h2">{T.ctxH}</h2>
+  </div>
+  <div class="reveal stack">
+    {T.ctxP.map((p) => <p class="muted big">{p}</p>)}
+  </div>
+</section>
+
+<section class="wrap csec">
+  <p class="kicker">{T.modK}</p>
+  <h2 class="h2 mb">{T.modH}</h2>
+  <div class="mods">
+    {T.modules.map(([h, p], i) => (
+      <article class="card mod reveal">
+        <span class="num mono">{String(i + 1).padStart(2, '0')}</span>
+        <h3>{h}</h3>
+        <p class="muted">{p}</p>
+      </article>
+    ))}
+  </div>
+</section>
+
+<section class="wrap csec two-col plan">
+  <div class="reveal stack">
+    <p class="kicker">{T.planK}</p>
+    <h2 class="h2">{T.planH}</h2>
+    <p class="muted big">{T.planP}</p>
+  </div>
+  <figure class="card shotfig reveal"><img src="/img/paellas-planner.webp" alt={T.planAlt} width="1240" height="720" loading="lazy" decoding="async" /></figure>
+</section>
+
+<section class="arch-sec">
+  <div class="wrap csec">
+    <p class="kicker k-dark">{T.flowK}</p>
+    <h2 class="h2 mb light">{T.flowH}</h2>
+    <svg role="img" aria-label={T.flowLabel} viewBox="0 0 900 120" class="flowsvg reveal">
+      <g fill="none" stroke="#0099FF" stroke-width="1.8">
+        {fx.slice(0, -1).map((x, i) => <path class="flow" style={`animation-delay:${-i * 0.3}s`} d={`M${x + 78} 60 L${fx[i + 1] - 78} 60`} />)}
+      </g>
+      <g font-family="IBM Plex Mono, monospace" font-size="13" text-anchor="middle">
+        {fx.map((x, i) => (
+          <g class="node">
+            <rect x={x - 78} y="36" width="156" height="48" rx="10" fill={i === fx.length - 1 ? '#0099FF' : '#13202F'} stroke={i === fx.length - 1 ? '#0099FF' : '#2D4256'} />
+            <text x={x} y="65" fill={i === fx.length - 1 ? '#0B0F14' : '#D7DEE6'} font-weight={i === fx.length - 1 ? '600' : '400'}>{T.flow[i]}</text>
+          </g>
+        ))}
+      </g>
+    </svg>
+  </div>
+</section>
+
+<section class="wrap csec two-col">
+  <div class="reveal">
+    <p class="kicker">{T.stackK}</p>
+    <div class="chips mono">{T.stack.map((x) => <span>{x}</span>)}</div>
+  </div>
+</section>
+
+<section class="wrap csec last">
+  <div class="ccta reveal">
+    <NeuralBg density={0.5} />
+    <div>
+      <h2 class="h2 light">{T.ctaH}</h2>
+      <p class="on-dark">{T.ctaP}</p>
+    </div>
+    <div class="cbtns">
+      <a class="btn btn-blue" href={`${paths[lang].home}#contacto`}>{T.cta}</a>
+      <a class="btn btn-ghost" href={paths[lang].home}>{T.back}</a>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Count-up for metrics when they enter the viewport
+  const els = document.querySelectorAll<HTMLElement>('[data-count]');
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!reduce && 'IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (!e.isIntersecting) return;
+        io.unobserve(e.target);
+        const el = e.target as HTMLElement;
+        const end = Number(el.dataset.count);
+        const t0 = performance.now(), dur = 1400;
+        const step = (t: number) => {
+          const k = Math.min(1, (t - t0) / dur);
+          const v = Math.round(end * (1 - Math.pow(1 - k, 3)));
+          el.textContent = v.toLocaleString('en-US');
+          if (k < 1) requestAnimationFrame(step);
+        };
+        requestAnimationFrame(step);
+      });
+    }, { threshold: 0.4 });
+    els.forEach((el) => io.observe(el));
+  }
+</script>
+
+<style>
+  .chero {
+    position: relative; overflow: hidden; isolation: isolate; color: #fff;
+    background:
+      radial-gradient(1100px 560px at 85% 10%, rgba(0,153,255,.12), transparent 60%),
+      linear-gradient(180deg, #0B1626 0%, #0A1220 60%, #0B0F14 100%);
+  }
+  .cin { position: relative; z-index: 1; padding-block: 84px 72px; display: flex; flex-direction: column; gap: 20px; }
+  .k-dark { color: var(--blue-soft); margin: 0; }
+  h1 { font-family: var(--display); font-weight: 700; font-size: clamp(38px, 5.4vw, 60px); line-height: 1.05; max-width: 900px; }
+  .accent { color: var(--blue); }
+  .lead { font-size: 19px; color: var(--on-dark); max-width: 760px; }
+  .cm { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 10px; margin: 18px 0 0; }
+  .cm div { background: rgba(14,22,34,.72); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); border: 1px solid rgba(80,120,160,.25); border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 4px; }
+  .cm dd { margin: 0; font-size: clamp(22px, 2.4vw, 30px); color: #fff; font-variant-numeric: tabular-nums; }
+  .cm dt { font-size: 12px; color: #9AA7B5; }
+  .note { font-size: 12px; color: #6F7C8A; }
+  @media (max-width: 1000px) { .cm { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+  @media (max-width: 560px) { .cm { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+  .csec { padding-block: 80px 8px; }
+  .csec.last { padding-bottom: 88px; }
+  .two-col { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr)); gap: 40px; align-items: start; }
+  .stack { display: flex; flex-direction: column; gap: 14px; }
+  .big { font-size: 18px; }
+  .mb { margin-bottom: 32px; }
+  .light { color: #fff; }
+  .mods { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: 16px; }
+  .mod { padding: 24px; display: flex; flex-direction: column; gap: 8px; }
+  .mod .num { color: var(--blue-text); font-size: 13px; }
+  .mod h3 { font-size: 18px; font-weight: 600; }
+
+  .arch-sec { margin-top: 80px; background: linear-gradient(180deg, #0B1626, #0A1220); }
+  .arch-sec .csec { padding-block: 72px; }
+  .arch { width: 100%; max-width: 860px; display: block; margin: 0 auto; height: auto; }
+  .node rect { transition: stroke .2s ease; }
+  .node:hover rect { stroke: #0099FF; }
+
+  .st { margin-top: 28px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; font-size: 12px; }
+  .chips span { border: 1px solid #D5DBE2; border-radius: 999px; padding: 6px 12px; }
+  .tl { list-style: none; margin: 0; padding: 0 0 0 22px; border-left: 2px solid #D5E6F5; display: flex; flex-direction: column; gap: 22px; }
+  .tl li { position: relative; display: flex; flex-direction: column; gap: 2px; color: #36414D; }
+  .tl li::before { content: ''; position: absolute; left: -29px; top: 6px; width: 12px; height: 12px; border-radius: 50%; background: #fff; border: 2px solid var(--blue); }
+  .tl li:last-child::before { background: var(--blue); }
+  .tl .y { color: var(--blue-text); font-size: 14px; font-weight: 500; }
+
+  .ccta {
+    position: relative; overflow: hidden; isolation: isolate; border-radius: 18px; padding: clamp(28px, 4vw, 48px);
+    background: linear-gradient(160deg, #0B1626 0%, #0A1220 60%, #0B0F14 100%);
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 24px;
+  }
+  .ccta > :not(canvas) { position: relative; z-index: 1; }
+  .ccta .h2 { margin-bottom: 8px; }
+  .on-dark { color: var(--on-dark); }
+  .cbtns { display: flex; flex-wrap: wrap; gap: 12px; }
+  .cm4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  @media (max-width: 1000px) { .cm4 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  .note a { color: var(--blue-soft); }
+  .hero-shot { margin: 0 auto; max-width: 980px; border-radius: 16px; overflow: hidden; box-shadow: 0 24px 60px rgba(11,15,20,.18); }
+  .hero-shot img { display: block; width: 100%; height: auto; }
+  .shotfig { margin: 0; overflow: hidden; }
+  .shotfig img { display: block; width: 100%; height: auto; }
+  .plan { align-items: center; }
+  @media (min-width: 900px) { .mods { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+  .flowsvg { width: 100%; max-width: 980px; display: block; margin: 0 auto; height: auto; }
+</style>

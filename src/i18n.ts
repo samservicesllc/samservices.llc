@@ -6,8 +6,8 @@ export const LINKEDIN_COMPANY = 'https://www.linkedin.com/company/samservicesllc
 export const LINKEDIN_PERSON = 'https://www.linkedin.com/in/arieskienmendoza/';
 
 export const paths = {
-  es: { home: '/', case: '/proyectos/gonichea/', privacy: '/privacidad/', terms: '/terminos/', sms: '/sms/', accessibility: '/accesibilidad/' },
-  en: { home: '/en/', case: '/en/projects/gonichea/', privacy: '/en/privacy/', terms: '/en/terms/', sms: '/en/sms/', accessibility: '/en/accessibility/' },
+  es: { home: '/', case: '/proyectos/gonichea/', casePaellas: '/proyectos/paellas-by-carlitin/', privacy: '/privacidad/', terms: '/terminos/', sms: '/sms/', accessibility: '/accesibilidad/' },
+  en: { home: '/en/', case: '/en/projects/gonichea/', casePaellas: '/en/projects/paellas-by-carlitin/', privacy: '/en/privacy/', terms: '/en/terms/', sms: '/en/sms/', accessibility: '/en/accessibility/' },
 } as const;
 
 export const t = {
@@ -87,10 +87,10 @@ export const t = {
       },
       paellas: {
         client: 'Paellas by Carlitin · Catering en Miami',
-        title: 'Sitio web bilingüe',
-        text: 'Planificador interactivo de paellas, cotización por WhatsApp y SEO local para Miami-Dade, Broward y los Cayos.',
+        title: 'Sitio web en 5 idiomas',
+        text: 'Planificador interactivo de paellas, cotización en un toque y SEO local para Miami-Dade, Broward y los Cayos.',
         alt: 'Portada del sitio paellasbycarlitin.com',
-        link: 'Ver el sitio',
+        link: 'Ver caso',
       },
       pbx: {
         client: 'Sam PBX · Producto propio',
@@ -205,10 +205,10 @@ export const t = {
       },
       paellas: {
         client: 'Paellas by Carlitin · Catering in Miami',
-        title: 'Bilingual website',
-        text: 'Interactive paella planner, WhatsApp quotes and local SEO for Miami-Dade, Broward and the Keys.',
+        title: 'Website in 5 languages',
+        text: 'Interactive paella planner, one-tap quotes and local SEO for Miami-Dade, Broward and the Keys.',
         alt: 'Home page of paellasbycarlitin.com',
-        link: 'Visit the site',
+        link: 'Read the case',
       },
       pbx: {
         client: 'Sam PBX · Our own product',
