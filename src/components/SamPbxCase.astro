@@ -1,0 +1,247 @@
+---
+import NeuralBg from './NeuralBg.astro';
+import { paths, type Lang } from '../i18n';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const PORTAL = 'https://portal.pbx.samservices.llc/login';
+
+const T = {
+  es: {
+    kicker: 'Producto propio · Sam PBX',
+    h1a: 'Telefonía de empresa,',
+    h1b: 'clara y bajo control.',
+    lead: 'Sam PBX es nuestro portal sobre centrales FusionPBX. El dueño del negocio ve en una sola pantalla qué llamadas hay que devolver, cómo responde cada extensión y cuándo está abierto cada número. Las líneas las contrata el cliente directamente con su operador.',
+    metrics: [
+      ['6', 'módulos: dashboard, llamadas, SMS, teléfono web, extensiones y horarios'],
+      ['2', 'idiomas: español e inglés'],
+      ['1 min', 'actualización automática del dashboard'],
+      ['30 s', 'revisión del estado de cada extensión'],
+    ],
+    note: 'Capturas con datos de demostración; números de teléfono, nombres y direcciones IP ocultos.',
+    portal: 'Acceso de clientes',
+    ctxK: 'El reto',
+    ctxH: 'FusionPBX es potente, pero no habla el idioma del dueño.',
+    ctxP: [
+      'Una central FusionPBX lo hace todo, pero su panel está pensado para técnicos. El dueño del negocio solo quiere respuestas: ¿quién llamó y nadie le contestó?, ¿qué extensión está caída?, ¿qué escucha el cliente cuando estamos cerrados?',
+      'Construimos Sam PBX para responder esas preguntas en segundos, desde la computadora o el celular, sin entrar a la configuración técnica.',
+    ],
+    feats: [
+      ['dash-top', 'Dashboard', 'Lo que hay que atender ahora', 'Llamadas no atendidas por devolver, SMS sin leer o sin responder y extensiones fuera de línea. Cada número muestra si está abierto o cerrado, y el día de hoy se compara con el mismo día de la semana pasada.'],
+      ['dash-chart', 'Dashboard', 'Cómo responde el equipo', 'Llamadas por hora del día, contestadas frente a no contestadas, y el rendimiento por número y por extensión: llamadas, porcentaje contestado y tiempo hablado.'],
+      ['calls', 'Llamadas', 'Historial completo y filtrable', 'Cada llamada con su número, extensión, duración y estado (contestada, no contestada, no atendida o descartada). Filtros por número, dirección, estado y fechas.'],
+      ['ext', 'Extensiones', 'Quién está conectado', 'Estado de cada extensión revisado cada 30 segundos, con el dispositivo, la última conexión y los números que suenan en ella. Un log de conexión por extensión.'],
+      ['hours', 'Horarios', 'Abierto o cerrado, sin sorpresas', 'Horario semanal por número y zona horaria, mensaje para el cliente cuando está cerrado, feriados y la opción de forzar abierto o cerrado con un clic.'],
+    ],
+    moreK: 'Además',
+    more: [
+      ['SMS', 'Bandeja de mensajes por número, con estados sin leer, sin responder y respondido.'],
+      ['Teléfono web', 'Recibir y hacer llamadas desde el navegador, eligiendo extensiones y con qué número llamar.'],
+      ['Acceso por cliente', 'Cada cliente ve solo sus números, extensiones y llamadas.'],
+    ],
+    stackK: 'Tecnología',
+    stack: ['FusionPBX', 'Python', 'Django', 'Telnyx (SMS)', 'Español / English'],
+    ctaH: '¿Su empresa necesita una central telefónica?',
+    ctaP: 'La instalamos, la administramos y le damos este portal. Las líneas siguen a su nombre.',
+    cta: 'Hablemos',
+    back: 'Volver al inicio',
+  },
+  en: {
+    kicker: 'Our own product · Sam PBX',
+    h1a: 'Business phone systems,',
+    h1b: 'clear and under control.',
+    lead: 'Sam PBX is our portal on top of FusionPBX. Business owners see on one screen which calls need a callback, how each extension is performing and when each number is open. Clients keep their lines directly with their own carrier.',
+    metrics: [
+      ['6', 'modules: dashboard, calls, SMS, web phone, extensions and hours'],
+      ['2', 'languages: English and Spanish'],
+      ['1 min', 'automatic dashboard refresh'],
+      ['30 s', 'status check for every extension'],
+    ],
+    note: 'Screenshots with demo data; phone numbers, names and IP addresses hidden.',
+    portal: 'Client login',
+    ctxK: 'The challenge',
+    ctxH: 'FusionPBX is powerful, but it does not speak the owner’s language.',
+    ctxP: [
+      'A FusionPBX system does everything, but its panel is built for technicians. Owners just want answers: who called and got no answer? which extension is down? what do callers hear when we are closed?',
+      'We built Sam PBX to answer those questions in seconds, from a computer or a phone, without touching the technical settings.',
+    ],
+    feats: [
+      ['dash-top', 'Dashboard', 'What needs attention now', 'Missed calls to return, unread or unanswered texts and offline extensions. Each number shows whether it is open or closed, and today is compared with the same day last week.'],
+      ['dash-chart', 'Dashboard', 'How the team responds', 'Calls by hour of day, answered versus unanswered, and performance by number and by extension: calls, answer rate and talk time.'],
+      ['calls', 'Calls', 'Complete, filterable history', 'Every call with its number, extension, duration and status (answered, unanswered, missed or dropped). Filter by number, direction, status and dates.'],
+      ['ext', 'Extensions', 'Who is connected', 'Each extension’s status checked every 30 seconds, with device, last connection and the numbers that ring there. A connection log per extension.'],
+      ['hours', 'Hours', 'Open or closed, no surprises', 'Weekly hours per number and time zone, the message callers hear when closed, holidays and one-click force open or closed.'],
+    ],
+    moreK: 'Also',
+    more: [
+      ['SMS', 'Message inbox per number, with unread, unanswered and replied states.'],
+      ['Web phone', 'Take and make calls from the browser, choosing extensions and the caller ID.'],
+      ['Per-client access', 'Each client sees only its own numbers, extensions and calls.'],
+    ],
+    stackK: 'Technology',
+    stack: ['FusionPBX', 'Python', 'Django', 'Telnyx (SMS)', 'English / Español'],
+    ctaH: 'Does your business need a phone system?',
+    ctaP: 'We install it, manage it and give you this portal. Your lines stay in your name.',
+    cta: "Let's talk",
+    back: 'Back to home',
+  },
+}[lang];
+---
+<section class="chero" aria-labelledby="case-title">
+  <NeuralBg />
+  <div class="wrap cin">
+    <p class="kicker k-dark mono rise">{T.kicker}</p>
+    <h1 id="case-title" class="rise">{T.h1a} <span class="accent">{T.h1b}</span></h1>
+    <p class="lead rise rise-2">{T.lead}</p>
+    <dl class="cm cm4 mono rise rise-2">
+      {T.metrics.map(([n, l]) => <div><dd>{n}</dd><dt>{l}</dt></div>)}
+    </dl>
+    <p class="note mono">{T.note} <a href={PORTAL} rel="noopener">{T.portal} →</a></p>
+  </div>
+</section>
+
+<section class="wrap csec">
+  <figure class="hero-shot reveal"><img src="/img/sampbx-case.webp" alt="" width="1200" height="750" loading="lazy" decoding="async" /></figure>
+</section>
+
+<section class="wrap csec two-col">
+  <div class="reveal">
+    <p class="kicker">{T.ctxK}</p>
+    <h2 class="h2">{T.ctxH}</h2>
+  </div>
+  <div class="reveal stack">
+    {T.ctxP.map((p) => <p class="muted big">{p}</p>)}
+  </div>
+</section>
+
+{T.feats.map(([img, k, h, p], i) => (
+  <section class:list={['wrap csec feat-row', { flip: i % 2 === 1 }]}>
+    <div class="reveal stack">
+      <p class="kicker">{k}</p>
+      <h2 class="h2 sm">{h}</h2>
+      <p class="muted big">{p}</p>
+    </div>
+    <figure class="shotfig reveal"><img src={`/img/sampbx-${img}.webp`} alt={`${k}: ${h}`} width="1396" height="619" loading="lazy" decoding="async" /></figure>
+  </section>
+))}
+
+<section class="wrap csec">
+  <p class="kicker">{T.moreK}</p>
+  <div class="mods">
+    {T.more.map(([h, p]) => (
+      <article class="card mod reveal"><h3>{h}</h3><p class="muted">{p}</p></article>
+    ))}
+  </div>
+  <p class="kicker st">{T.stackK}</p>
+  <div class="chips mono">{T.stack.map((x) => <span>{x}</span>)}</div>
+  <p class="demo mono">{T.note}</p>
+</section>
+
+<section class="wrap csec last">
+  <div class="ccta reveal">
+    <NeuralBg density={0.5} />
+    <div>
+      <h2 class="h2 light">{T.ctaH}</h2>
+      <p class="on-dark">{T.ctaP}</p>
+    </div>
+    <div class="cbtns">
+      <a class="btn btn-blue" href={`${paths[lang].home}#contacto`}>{T.cta}</a>
+      <a class="btn btn-ghost" href={paths[lang].home}>{T.back}</a>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Count-up for metrics when they enter the viewport
+  const els = document.querySelectorAll<HTMLElement>('[data-count]');
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!reduce && 'IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (!e.isIntersecting) return;
+        io.unobserve(e.target);
+        const el = e.target as HTMLElement;
+        const end = Number(el.dataset.count);
+        const t0 = performance.now(), dur = 1400;
+        const step = (t: number) => {
+          const k = Math.min(1, (t - t0) / dur);
+          const v = Math.round(end * (1 - Math.pow(1 - k, 3)));
+          el.textContent = v.toLocaleString('en-US');
+          if (k < 1) requestAnimationFrame(step);
+        };
+        requestAnimationFrame(step);
+      });
+    }, { threshold: 0.4 });
+    els.forEach((el) => io.observe(el));
+  }
+</script>
+
+<style>
+  .chero {
+    position: relative; overflow: hidden; isolation: isolate; color: #fff;
+    background:
+      radial-gradient(1100px 560px at 85% 10%, rgba(0,153,255,.12), transparent 60%),
+      linear-gradient(180deg, #0B1626 0%, #0A1220 60%, #0B0F14 100%);
+  }
+  .cin { position: relative; z-index: 1; padding-block: 84px 72px; display: flex; flex-direction: column; gap: 20px; }
+  .k-dark { color: var(--blue-soft); margin: 0; }
+  h1 { font-family: var(--display); font-weight: 700; font-size: clamp(38px, 5.4vw, 60px); line-height: 1.05; max-width: 900px; }
+  .accent { color: var(--blue); }
+  .lead { font-size: 19px; color: var(--on-dark); max-width: 760px; }
+  .cm { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 10px; margin: 18px 0 0; }
+  .cm div { background: rgba(14,22,34,.72); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); border: 1px solid rgba(80,120,160,.25); border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 4px; }
+  .cm dd { margin: 0; font-size: clamp(22px, 2.4vw, 30px); color: #fff; font-variant-numeric: tabular-nums; }
+  .cm dt { font-size: 12px; color: #9AA7B5; }
+  .note { font-size: 12px; color: #6F7C8A; }
+  @media (max-width: 1000px) { .cm { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+  @media (max-width: 560px) { .cm { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+  .csec { padding-block: 80px 8px; }
+  .csec.last { padding-bottom: 88px; }
+  .two-col { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr)); gap: 40px; align-items: start; }
+  .stack { display: flex; flex-direction: column; gap: 14px; }
+  .big { font-size: 18px; }
+  .mb { margin-bottom: 32px; }
+  .light { color: #fff; }
+  .mods { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: 16px; }
+  .mod { padding: 24px; display: flex; flex-direction: column; gap: 8px; }
+  .mod .num { color: var(--blue-text); font-size: 13px; }
+  .mod h3 { font-size: 18px; font-weight: 600; }
+
+  .arch-sec { margin-top: 80px; background: linear-gradient(180deg, #0B1626, #0A1220); }
+  .arch-sec .csec { padding-block: 72px; }
+  .arch { width: 100%; max-width: 860px; display: block; margin: 0 auto; height: auto; }
+  .node rect { transition: stroke .2s ease; }
+  .node:hover rect { stroke: #0099FF; }
+
+  .st { margin-top: 28px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; font-size: 12px; }
+  .chips span { border: 1px solid #D5DBE2; border-radius: 999px; padding: 6px 12px; }
+  .tl { list-style: none; margin: 0; padding: 0 0 0 22px; border-left: 2px solid #D5E6F5; display: flex; flex-direction: column; gap: 22px; }
+  .tl li { position: relative; display: flex; flex-direction: column; gap: 2px; color: #36414D; }
+  .tl li::before { content: ''; position: absolute; left: -29px; top: 6px; width: 12px; height: 12px; border-radius: 50%; background: #fff; border: 2px solid var(--blue); }
+  .tl li:last-child::before { background: var(--blue); }
+  .tl .y { color: var(--blue-text); font-size: 14px; font-weight: 500; }
+
+  .ccta {
+    position: relative; overflow: hidden; isolation: isolate; border-radius: 18px; padding: clamp(28px, 4vw, 48px);
+    background: linear-gradient(160deg, #0B1626 0%, #0A1220 60%, #0B0F14 100%);
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 24px;
+  }
+  .ccta > :not(canvas) { position: relative; z-index: 1; }
+  .ccta .h2 { margin-bottom: 8px; }
+  .on-dark { color: var(--on-dark); }
+  .cbtns { display: flex; flex-wrap: wrap; gap: 12px; }
+  .cm4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  @media (max-width: 1000px) { .cm4 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  .note a { color: var(--blue-soft); }
+  .hero-shot { margin: 0 auto; max-width: 1040px; border-radius: 16px; overflow: hidden; box-shadow: 0 24px 60px rgba(11,15,20,.18); }
+  .hero-shot img { display: block; width: 100%; height: auto; }
+  .feat-row { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 40px; align-items: center; }
+  .feat-row.flip > :first-child { order: 2; }
+  .shotfig { margin: 0; border-radius: 12px; overflow: hidden; box-shadow: 0 16px 40px rgba(11,15,20,.16); }
+  .shotfig img { display: block; width: 100%; height: auto; }
+  .h2.sm { font-size: clamp(26px, 3vw, 32px); }
+  @media (max-width: 900px) { .feat-row { grid-template-columns: 1fr; } .feat-row.flip > :first-child { order: 0; } }
+  @media (min-width: 900px) { .mods { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+  .demo { font-size: 12px; color: var(--muted-2); margin-top: 24px; }
+</style>

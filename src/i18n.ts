@@ -6,8 +6,8 @@ export const LINKEDIN_COMPANY = 'https://www.linkedin.com/company/samservicesllc
 export const LINKEDIN_PERSON = 'https://www.linkedin.com/in/arieskienmendoza/';
 
 export const paths = {
-  es: { home: '/', case: '/proyectos/gonichea/', casePaellas: '/proyectos/paellas-by-carlitin/', privacy: '/privacidad/', terms: '/terminos/', sms: '/sms/', accessibility: '/accesibilidad/' },
-  en: { home: '/en/', case: '/en/projects/gonichea/', casePaellas: '/en/projects/paellas-by-carlitin/', privacy: '/en/privacy/', terms: '/en/terms/', sms: '/en/sms/', accessibility: '/en/accessibility/' },
+  es: { home: '/', case: '/proyectos/gonichea/', casePaellas: '/proyectos/paellas-by-carlitin/', casePbx: '/proyectos/sam-pbx/', privacy: '/privacidad/', terms: '/terminos/', sms: '/sms/', accessibility: '/accesibilidad/' },
+  en: { home: '/en/', case: '/en/projects/gonichea/', casePaellas: '/en/projects/paellas-by-carlitin/', casePbx: '/en/projects/sam-pbx/', privacy: '/en/privacy/', terms: '/en/terms/', sms: '/en/sms/', accessibility: '/en/accessibility/' },
 } as const;
 
 export const t = {
@@ -96,7 +96,7 @@ export const t = {
         client: 'Sam PBX · Producto propio',
         title: 'Portal de telefonía FusionPBX',
         text: 'Portal propio para administrar centrales FusionPBX, con funciones personalizadas, acceso seguro y en español e inglés.',
-        link: 'Ir al portal',
+        link: 'Ver caso',
       },
     },
     about: {
@@ -214,7 +214,7 @@ export const t = {
         client: 'Sam PBX · Our own product',
         title: 'FusionPBX phone portal',
         text: 'Our own portal to manage FusionPBX phone systems, with custom features, secure access, in English and Spanish.',
-        link: 'Go to the portal',
+        link: 'Read the case',
       },
     },
     about: {

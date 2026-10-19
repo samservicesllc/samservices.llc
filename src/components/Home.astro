@@ -91,14 +91,14 @@ const pos: [number, number][] = [[70, 60], [370, 60], [60, 150], [380, 150], [70
       </div>
     </article>
     <article class="card mini reveal">
-      <a href="https://portal.pbx.samservices.llc/login" rel="noopener" class="shot" tabindex="-1" aria-hidden="true">
-        <img src="/img/sam-pbx.webp" alt="" width="1200" height="750" loading="lazy" decoding="async" />
+      <a href={paths[lang].casePbx} class="shot" tabindex="-1" aria-hidden="true">
+        <img src="/img/sampbx-case.webp" alt="" width="1200" height="750" loading="lazy" decoding="async" />
       </a>
       <div class="pbody">
         <p class="client">{c.projects.pbx.client}</p>
         <h3>{c.projects.pbx.title}</h3>
         <p class="muted">{c.projects.pbx.text}</p>
-        <a href="https://portal.pbx.samservices.llc/login" rel="noopener" class="more">{c.projects.pbx.link} <span aria-hidden="true">→</span></a>
+        <a href={paths[lang].casePbx} class="more">{c.projects.pbx.link} <span aria-hidden="true">→</span></a>
       </div>
     </article>
   </div>
