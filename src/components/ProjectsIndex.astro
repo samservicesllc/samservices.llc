@@ -1,0 +1,105 @@
+---
+import NeuralBg from './NeuralBg.astro';
+import { paths, SITE, type Lang } from '../i18n';
+import { projects, categories, type Category } from '../projects';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const es = lang === 'es';
+const T = es
+  ? { kicker: 'Proyectos', h1a: 'Todo lo que hemos', h1b: 'construido.', lead: 'Software a la medida, sitios web y telefonía para empresas en EE. UU. Cada proyecto con su caso completo: el reto, lo que construimos y los resultados.', all: 'Todos', view: 'Ver caso', ctaT: '¿Su proyecto aquí?', ctaP: 'Cuéntenos qué necesita su negocio.', cta: 'Hablemos', filter: 'Filtrar proyectos' }
+  : { kicker: 'Projects', h1a: 'Everything we have', h1b: 'built.', lead: 'Custom software, websites and phone systems for US businesses. Each project with its full case study: the challenge, what we built and the results.', all: 'All', view: 'Read the case', ctaT: 'Your project here?', ctaP: 'Tell us what your business needs.', cta: "Let's talk", filter: 'Filter projects' };
+const cats = Object.keys(categories) as Category[];
+const itemList = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  itemListElement: projects.map((p, i) => ({ '@type': 'ListItem', position: i + 1, url: new URL(p.href[lang], SITE).href, name: `${p.client[lang]} — ${p.title[lang]}` })),
+};
+---
+<script type="application/ld+json" set:html={JSON.stringify(itemList)} />
+<section class="phero" aria-labelledby="pt">
+  <NeuralBg density={0.7} />
+  <div class="wrap pin">
+    <p class="kicker k-dark mono rise">{T.kicker}</p>
+    <h1 id="pt" class="rise">{T.h1a} <span class="accent">{T.h1b}</span></h1>
+    <p class="lead rise rise-2">{T.lead}</p>
+  </div>
+</section>
+
+<section class="wrap psec">
+  <div class="filters" role="group" aria-label={T.filter}>
+    <button type="button" class="chip on" data-f="all" aria-pressed="true">{T.all} <span class="mono">{projects.length}</span></button>
+    {cats.map((k) => (
+      <button type="button" class="chip" data-f={k} aria-pressed="false">{categories[k][lang]} <span class="mono">{projects.filter((p) => p.category.includes(k)).length}</span></button>
+    ))}
+  </div>
+  <div class="pgrid">
+    {projects.map((p) => (
+      <article class="card pcard" data-cat={p.category.join(' ')}>
+        <a href={p.href[lang]} class="pimg" tabindex="-1" aria-hidden="true">
+          <img src={p.image} alt="" width={p.imageW} height={p.imageH} loading="lazy" decoding="async" />
+        </a>
+        <div class="pb">
+          <p class="client">{p.client[lang]}</p>
+          <h2><a href={p.href[lang]}>{p.title[lang]}</a></h2>
+          <p class="muted">{p.text[lang]}</p>
+          <dl class="pm mono">{p.metrics[lang].map(([n, l]) => <div><dd>{n}</dd><dt>{l}</dt></div>)}</dl>
+          <a class="more" href={p.href[lang]}>{T.view} <span aria-hidden="true">→</span></a>
+        </div>
+      </article>
+    ))}
+    <article class="card pcard ctacard">
+      <div class="pb">
+        <h2>{T.ctaT}</h2>
+        <p class="muted">{T.ctaP}</p>
+        <a class="btn btn-blue" href={`${paths[lang].home}#contacto`}>{T.cta}</a>
+      </div>
+    </article>
+  </div>
+</section>
+
+<script>
+  const btns = document.querySelectorAll<HTMLButtonElement>('.filters .chip');
+  const cards = document.querySelectorAll<HTMLElement>('.pcard[data-cat]');
+  btns.forEach((b) => b.addEventListener('click', () => {
+    const f = b.dataset.f!;
+    btns.forEach((x) => { const on = x === b; x.classList.toggle('on', on); x.setAttribute('aria-pressed', String(on)); });
+    cards.forEach((c) => { c.hidden = f !== 'all' && !c.dataset.cat!.split(' ').includes(f); });
+  }));
+</script>
+
+<style>
+  .phero { position: relative; overflow: hidden; isolation: isolate; color: #fff; background: linear-gradient(180deg, #0B1626 0%, #0A1220 60%, #0B0F14 100%); }
+  .pin { position: relative; z-index: 1; padding-block: 72px 64px; display: flex; flex-direction: column; gap: 18px; }
+  .k-dark { color: var(--blue-soft); margin: 0; }
+  h1 { font-family: var(--display); font-weight: 700; font-size: clamp(38px, 5.4vw, 58px); line-height: 1.05; }
+  .accent { color: var(--blue); }
+  .lead { font-size: 19px; color: var(--on-dark); max-width: 720px; }
+  .psec { padding-block: 40px 88px; }
+  .filters { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 26px; }
+  .chip { font: inherit; font-size: 14px; font-weight: 500; border: 1px solid #D5DBE2; background: #fff; color: var(--ink); border-radius: 999px; padding: 8px 14px; cursor: pointer; transition: border-color .15s ease, background-color .15s ease; }
+  .chip span { color: var(--muted-2); font-size: 12px; margin-left: 4px; }
+  .chip:hover { border-color: var(--blue); }
+  .chip.on { background: var(--ink); color: #fff; border-color: var(--ink); }
+  .chip.on span { color: var(--blue-soft); }
+  .pgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr)); gap: 20px; }
+  .pcard { overflow: hidden; display: flex; flex-direction: column; }
+  .pcard[hidden] { display: none; }
+  .pimg { display: block; aspect-ratio: 16 / 10; overflow: hidden; background: #0B1626; }
+  .pimg img { width: 100%; height: 100%; object-fit: cover; object-position: center top; display: block; transition: transform .5s ease; }
+  .pcard:hover .pimg img { transform: scale(1.03); }
+  .pb { padding: 22px; display: flex; flex-direction: column; gap: 10px; flex: 1; }
+  .client { font-size: 13px; font-weight: 600; color: var(--blue-text); }
+  .pb h2 { font-size: 21px; font-weight: 600; }
+  .pb h2 a { color: inherit; text-decoration: none; }
+  .pb h2 a:hover { color: var(--blue-text); }
+  .pm { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin: 4px 0; }
+  .pm div { background: var(--mist); border-radius: 8px; padding: 8px 10px; display: flex; flex-direction: column; }
+  .pm dd { margin: 0; font-size: 18px; }
+  .pm dt { font-size: 11px; color: var(--muted-2); }
+  .more { font-weight: 600; margin-top: auto; }
+  .ctacard { background: linear-gradient(160deg, #0B1626, #0B0F14); border-color: #1E2B3A; color: #fff; justify-content: center; }
+  .ctacard .pb { justify-content: center; align-items: flex-start; }
+  .ctacard h2 { font-family: var(--display); font-size: 30px; }
+  .ctacard .muted { color: var(--on-dark); }
+  @media (prefers-reduced-motion: reduce) { .pimg img { transition: none; } }
+</style>

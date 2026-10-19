@@ -1,0 +1,24 @@
+---
+import { paths, SITE, type Lang } from '../i18n';
+interface Props { lang: Lang; name: string; href: string }
+const { lang, name, href } = Astro.props;
+const label = lang === 'es' ? 'Proyectos' : 'Projects';
+const ld = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Sam Services LLC', item: new URL(paths[lang].home, SITE).href },
+    { '@type': 'ListItem', position: 2, name: label, item: new URL(paths[lang].projects, SITE).href },
+    { '@type': 'ListItem', position: 3, name, item: new URL(href, SITE).href },
+  ],
+};
+---
+<nav class="crumbs mono" aria-label={lang === 'es' ? 'Ruta' : 'Breadcrumb'}>
+  <a href={paths[lang].projects}>{label}</a> <span aria-hidden="true">›</span> <span aria-current="page">{name}</span>
+</nav>
+<script type="application/ld+json" set:html={JSON.stringify(ld)} />
+<style>
+  .crumbs { font-size: 13px; color: #9AA7B5; display: flex; gap: 8px; align-items: center; }
+  .crumbs a { color: var(--blue-soft); text-decoration: none; }
+  .crumbs a:hover { text-decoration: underline; }
+</style>

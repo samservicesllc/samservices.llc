@@ -1,5 +1,6 @@
 ---
 import NeuralBg from './NeuralBg.astro';
+import Crumbs from './Crumbs.astro';
 import { paths, type Lang } from '../i18n';
 interface Props { lang: Lang }
 const { lang } = Astro.props;
@@ -99,6 +100,7 @@ const fx = [90, 270, 450, 630, 810];
 <section class="chero" aria-labelledby="case-title">
   <NeuralBg />
   <div class="wrap cin">
+    <Crumbs lang={lang} name="Paellas by Carlitin" href={paths[lang].casePaellas} />
     <p class="kicker k-dark mono rise">{T.kicker}</p>
     <h1 id="case-title" class="rise">{T.h1a} <span class="accent">{T.h1b}</span></h1>
     <p class="lead rise rise-2">{T.lead}</p>

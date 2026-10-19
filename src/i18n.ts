@@ -6,8 +6,8 @@ export const LINKEDIN_COMPANY = 'https://www.linkedin.com/company/samservicesllc
 export const LINKEDIN_PERSON = 'https://www.linkedin.com/in/arieskienmendoza/';
 
 export const paths = {
-  es: { home: '/', case: '/proyectos/gonichea/', casePaellas: '/proyectos/paellas-by-carlitin/', casePbx: '/proyectos/sam-pbx/', privacy: '/privacidad/', terms: '/terminos/', sms: '/sms/', accessibility: '/accesibilidad/' },
-  en: { home: '/en/', case: '/en/projects/gonichea/', casePaellas: '/en/projects/paellas-by-carlitin/', casePbx: '/en/projects/sam-pbx/', privacy: '/en/privacy/', terms: '/en/terms/', sms: '/en/sms/', accessibility: '/en/accessibility/' },
+  es: { home: '/', projects: '/proyectos/', case: '/proyectos/gonichea/', casePaellas: '/proyectos/paellas-by-carlitin/', casePbx: '/proyectos/sam-pbx/', privacy: '/privacidad/', terms: '/terminos/', sms: '/sms/', accessibility: '/accesibilidad/' },
+  en: { home: '/en/', projects: '/en/projects/', case: '/en/projects/gonichea/', casePaellas: '/en/projects/paellas-by-carlitin/', casePbx: '/en/projects/sam-pbx/', privacy: '/en/privacy/', terms: '/en/terms/', sms: '/en/sms/', accessibility: '/en/accessibility/' },
 } as const;
 
 export const t = {
@@ -71,6 +71,7 @@ export const t = {
       h2: 'Resultados para clientes reales.',
       featured: 'Caso destacado',
       more: 'Otros proyectos',
+      all: 'Ver todos los proyectos',
       log: [
         ['ok', 'square.sync', 'pedidos importados'],
         ['ok', 'ebay.orders', 'inventario actualizado'],
@@ -127,7 +128,7 @@ export const t = {
       termsLink: 'Términos SMS',
       termsGeneral: 'Términos',
     },
-    footer: { rights: 'Naples, Florida', privacy: 'Privacidad', terms: 'Términos', sms: 'Términos SMS', accessibility: 'Accesibilidad' },
+    footer: { rights: 'Naples, Florida', projects: 'Proyectos', privacy: 'Privacidad', terms: 'Términos', sms: 'Términos SMS', accessibility: 'Accesibilidad' },
   },
   en: {
     htmlLang: 'en',
@@ -189,6 +190,7 @@ export const t = {
       h2: 'Results for real clients.',
       featured: 'Featured case',
       more: 'Other projects',
+      all: 'See all projects',
       log: [
         ['ok', 'square.sync', 'orders imported'],
         ['ok', 'ebay.orders', 'inventory updated'],
@@ -245,6 +247,6 @@ export const t = {
       termsLink: 'SMS Terms',
       termsGeneral: 'Terms',
     },
-    footer: { rights: 'Naples, Florida', privacy: 'Privacy', terms: 'Terms', sms: 'SMS Terms', accessibility: 'Accessibility' },
+    footer: { rights: 'Naples, Florida', projects: 'Projects', privacy: 'Privacy', terms: 'Terms', sms: 'SMS Terms', accessibility: 'Accessibility' },
   },
 } as const;

@@ -4,7 +4,7 @@ import { t, paths, SITE, EMAIL, LINKEDIN_COMPANY, LINKEDIN_PERSON, type Lang } f
 
 interface Props {
   lang: Lang;
-  page: 'home' | 'case' | 'casePaellas' | 'casePbx' | 'privacy' | 'terms' | 'sms' | 'accessibility' | '404';
+  page: 'home' | 'projects' | 'case' | 'casePaellas' | 'casePbx' | 'privacy' | 'terms' | 'sms' | 'accessibility' | '404';
   title?: string;
   description?: string;
   noindex?: boolean;
@@ -122,6 +122,7 @@ const schema = {
       <span>
         <a href={LINKEDIN_COMPANY} rel="noopener">LinkedIn</a> ·
         <a href={`mailto:${EMAIL}`}>{EMAIL}</a> ·
+        <a href={paths[lang].projects}>{c.footer.projects}</a> ·
         <a href={paths[lang].privacy}>{c.footer.privacy}</a> ·
         <a href={paths[lang].terms}>{c.footer.terms}</a> ·
         <a href={paths[lang].sms}>{c.footer.sms}</a> ·
