@@ -53,16 +53,16 @@ const pos: [number, number][] = [[70, 60], [370, 60], [60, 150], [380, 150], [70
           <div><dt>{l}</dt><dd>{n}</dd></div>
         ))}
       </dl>
-      <a class="stats-note mono" href={paths[lang].case}>{c.hero.statsNote} →</a>
+      <a class="stats-note mono tap" href={paths[lang].case}>{c.hero.statsNote} →</a>
     </div>
   </div>
 </section>
 
 <section id="proyectos" class="wrap sec fit" aria-labelledby="proj-title">
-  <p class="kicker"><a class="klink" href={paths[lang].projects}>{c.projects.kicker}</a></p>
+  <p class="kicker"><a class="klink tap" href={paths[lang].projects}>{c.projects.kicker}</a></p>
   <div class="hrow">
     <h2 id="proj-title" class="h2">{c.projects.h2}</h2>
-    <a class="allp" href={paths[lang].projects}>{c.projects.all} <span aria-hidden="true">→</span></a>
+    <a class="allp tap" href={paths[lang].projects}>{c.projects.all} <span aria-hidden="true">→</span></a>
   </div>
   <article class="card feat reveal">
     <a class="fimg" href={paths[lang].case} tabindex="-1" aria-hidden="true">
@@ -93,7 +93,7 @@ const pos: [number, number][] = [[70, 60], [370, 60], [60, 150], [380, 150], [70
           <p class="client">{p.client[lang]}</p>
           <h3>{p.title[lang]}</h3>
           <p class="muted">{p.text[lang]}</p>
-          <a href={p.href[lang]} class="more">{c.projects.paellas.link} <span aria-hidden="true">→</span></a>
+          <a href={p.href[lang]} class="more tap">{c.projects.paellas.link} <span aria-hidden="true">→</span></a>
         </div>
       </article>
     ))}
@@ -101,7 +101,6 @@ const pos: [number, number][] = [[70, 60], [370, 60], [60, 150], [380, 150], [70
 </section>
 
 <section id="servicios" class="wrap sec fit" aria-labelledby="svc-title">
-  <p class="kicker">{c.services.kicker}</p>
   <h2 id="svc-title" class="h2 narrow">{c.services.h2}</h2>
   <div class="grid4">
     {c.services.items.map(([k, title, text]) => (
@@ -117,7 +116,6 @@ const pos: [number, number][] = [[70, 60], [370, 60], [60, 150], [380, 150], [70
 <section id="calculadora" class="calc-sec fit" aria-labelledby="calc-title">
   <div class="wrap two">
     <div class="reveal stack">
-      <p class="kicker">{c.calc.kicker}</p>
       <h2 id="calc-title" class="h2">{c.calc.h2}</h2>
       <p class="muted big">{c.calc.lead}</p>
     </div>
@@ -148,12 +146,11 @@ const pos: [number, number][] = [[70, 60], [370, 60], [60, 150], [380, 150], [70
   <div class="about reveal">
     <div class="mark"><img src="/img/mark.png" alt="" width="320" height="203" loading="lazy" /></div>
     <div class="stack">
-      <p class="kicker">{c.about.kicker}</p>
       <h2 id="about-title" class="h2 sm">{c.about.h2}</h2>
       <p class="muted">{c.about.text}</p>
       <div class="chips mono">
         {c.about.chips.map((x) => <span>{x}</span>)}
-        <a href={LINKEDIN_PERSON} rel="noopener">{c.about.linkedin} →</a>
+        <a class="tap" href={LINKEDIN_PERSON} rel="noopener">{c.about.linkedin} →</a>
       </div>
     </div>
   </div>
@@ -185,6 +182,7 @@ const pos: [number, number][] = [[70, 60], [370, 60], [60, 150], [380, 150], [70
         <input id="f-phone" name="phone" type="tel" maxlength="25" autocomplete="tel" inputmode="tel" data-error={c.contact.phoneError} /></div>
       </div>
       <fieldset class="sms">
+        <legend>{c.contact.smsLegend}</legend>
         <label class="chk"><input type="checkbox" name="sms_care" value="yes" id="f-sms-care" /><span>{c.contact.smsCare}</span></label>
         <label class="chk"><input type="checkbox" name="sms_marketing" value="yes" id="f-sms-mkt" /><span>{c.contact.smsMkt}</span></label>
         <p class="fine">{c.contact.smsFine} <a href={paths[lang].sms}>{c.contact.termsLink}</a> · <a href={paths[lang].privacy}>{c.contact.privacyLink}</a></p>
@@ -200,11 +198,29 @@ const pos: [number, number][] = [[70, 60], [370, 60], [60, 150], [380, 150], [70
   </div>
 </section>
 
-{import.meta.env.PUBLIC_TURNSTILE_SITEKEY && (
-  <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
-)}
 
 <script>
+  // Turnstile (≈1.2 MB) loads only when the contact form is about to be used
+  const ts = document.querySelector('.cf-turnstile:not([hidden])');
+  if (ts) {
+    let loaded = false;
+    const load = () => {
+      if (loaded) return;
+      loaded = true;
+      const s = document.createElement('script');
+      s.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js';
+      s.async = true;
+      document.head.appendChild(s);
+      io?.disconnect();
+    };
+    const io = 'IntersectionObserver' in window
+      ? new IntersectionObserver((es) => es.some((e) => e.isIntersecting) && load(), { rootMargin: '600px 0px' })
+      : null;
+    const target = document.getElementById('contacto');
+    if (io && target) io.observe(target); else load();
+    document.getElementById('contact-form')?.addEventListener('focusin', load, { once: true });
+  }
+
   // Savings calculator
   const calc = document.getElementById('calc') as HTMLFormElement | null;
   if (calc) {
@@ -285,7 +301,7 @@ const pos: [number, number][] = [[70, 60], [370, 60], [60, 150], [380, 150], [70
     background:
       radial-gradient(1200px 600px at 80% 20%, rgba(0,153,255,.10), transparent 60%),
       radial-gradient(900px 500px at 10% 90%, rgba(0,90,180,.12), transparent 60%),
-      linear-gradient(180deg, #0B1626 0%, #0A1220 55%, #0B0F14 100%);
+      linear-gradient(180deg, var(--navy) 0%, var(--navy-2) 55%, var(--ink) 100%);
   }
   .hero::after {
     content: ''; position: absolute; inset: 0; z-index: 0; pointer-events: none;
@@ -297,7 +313,7 @@ const pos: [number, number][] = [[70, 60], [370, 60], [60, 150], [380, 150], [70
     gap: 56px; align-items: center; padding-block: 88px 96px;
   }
   .hero-copy { display: flex; flex-direction: column; gap: 22px; }
-  .status { display: flex; align-items: center; gap: 10px; font-size: 13px; letter-spacing: .06em; color: var(--blue-soft); }
+  .status { display: flex; align-items: center; gap: 10px; font-size: 13px; letter-spacing: .03em; color: var(--blue-soft); }
   .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); display: inline-block; }
   h1 { font-family: var(--display); font-weight: 700; font-size: clamp(40px, 5.6vw, 62px); line-height: 1.04; }
   .accent { color: var(--blue); }
@@ -305,19 +321,19 @@ const pos: [number, number][] = [[70, 60], [370, 60], [60, 150], [380, 150], [70
   .actions { display: flex; flex-wrap: wrap; gap: 12px; padding-top: 6px; }
 
   .panel { background: rgba(14,22,34,.72); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); border: 1px solid rgba(80,120,160,.25); border-radius: 16px; padding: 22px; }
-  .panel-top { display: flex; justify-content: space-between; font-size: 12px; color: #8A96A3; padding-bottom: 12px; }
+  .panel-top { display: flex; justify-content: space-between; font-size: 12px; color: var(--on-dark-3); padding-bottom: 12px; }
   .ok { color: var(--green); }
   .diagram { width: 100%; height: auto; display: block; }
   .node rect { transition: stroke .2s ease; }
-  .node:hover rect { stroke: #0099FF; }
+  .node:hover rect { stroke: var(--blue); }
   .stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin: 14px 0 0; }
   .stats div { background: rgba(8,13,22,.8); border-radius: 8px; padding: 12px; display: flex; flex-direction: column-reverse; }
   .stats dd { margin: 0; font-size: 20px; color: #fff; }
-  .stats dt { font-size: 11px; color: #8A96A3; }
+  .stats dt { font-size: 11px; color: var(--on-dark-3); }
   .stats-note { display: block; font-size: 12px; color: var(--blue-soft); margin-top: 12px; text-align: right; text-decoration: none; }
   .stats-note:hover { color: #fff; }
 
-  .calc-sec { background: var(--mist); border-bottom: 1px solid #E6EAEF; }
+  .calc-sec { background: var(--mist); border-bottom: 1px solid var(--line); }
   .two {
     display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr));
     gap: 48px; align-items: center; padding-block: 88px;
@@ -331,13 +347,13 @@ const pos: [number, number][] = [[70, 60], [370, 60], [60, 150], [380, 150], [70
   .field output { color: var(--blue-text); white-space: nowrap; }
   input[type=range] {
     --p: 50%;
-    -webkit-appearance: none; appearance: none; width: 100%; height: 28px; background: transparent; cursor: pointer;
+    -webkit-appearance: none; appearance: none; width: 100%; height: 44px; background: transparent; cursor: pointer;
   }
   input[type=range]::-webkit-slider-runnable-track {
     height: 6px; border-radius: 3px;
-    background: linear-gradient(to right, var(--blue) var(--p), #DCE3EA var(--p));
+    background: linear-gradient(to right, var(--blue) var(--p), var(--track) var(--p));
   }
-  input[type=range]::-moz-range-track { height: 6px; border-radius: 3px; background: #DCE3EA; }
+  input[type=range]::-moz-range-track { height: 6px; border-radius: 3px; background: var(--track); }
   input[type=range]::-moz-range-progress { height: 6px; border-radius: 3px; background: var(--blue); }
   input[type=range]::-webkit-slider-thumb {
     -webkit-appearance: none; width: 22px; height: 22px; margin-top: -8px; border-radius: 50%;
@@ -374,17 +390,18 @@ const pos: [number, number][] = [[70, 60], [370, 60], [60, 150], [380, 150], [70
 
   .grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr)); gap: 22px; }
   .proj { overflow: hidden; display: flex; flex-direction: column; }
-  .term { background: var(--ink); padding: 22px; font-size: 13px; line-height: 1.85; color: #8A96A3; min-height: 190px; display: flex; flex-direction: column; justify-content: center; }
+  .term { background: var(--ink); padding: 22px; font-size: 13px; line-height: 1.85; color: var(--on-dark-3); min-height: 190px; display: flex; flex-direction: column; justify-content: center; }
   .term .g { color: var(--green); }
   .term .b { color: var(--blue); }
-  .term .w { color: #D7DEE6; }
+  .term .w { color: var(--on-dark-hi); }
   .ln { animation: rise .5s ease both; animation-delay: calc(var(--i) * .25s + .3s); }
-  .feat { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); overflow: hidden; border-color: #CFE3F5; }
-  .fimg { position: relative; display: block; overflow: hidden; background: #0B1626; min-height: 100%; }
+  .feat { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); overflow: hidden; border-color: var(--blue-wash); }
+  .fimg { position: relative; display: block; overflow: hidden; background: var(--navy); min-height: 100%; }
   .fimg img { object-position: center top; position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .6s ease; }
   .feat:hover .fimg img { transform: scale(1.03); }
   .fimg .tag { position: absolute; left: 16px; bottom: 16px; background: rgba(11,15,20,.82); color: var(--blue-soft); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; padding: 6px 10px; border-radius: 6px; }
   .feat .pbody { padding: 28px; gap: 12px; }
+  .feat .muted, .about .muted { max-width: var(--measure); }
   .feat h3 { font-size: 26px; }
   .fm { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin: 6px 0; }
   .fm div { background: var(--mist); border-radius: 10px; padding: 12px; display: flex; flex-direction: column; }
@@ -415,7 +432,8 @@ const pos: [number, number][] = [[70, 60], [370, 60], [60, 150], [380, 150], [70
     .cform { gap: 4px; }
     .cform label { font-size: 13px; }
     .cform input, .cform textarea { padding: 9px 12px; }
-    .sms { padding: 10px 12px; gap: 6px; }
+    .sms { padding: 6px 0 0; margin-top: 4px; gap: 4px; }
+    .sms legend { font-size: 13px; margin-bottom: 0; }
     .sms .fine { font-size: 11px; }
     .cform .chk { font-size: 13px; }
     .cform .btn { margin-top: 6px; padding: 11px 18px; }
@@ -449,7 +467,7 @@ const pos: [number, number][] = [[70, 60], [370, 60], [60, 150], [380, 150], [70
   .mark { background: var(--mist); border-radius: 12px; aspect-ratio: 1; display: grid; place-items: center; padding: 36px; }
   .mark img { width: 100%; height: auto; }
   .chips { display: flex; flex-wrap: wrap; gap: 8px; font-size: 12px; align-items: center; }
-  .chips span { border: 1px solid #D5DBE2; border-radius: 999px; padding: 6px 12px; }
+  .chips span { border: 1px solid var(--line-strong); border-radius: 999px; padding: 6px 12px; }
   .chips a { margin-left: 4px; font-weight: 500; }
   @media (max-width: 720px) {
     .about { grid-template-columns: 1fr; padding: 24px; }
@@ -458,7 +476,7 @@ const pos: [number, number][] = [[70, 60], [370, 60], [60, 150], [380, 150], [70
 
   .contact {
     position: relative; overflow: hidden; isolation: isolate;
-    background: linear-gradient(160deg, #0B1626 0%, #0A1220 60%, #0B0F14 100%); color: #fff; border-radius: 18px; padding: clamp(24px, 4vw, 44px);
+    background: linear-gradient(160deg, var(--navy) 0%, var(--navy-2) 60%, var(--ink) 100%); color: #fff; border-radius: 18px; padding: clamp(24px, 4vw, 44px);
     display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); gap: 44px;
   }
   .contact > :not(canvas) { position: relative; z-index: 1; }
@@ -471,7 +489,7 @@ const pos: [number, number][] = [[70, 60], [370, 60], [60, 150], [380, 150], [70
   .cform .g2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; align-items: end; }
   @media (max-width: 560px) { .cform .g2 { grid-template-columns: 1fr; } }
   .cform input, .cform textarea {
-    padding: 11px 13px; border-radius: 8px; border: 1px solid #39434F; background: rgba(14,22,34,.88);
+    padding: 11px 13px; border-radius: 8px; border: 1px solid var(--field-line); background: rgba(14,22,34,.88);
     color: #fff; font-size: 16px; font-family: inherit; transition: border-color .15s ease;
   }
   .cform input:focus, .cform textarea:focus { outline: none; border-color: var(--blue); box-shadow: 0 0 0 3px rgba(0,153,255,.25); }
@@ -481,10 +499,11 @@ const pos: [number, number][] = [[70, 60], [370, 60], [60, 150], [380, 150], [70
   .sendrow .fine { flex: 1 1 200px; margin: 8px 0 0; }
   .cform .btn:disabled { opacity: .6; cursor: progress; }
   .hp { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
-  .fine { font-size: 13px; color: #8A96A3; }
-  .sms { border: 1px solid #2D3846; border-radius: 10px; padding: 12px 14px; margin: 6px 0 0; display: flex; flex-direction: column; gap: 8px; }
-  .sms .fine { font-size: 12px; line-height: 1.5; }
-  .cform .chk { display: flex; gap: 10px; align-items: flex-start; font-weight: 400; font-size: 14px; color: #D7DEE6; margin: 0; cursor: pointer; }
+  .fine { font-size: 13px; color: var(--on-dark-3); }
+  .sms { border: 0; border-top: 1px solid var(--line-dark); padding: 12px 0 0; margin: 8px 0 0; min-width: 0; display: flex; flex-direction: column; gap: 8px; }
+  .sms legend { float: left; width: 100%; padding: 0; margin-bottom: 2px; font-size: 14px; font-weight: 500; color: #fff; }
+  .sms .fine { font-size: 12px; line-height: 1.5; max-width: var(--measure); }
+  .cform .chk { display: flex; gap: 10px; align-items: flex-start; font-weight: 400; font-size: 14px; color: var(--on-dark-hi); margin: 0; cursor: pointer; }
   .cform .chk input { width: 18px; height: 18px; margin: 2px 0 0; padding: 0; flex: none; accent-color: var(--blue); }
   .fine a, .form-status a { color: var(--blue-soft); }
   .form-status:empty { display: none; }

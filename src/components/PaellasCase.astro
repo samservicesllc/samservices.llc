@@ -7,7 +7,6 @@ const { lang } = Astro.props;
 
 const T = {
   es: {
-    kicker: 'Caso · Paellas by Carlitin',
     h1a: 'Un sitio que convierte visitas',
     h1b: 'en cotizaciones.',
     lead: 'Diseñamos y desarrollamos el sitio de Paellas by Carlitin, catering de paella española cocinada en vivo en Miami y el sur de Florida: identidad propia, planificador interactivo, cotización en un toque y SEO local en 5 idiomas.',
@@ -19,13 +18,11 @@ const T = {
     ],
     metricsNote: 'Sitio en producción en paellasbycarlitin.com (oct. 2026).',
     visit: 'Ver el sitio',
-    ctxK: 'El reto',
     ctxH: 'Un negocio que se vive en persona, explicado en una pantalla.',
     ctxP: [
       'Paellas by Carlitin cocina paellas gigantes frente a los invitados en bodas, cumpleaños y fiestas de Miami-Dade, Broward y los Cayos. Su público en el sur de Florida es multicultural.',
       'Necesitaba un sitio que transmitiera la experiencia, respondiera las dudas antes de que el cliente preguntara y llevara cada visita a una cotización, desde el celular y en el idioma de cada cliente.',
     ],
-    modK: 'Qué construimos',
     modH: 'De la primera búsqueda a la cotización.',
     modules: [
       ['Identidad visual', 'Una portada con la historia “de la Gran Vía de Madrid a Miami”, fotos reales del chef y de los eventos.'],
@@ -35,11 +32,9 @@ const T = {
       ['SEO local', '16 zonas de servicio, preguntas frecuentes y datos estructurados (Organization, Service, FAQPage).'],
       ['Rápido y ligero', 'Sitio estático, móvil primero, servido desde la red de Cloudflare.'],
     ],
-    planK: 'Planificador interactivo',
     planH: 'El cliente arma su paella antes de escribir.',
     planP: 'Con un control elige cuántos invitados tendrá y qué paellas quiere. El sitio calcula las paelleras y el plan pasa directo a la cotización, así el chef responde con el menú ya definido.',
     planAlt: 'Planificador de paellas del sitio paellasbycarlitin.com',
-    flowK: 'Recorrido del cliente',
     flowH: 'Cada paso lleva al siguiente.',
     flowLabel: 'Recorrido: búsqueda en Google, sitio en 5 idiomas, planificador, WhatsApp o formulario, cotización',
     flow: ['Google', 'Sitio en 5 idiomas', 'Planificador', 'WhatsApp / formulario', 'Cotización'],
@@ -51,7 +46,6 @@ const T = {
     back: 'Volver al inicio',
   },
   en: {
-    kicker: 'Case study · Paellas by Carlitin',
     h1a: 'A website that turns visits',
     h1b: 'into quote requests.',
     lead: 'We designed and built the website for Paellas by Carlitin, a live Spanish paella catering business in Miami and South Florida: its own identity, an interactive planner, one-tap quotes and local SEO in 5 languages.',
@@ -63,13 +57,11 @@ const T = {
     ],
     metricsNote: 'Live at paellasbycarlitin.com (Oct 2026).',
     visit: 'Visit the site',
-    ctxK: 'The challenge',
     ctxH: 'A business you live in person, explained on a screen.',
     ctxP: [
       'Paellas by Carlitin cooks giant paellas in front of guests at weddings, birthdays and parties across Miami-Dade, Broward and the Keys. Its South Florida audience is multicultural.',
       'It needed a site that conveys the experience, answers questions before customers ask, and takes every visit to a quote request, on mobile and in each customer’s language.',
     ],
-    modK: 'What we built',
     modH: 'From the first search to the quote.',
     modules: [
       ['Visual identity', 'A home page with the “from Madrid’s Gran Vía to Miami” story, real photos of the chef and events.'],
@@ -79,11 +71,9 @@ const T = {
       ['Local SEO', '16 service areas, FAQs and structured data (Organization, Service, FAQPage).'],
       ['Fast and light', 'Static, mobile-first site served from Cloudflare’s network.'],
     ],
-    planK: 'Interactive planner',
     planH: 'Customers build their paella before they write.',
     planP: 'With one slider they set the guest count and pick their paellas. The site works out the pans and the plan goes straight into the quote, so the chef replies with the menu already defined.',
     planAlt: 'Paella planner on paellasbycarlitin.com',
-    flowK: 'Customer journey',
     flowH: 'Every step leads to the next.',
     flowLabel: 'Journey: Google search, site in 5 languages, planner, WhatsApp or form, quote',
     flow: ['Google', 'Site in 5 languages', 'Planner', 'WhatsApp / form', 'Quote'],
@@ -101,13 +91,12 @@ const fx = [90, 270, 450, 630, 810];
   <NeuralBg />
   <div class="wrap cin">
     <Crumbs lang={lang} name="Paellas by Carlitin" href={paths[lang].casePaellas} />
-    <p class="kicker k-dark mono rise">{T.kicker}</p>
     <h1 id="case-title" class="rise">{T.h1a} <span class="accent">{T.h1b}</span></h1>
     <p class="lead rise rise-2">{T.lead}</p>
     <dl class="cm cm4 mono rise rise-2">
       {T.metrics.map(([n, l]) => <div><dd data-count={n}>{n}</dd><dt>{l}</dt></div>)}
     </dl>
-    <p class="note mono">{T.metricsNote} <a href="https://paellasbycarlitin.com/" rel="noopener">{T.visit} →</a></p>
+    <p class="note mono">{T.metricsNote} <a class="tap" href="https://paellasbycarlitin.com/" rel="noopener">{T.visit} →</a></p>
   </div>
 </section>
 
@@ -119,7 +108,6 @@ const fx = [90, 270, 450, 630, 810];
 
 <section class="wrap csec two-col">
   <div class="reveal">
-    <p class="kicker">{T.ctxK}</p>
     <h2 class="h2">{T.ctxH}</h2>
   </div>
   <div class="reveal stack">
@@ -128,7 +116,6 @@ const fx = [90, 270, 450, 630, 810];
 </section>
 
 <section class="wrap csec">
-  <p class="kicker">{T.modK}</p>
   <h2 class="h2 mb">{T.modH}</h2>
   <div class="mods">
     {T.modules.map(([h, p], i) => (
@@ -143,7 +130,6 @@ const fx = [90, 270, 450, 630, 810];
 
 <section class="wrap csec two-col plan">
   <div class="reveal stack">
-    <p class="kicker">{T.planK}</p>
     <h2 class="h2">{T.planH}</h2>
     <p class="muted big">{T.planP}</p>
   </div>
@@ -152,7 +138,6 @@ const fx = [90, 270, 450, 630, 810];
 
 <section class="arch-sec">
   <div class="wrap csec">
-    <p class="kicker k-dark">{T.flowK}</p>
     <h2 class="h2 mb light">{T.flowH}</h2>
     <svg role="img" aria-label={T.flowLabel} viewBox="0 0 900 120" class="flowsvg reveal">
       <g fill="none" stroke="#0099FF" stroke-width="1.8">
@@ -221,18 +206,18 @@ const fx = [90, 270, 450, 630, 810];
     position: relative; overflow: hidden; isolation: isolate; color: #fff;
     background:
       radial-gradient(1100px 560px at 85% 10%, rgba(0,153,255,.12), transparent 60%),
-      linear-gradient(180deg, #0B1626 0%, #0A1220 60%, #0B0F14 100%);
+      linear-gradient(180deg, var(--navy) 0%, var(--navy-2) 60%, var(--ink) 100%);
   }
   .cin { position: relative; z-index: 1; padding-block: 84px 72px; display: flex; flex-direction: column; gap: 20px; }
   .k-dark { color: var(--blue-soft); margin: 0; }
   h1 { font-family: var(--display); font-weight: 700; font-size: clamp(38px, 5.4vw, 60px); line-height: 1.05; max-width: 900px; }
   .accent { color: var(--blue); }
-  .lead { font-size: 19px; color: var(--on-dark); max-width: 760px; }
+  .lead { font-size: 19px; color: var(--on-dark); max-width: 62ch; }
   .cm { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 10px; margin: 18px 0 0; }
   .cm div { background: rgba(14,22,34,.72); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); border: 1px solid rgba(80,120,160,.25); border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 4px; }
   .cm dd { margin: 0; font-size: clamp(22px, 2.4vw, 30px); color: #fff; font-variant-numeric: tabular-nums; }
-  .cm dt { font-size: 12px; color: #9AA7B5; }
-  .note { font-size: 12px; color: #6F7C8A; }
+  .cm dt { font-size: 12px; color: var(--on-dark-2); }
+  .note { font-size: 12px; color: var(--note-dark); }
   @media (max-width: 1000px) { .cm { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
   @media (max-width: 560px) { .cm { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 
@@ -248,24 +233,24 @@ const fx = [90, 270, 450, 630, 810];
   .mod .num { color: var(--blue-text); font-size: 13px; }
   .mod h3 { font-size: 18px; font-weight: 600; }
 
-  .arch-sec { margin-top: 80px; background: linear-gradient(180deg, #0B1626, #0A1220); }
+  .arch-sec { margin-top: 80px; background: linear-gradient(180deg, var(--navy), var(--navy-2)); }
   .arch-sec .csec { padding-block: 72px; }
   .arch { width: 100%; max-width: 860px; display: block; margin: 0 auto; height: auto; }
   .node rect { transition: stroke .2s ease; }
-  .node:hover rect { stroke: #0099FF; }
+  .node:hover rect { stroke: var(--blue); }
 
   .st { margin-top: 28px; }
   .chips { display: flex; flex-wrap: wrap; gap: 8px; font-size: 12px; }
-  .chips span { border: 1px solid #D5DBE2; border-radius: 999px; padding: 6px 12px; }
-  .tl { list-style: none; margin: 0; padding: 0 0 0 22px; border-left: 2px solid #D5E6F5; display: flex; flex-direction: column; gap: 22px; }
-  .tl li { position: relative; display: flex; flex-direction: column; gap: 2px; color: #36414D; }
+  .chips span { border: 1px solid var(--line-strong); border-radius: 999px; padding: 6px 12px; }
+  .tl { list-style: none; margin: 0; padding: 0 0 0 22px; border-left: 2px solid var(--blue-wash); display: flex; flex-direction: column; gap: 22px; }
+  .tl li { position: relative; display: flex; flex-direction: column; gap: 2px; color: var(--body-2); }
   .tl li::before { content: ''; position: absolute; left: -29px; top: 6px; width: 12px; height: 12px; border-radius: 50%; background: #fff; border: 2px solid var(--blue); }
   .tl li:last-child::before { background: var(--blue); }
   .tl .y { color: var(--blue-text); font-size: 14px; font-weight: 500; }
 
   .ccta {
     position: relative; overflow: hidden; isolation: isolate; border-radius: 18px; padding: clamp(28px, 4vw, 48px);
-    background: linear-gradient(160deg, #0B1626 0%, #0A1220 60%, #0B0F14 100%);
+    background: linear-gradient(160deg, var(--navy) 0%, var(--navy-2) 60%, var(--ink) 100%);
     display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 24px;
   }
   .ccta > :not(canvas) { position: relative; z-index: 1; }

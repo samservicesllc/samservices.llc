@@ -7,7 +7,6 @@ const { lang } = Astro.props;
 
 const T = {
   es: {
-    kicker: 'Caso destacado · Gonichea',
     h1a: 'El sistema que mueve',
     h1b: '10 sedes en 7 estados.',
     lead: 'Construimos y mantenemos el backend de Gonichea, distribuidor de HVAC y electrodomésticos, en producción desde 2018: una sola plataforma para tiendas, almacenes, marketplaces y envíos.',
@@ -20,13 +19,11 @@ const T = {
       ['1218', 'reclamos de garantía gestionados'],
     ],
     metricsNote: 'Datos del sistema en producción, septiembre 2018 – octubre 2026.',
-    ctxK: 'El reto',
     ctxH: 'Una operación en muchos lugares, una sola fuente de verdad.',
     ctxP: [
       'Gonichea vende en tiendas físicas de Naples, Atlanta, Charlotte, Greensboro, Richmond, Houston, Dallas, Austin, Los Ángeles y Las Vegas, y además en eBay, Walmart y Shopify.',
       'Cada venta tiene que descontar el inventario correcto, cobrarse, facturarse, enviarse y, si hace falta, atenderse en garantía. Sin un sistema central, eso se convierte en hojas de cálculo, doble captura y errores de stock.',
     ],
-    modK: 'Qué construimos',
     modH: 'Un backend a la medida, módulo por módulo.',
     modules: [
       ['Inventario multi-almacén', 'Existencias por sede y almacén: disponible, reservado y en tránsito, con movimientos y ajustes trazables.'],
@@ -38,12 +35,10 @@ const T = {
       ['Marketplaces', 'Publicaciones, precios, inventario y órdenes sincronizados con eBay, Walmart y Shopify.'],
       ['Catálogo web', 'El catálogo, precios y existencias de gonichea.com se alimentan de este backend.'],
     ],
-    archK: 'Arquitectura',
     archH: 'Todo conectado a un mismo núcleo.',
     archLabel: 'Diagrama: el backend de Gonichea en el centro, conectado con tiendas y Square, eBay, Walmart, Shopify, FedEx, almacenes y gonichea.com',
     core: ['Backend', 'Gonichea'],
     nodes: ['Tiendas · Square', 'eBay', 'Walmart', 'Shopify', 'FedEx', 'Almacenes', 'gonichea.com', 'Reportes'],
-    timeK: 'Trayectoria',
     timeH: 'Ocho años en producción.',
     timeline: [
       ['2018', 'Primeras facturas en el sistema (septiembre).'],
@@ -60,7 +55,6 @@ const T = {
     back: 'Volver al inicio',
   },
   en: {
-    kicker: 'Featured case · Gonichea',
     h1a: 'The system that runs',
     h1b: '10 locations in 7 states.',
     lead: 'We build and maintain the backend of Gonichea, an HVAC and appliance distributor, in production since 2018: one platform for stores, warehouses, marketplaces and shipping.',
@@ -73,13 +67,11 @@ const T = {
       ['1218', 'warranty claims handled'],
     ],
     metricsNote: 'Production system data, September 2018 – October 2026.',
-    ctxK: 'The challenge',
     ctxH: 'An operation in many places, one source of truth.',
     ctxP: [
       'Gonichea sells from stores in Naples, Atlanta, Charlotte, Greensboro, Richmond, Houston, Dallas, Austin, Los Angeles and Las Vegas, and also on eBay, Walmart and Shopify.',
       'Every sale has to reduce the right inventory, be paid, be invoiced, be shipped and, when needed, be handled under warranty. Without a central system, that turns into spreadsheets, double entry and stock errors.',
     ],
-    modK: 'What we built',
     modH: 'A custom backend, module by module.',
     modules: [
       ['Multi-warehouse inventory', 'Stock by location and warehouse: available, reserved and in transit, with traceable moves and adjustments.'],
@@ -91,12 +83,10 @@ const T = {
       ['Marketplaces', 'Listings, prices, inventory and orders synced with eBay, Walmart and Shopify.'],
       ['Web catalog', 'The catalog, prices and stock on gonichea.com are fed by this backend.'],
     ],
-    archK: 'Architecture',
     archH: 'Everything connected to one core.',
     archLabel: 'Diagram: Gonichea backend at the center, connected to stores and Square, eBay, Walmart, Shopify, FedEx, warehouses and gonichea.com',
     core: ['Gonichea', 'backend'],
     nodes: ['Stores · Square', 'eBay', 'Walmart', 'Shopify', 'FedEx', 'Warehouses', 'gonichea.com', 'Reports'],
-    timeK: 'Track record',
     timeH: 'Eight years in production.',
     timeline: [
       ['2018', 'First invoices in the system (September).'],
@@ -122,7 +112,6 @@ const R: [number, number][] = [[100, 70], [300, 40], [500, 70], [530, 200], [500
   <NeuralBg />
   <div class="wrap cin">
     <Crumbs lang={lang} name="Gonichea" href={paths[lang].case} />
-    <p class="kicker k-dark mono rise">{T.kicker}</p>
     <h1 id="case-title" class="rise">{T.h1a} <span class="accent">{T.h1b}</span></h1>
     <p class="lead rise rise-2">{T.lead}</p>
     <dl class="cm mono rise rise-2">
@@ -134,7 +123,6 @@ const R: [number, number][] = [[100, 70], [300, 40], [500, 70], [530, 200], [500
 
 <section class="wrap csec two-col">
   <div class="reveal">
-    <p class="kicker">{T.ctxK}</p>
     <h2 class="h2">{T.ctxH}</h2>
   </div>
   <div class="reveal stack">
@@ -143,7 +131,6 @@ const R: [number, number][] = [[100, 70], [300, 40], [500, 70], [530, 200], [500
 </section>
 
 <section class="wrap csec">
-  <p class="kicker">{T.modK}</p>
   <h2 class="h2 mb">{T.modH}</h2>
   <div class="mods">
     {T.modules.map(([h, p], i) => (
@@ -158,7 +145,6 @@ const R: [number, number][] = [[100, 70], [300, 40], [500, 70], [530, 200], [500
 
 <section class="arch-sec">
   <div class="wrap csec">
-    <p class="kicker k-dark">{T.archK}</p>
     <h2 class="h2 mb light">{T.archH}</h2>
     <svg role="img" aria-label={T.archLabel} viewBox="0 0 600 400" class="arch reveal">
       <g fill="none" stroke="#0099FF" stroke-width="1.6">
@@ -182,7 +168,6 @@ const R: [number, number][] = [[100, 70], [300, 40], [500, 70], [530, 200], [500
 
 <section class="wrap csec two-col">
   <div class="reveal">
-    <p class="kicker">{T.timeK}</p>
     <h2 class="h2">{T.timeH}</h2>
     <p class="kicker st">{T.stackK}</p>
     <div class="chips mono">{T.stack.map((x) => <span>{x}</span>)}</div>
@@ -236,18 +221,18 @@ const R: [number, number][] = [[100, 70], [300, 40], [500, 70], [530, 200], [500
     position: relative; overflow: hidden; isolation: isolate; color: #fff;
     background:
       radial-gradient(1100px 560px at 85% 10%, rgba(0,153,255,.12), transparent 60%),
-      linear-gradient(180deg, #0B1626 0%, #0A1220 60%, #0B0F14 100%);
+      linear-gradient(180deg, var(--navy) 0%, var(--navy-2) 60%, var(--ink) 100%);
   }
   .cin { position: relative; z-index: 1; padding-block: 84px 72px; display: flex; flex-direction: column; gap: 20px; }
   .k-dark { color: var(--blue-soft); margin: 0; }
   h1 { font-family: var(--display); font-weight: 700; font-size: clamp(38px, 5.4vw, 60px); line-height: 1.05; max-width: 900px; }
   .accent { color: var(--blue); }
-  .lead { font-size: 19px; color: var(--on-dark); max-width: 760px; }
+  .lead { font-size: 19px; color: var(--on-dark); max-width: 62ch; }
   .cm { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 10px; margin: 18px 0 0; }
   .cm div { background: rgba(14,22,34,.72); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); border: 1px solid rgba(80,120,160,.25); border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 4px; }
   .cm dd { margin: 0; font-size: clamp(22px, 2.4vw, 30px); color: #fff; font-variant-numeric: tabular-nums; }
-  .cm dt { font-size: 12px; color: #9AA7B5; }
-  .note { font-size: 12px; color: #6F7C8A; }
+  .cm dt { font-size: 12px; color: var(--on-dark-2); }
+  .note { font-size: 12px; color: var(--note-dark); }
   @media (max-width: 1000px) { .cm { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
   @media (max-width: 560px) { .cm { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 
@@ -263,24 +248,24 @@ const R: [number, number][] = [[100, 70], [300, 40], [500, 70], [530, 200], [500
   .mod .num { color: var(--blue-text); font-size: 13px; }
   .mod h3 { font-size: 18px; font-weight: 600; }
 
-  .arch-sec { margin-top: 80px; background: linear-gradient(180deg, #0B1626, #0A1220); }
+  .arch-sec { margin-top: 80px; background: linear-gradient(180deg, var(--navy), var(--navy-2)); }
   .arch-sec .csec { padding-block: 72px; }
   .arch { width: 100%; max-width: 860px; display: block; margin: 0 auto; height: auto; }
   .node rect { transition: stroke .2s ease; }
-  .node:hover rect { stroke: #0099FF; }
+  .node:hover rect { stroke: var(--blue); }
 
   .st { margin-top: 28px; }
   .chips { display: flex; flex-wrap: wrap; gap: 8px; font-size: 12px; }
-  .chips span { border: 1px solid #D5DBE2; border-radius: 999px; padding: 6px 12px; }
-  .tl { list-style: none; margin: 0; padding: 0 0 0 22px; border-left: 2px solid #D5E6F5; display: flex; flex-direction: column; gap: 22px; }
-  .tl li { position: relative; display: flex; flex-direction: column; gap: 2px; color: #36414D; }
+  .chips span { border: 1px solid var(--line-strong); border-radius: 999px; padding: 6px 12px; }
+  .tl { list-style: none; margin: 0; padding: 0 0 0 22px; border-left: 2px solid var(--blue-wash); display: flex; flex-direction: column; gap: 22px; }
+  .tl li { position: relative; display: flex; flex-direction: column; gap: 2px; color: var(--body-2); }
   .tl li::before { content: ''; position: absolute; left: -29px; top: 6px; width: 12px; height: 12px; border-radius: 50%; background: #fff; border: 2px solid var(--blue); }
   .tl li:last-child::before { background: var(--blue); }
   .tl .y { color: var(--blue-text); font-size: 14px; font-weight: 500; }
 
   .ccta {
     position: relative; overflow: hidden; isolation: isolate; border-radius: 18px; padding: clamp(28px, 4vw, 48px);
-    background: linear-gradient(160deg, #0B1626 0%, #0A1220 60%, #0B0F14 100%);
+    background: linear-gradient(160deg, var(--navy) 0%, var(--navy-2) 60%, var(--ink) 100%);
     display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 24px;
   }
   .ccta > :not(canvas) { position: relative; z-index: 1; }

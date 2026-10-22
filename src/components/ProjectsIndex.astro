@@ -6,8 +6,8 @@ interface Props { lang: Lang }
 const { lang } = Astro.props;
 const es = lang === 'es';
 const T = es
-  ? { kicker: 'Proyectos', h1a: 'Todo lo que hemos', h1b: 'construido.', lead: 'Software a la medida, sitios web y telefonía para empresas en EE. UU. Cada proyecto con su caso completo: el reto, lo que construimos y los resultados.', all: 'Todos', view: 'Ver caso', ctaT: '¿Su proyecto aquí?', ctaP: 'Cuéntenos qué necesita su negocio.', cta: 'Hablemos', filter: 'Filtrar proyectos' }
-  : { kicker: 'Projects', h1a: 'Everything we have', h1b: 'built.', lead: 'Custom software, websites and phone systems for US businesses. Each project with its full case study: the challenge, what we built and the results.', all: 'All', view: 'Read the case', ctaT: 'Your project here?', ctaP: 'Tell us what your business needs.', cta: "Let's talk", filter: 'Filter projects' };
+  ? { h1a: 'Todo lo que hemos', h1b: 'construido.', lead: 'Software a la medida, sitios web y telefonía para empresas en EE. UU. Cada proyecto con su caso completo: el reto, lo que construimos y los resultados.', all: 'Todos', view: 'Ver caso', ctaT: '¿Su proyecto aquí?', ctaP: 'Cuéntenos qué necesita su negocio.', cta: 'Hablemos', filter: 'Filtrar proyectos' }
+  : { h1a: 'Everything we have', h1b: 'built.', lead: 'Custom software, websites and phone systems for US businesses. Each project with its full case study: the challenge, what we built and the results.', all: 'All', view: 'Read the case', ctaT: 'Your project here?', ctaP: 'Tell us what your business needs.', cta: "Let's talk", filter: 'Filter projects' };
 const cats = Object.keys(categories) as Category[];
 const itemList = {
   '@context': 'https://schema.org',
@@ -19,7 +19,6 @@ const itemList = {
 <section class="phero" aria-labelledby="pt">
   <NeuralBg density={0.7} />
   <div class="wrap pin">
-    <p class="kicker k-dark mono rise">{T.kicker}</p>
     <h1 id="pt" class="rise">{T.h1a} <span class="accent">{T.h1b}</span></h1>
     <p class="lead rise rise-2">{T.lead}</p>
   </div>
@@ -43,7 +42,7 @@ const itemList = {
           <h2><a href={p.href[lang]}>{p.title[lang]}</a></h2>
           <p class="muted">{p.text[lang]}</p>
           <dl class="pm mono">{p.metrics[lang].map(([n, l]) => <div><dd>{n}</dd><dt>{l}</dt></div>)}</dl>
-          <a class="more" href={p.href[lang]}>{T.view} <span aria-hidden="true">→</span></a>
+          <a class="more tap" href={p.href[lang]}>{T.view} <span aria-hidden="true">→</span></a>
         </div>
       </article>
     ))}
@@ -68,15 +67,15 @@ const itemList = {
 </script>
 
 <style>
-  .phero { position: relative; overflow: hidden; isolation: isolate; color: #fff; background: linear-gradient(180deg, #0B1626 0%, #0A1220 60%, #0B0F14 100%); }
+  .phero { position: relative; overflow: hidden; isolation: isolate; color: #fff; background: linear-gradient(180deg, var(--navy) 0%, var(--navy-2) 60%, var(--ink) 100%); }
   .pin { position: relative; z-index: 1; padding-block: 72px 64px; display: flex; flex-direction: column; gap: 18px; }
   .k-dark { color: var(--blue-soft); margin: 0; }
   h1 { font-family: var(--display); font-weight: 700; font-size: clamp(38px, 5.4vw, 58px); line-height: 1.05; }
   .accent { color: var(--blue); }
-  .lead { font-size: 19px; color: var(--on-dark); max-width: 720px; }
+  .lead { font-size: 19px; color: var(--on-dark); max-width: 62ch; }
   .psec { padding-block: 40px 88px; }
   .filters { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 26px; }
-  .chip { font: inherit; font-size: 14px; font-weight: 500; border: 1px solid #D5DBE2; background: #fff; color: var(--ink); border-radius: 999px; padding: 8px 14px; cursor: pointer; transition: border-color .15s ease, background-color .15s ease; }
+  .chip { font: inherit; font-size: 14px; font-weight: 500; border: 1px solid var(--line-strong); background: #fff; color: var(--ink); border-radius: 999px; padding: 8px 14px; min-height: 44px; cursor: pointer; transition: border-color .15s ease, background-color .15s ease; }
   .chip span { color: var(--muted-2); font-size: 12px; margin-left: 4px; }
   .chip:hover { border-color: var(--blue); }
   .chip.on { background: var(--ink); color: #fff; border-color: var(--ink); }
@@ -84,7 +83,7 @@ const itemList = {
   .pgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr)); gap: 20px; }
   .pcard { overflow: hidden; display: flex; flex-direction: column; }
   .pcard[hidden] { display: none; }
-  .pimg { display: block; aspect-ratio: 16 / 10; overflow: hidden; background: #0B1626; }
+  .pimg { display: block; aspect-ratio: 16 / 10; overflow: hidden; background: var(--navy); }
   .pimg img { width: 100%; height: 100%; object-fit: cover; object-position: center top; display: block; transition: transform .5s ease; }
   .pcard:hover .pimg img { transform: scale(1.03); }
   .pb { padding: 22px; display: flex; flex-direction: column; gap: 10px; flex: 1; }
@@ -97,7 +96,7 @@ const itemList = {
   .pm dd { margin: 0; font-size: 18px; }
   .pm dt { font-size: 11px; color: var(--muted-2); }
   .more { font-weight: 600; margin-top: auto; }
-  .ctacard { background: linear-gradient(160deg, #0B1626, #0B0F14); border-color: #1E2B3A; color: #fff; justify-content: center; }
+  .ctacard { background: linear-gradient(160deg, var(--navy), var(--ink)); border-color: var(--line-dark); color: #fff; justify-content: center; }
   .ctacard .pb { justify-content: center; align-items: flex-start; }
   .ctacard h2 { font-family: var(--display); font-size: 30px; }
   .ctacard .muted { color: var(--on-dark); }

@@ -19,6 +19,22 @@
   --muted: #4A5562;
   --muted-2: #5B6672;
   --on-dark: #B9C3CE;
+  /* Extended palette (was hard-coded across components) */
+  --navy: #0B1626;          /* dark section gradient, top */
+  --navy-2: #0A1220;        /* dark section gradient, middle */
+  --panel: #13202F;         /* raised surface on dark */
+  --panel-line: #2D4256;    /* border on dark panels */
+  --field-line: #39434F;    /* input / ghost button border on dark */
+  --on-dark-hi: #D7DEE6;    /* strong text on dark */
+  --on-dark-2: #9AA7B5;     /* secondary text on dark */
+  --on-dark-3: #8A96A3;     /* tertiary text on dark (≥5.5:1 on --navy) */
+  --note-dark: #7A8796;     /* fine print on dark (≥5:1 on --navy) */
+  --body-2: #36414D;        /* long-form text on white */
+  --line-strong: #D5DBE2;   /* chips, outlines on white */
+  --track: #DCE3EA;         /* slider track */
+  --blue-wash: #D5E6F5;     /* light blue rails and borders */
+  --blue-hover: #005A9C;
+  --measure: 58ch;          /* ≈70 characters of IBM Plex Sans prose */
   --display: 'Zilla Slab', Georgia, serif;
   --sans: 'IBM Plex Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
   --mono: 'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace;
@@ -43,8 +59,10 @@ body {
 }
 img, svg { max-width: 100%; }
 a { color: var(--blue-text); }
-a:hover { color: #005A9C; }
+a:hover { color: var(--blue-hover); }
+a { text-underline-offset: .18em; }
 :focus-visible { outline: 3px solid var(--blue); outline-offset: 3px; border-radius: 4px; }
+::selection { background: var(--blue); color: var(--ink); }
 h1, h2, h3 { margin: 0; text-wrap: balance; }
 p { margin: 0; text-wrap: pretty; }
 [id] { scroll-margin-top: var(--hdr); }
@@ -83,7 +101,7 @@ p { margin: 0; text-wrap: pretty; }
 .btn-blue:hover { background: #33ADFF; color: var(--ink); }
 .btn-dark { background: var(--ink); color: #fff; }
 .btn-dark:hover { background: #222C38; color: #fff; }
-.btn-ghost { color: #fff; border-color: #39434F; }
+.btn-ghost { color: #fff; border-color: var(--field-line); }
 .btn-ghost:hover { border-color: var(--blue); color: #fff; }
 
 /* Cards */
@@ -113,6 +131,13 @@ p { margin: 0; text-wrap: pretty; }
   .card, .btn { transition: none; }
   .card:hover, .btn:hover { transform: none; }
   @view-transition { navigation: none; }
+}
+
+/* Touch screens: standalone text links get a ≥44px tall hit area without moving the layout
+   (vertical padding on inline links does not change the line box) */
+@media (pointer: coarse) {
+  .tap { padding-block: 12px; }
+  .site-footer a { padding-block: 13px; }
 }
 
 /* Short laptop screens (e.g. 1366x768): tighten so each section still fits */

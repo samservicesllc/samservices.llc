@@ -21,6 +21,7 @@ const pageTitle = title ?? c.title;
 const desc = description ?? c.description;
 const canonical = self ? new URL(self, SITE).href : undefined;
 const year = new Date().getFullYear();
+const menuLabel = lang === 'es' ? 'Menú' : 'Menu';
 
 const schema = {
   '@context': 'https://schema.org',
@@ -110,9 +111,42 @@ const schema = {
         <a class="nl" href={`${home}#nosotros`}>{c.nav.about}</a>
         <a class="lang" href={alt} hreflang={other} lang={other} aria-label={c.switchLabel}>{c.switchText}</a>
         <a class="btn btn-dark cta" href={`${home}#contacto`}>{c.nav.cta}</a>
+        <button class="menu-btn" type="button" aria-expanded="false" aria-controls="mnav" aria-label={menuLabel}>
+          <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path class="l1" d="M4 7h16"/><path class="l2" d="M4 12h16"/><path class="l3" d="M4 17h16"/></svg>
+        </button>
       </nav>
     </div>
+    <div id="mnav" class="mnav" hidden>
+      <div class="wrap mnav-in">
+        <a href={`${home}#proyectos`}>{c.nav.projects}</a>
+        <a href={paths[lang].projects}>{c.footer.projects}</a>
+        <a href={`${home}#servicios`}>{c.nav.services}</a>
+        <a href={`${home}#calculadora`}>{c.nav.calc}</a>
+        <a href={`${home}#nosotros`}>{c.nav.about}</a>
+        <a class="btn btn-blue" href={`${home}#contacto`}>{c.nav.cta}</a>
+      </div>
+    </div>
   </header>
+  <script>
+    const btn = document.querySelector('.menu-btn') as HTMLButtonElement | null;
+    const panel = document.getElementById('mnav');
+    if (btn && panel) {
+      const set = (open: boolean) => {
+        btn.setAttribute('aria-expanded', String(open));
+        panel.hidden = !open;
+        document.documentElement.classList.toggle('menu-open', open);
+      };
+      btn.addEventListener('click', () => set(panel.hidden));
+      panel.addEventListener('click', (e) => { if ((e.target as Element).closest('a')) set(false); });
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && !panel.hidden) { set(false); btn.focus(); }
+      });
+      document.addEventListener('click', (e) => {
+        if (!panel.hidden && !(e.target as Element).closest('.site-header')) set(false);
+      });
+      matchMedia('(min-width: 861px)').addEventListener('change', (m) => { if (m.matches) set(false); });
+    }
+  </script>
   <main id="main">
     <slot />
   </main>
@@ -139,7 +173,7 @@ const schema = {
     background: rgba(255,255,255,.86);
     -webkit-backdrop-filter: saturate(160%) blur(12px);
     backdrop-filter: saturate(160%) blur(12px);
-    border-bottom: 1px solid #E6EAEF;
+    border-bottom: 1px solid var(--line);
     view-transition-name: site-header;
   }
   .bar { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 12px; }
@@ -154,16 +188,43 @@ const schema = {
   .nl:hover::after { transform: scaleX(1); }
   .lang {
     font-family: var(--mono); font-size: 13px; color: var(--muted-2); text-decoration: none;
-    border: 1px solid #D5DBE2; border-radius: 6px; padding: 6px 10px;
+    border: 1px solid var(--line-strong); border-radius: 6px; padding: 6px 10px;
   }
   .lang:hover { border-color: var(--blue); color: var(--ink); }
   .cta { padding: 10px 16px; font-size: 15px; }
+  .menu-btn {
+    display: none; width: 44px; height: 44px; margin-right: -8px; padding: 0;
+    align-items: center; justify-content: center; border: 0; border-radius: 8px;
+    background: transparent; color: var(--ink); cursor: pointer;
+  }
+  .menu-btn path { transition: transform .2s ease, opacity .2s ease; transform-origin: 12px 12px; }
+  .menu-btn[aria-expanded="true"] .l1 { transform: translateY(5px) rotate(45deg); }
+  .menu-btn[aria-expanded="true"] .l2 { opacity: 0; }
+  .menu-btn[aria-expanded="true"] .l3 { transform: translateY(-5px) rotate(-45deg); }
+  .mnav {
+    position: absolute; left: 0; right: 0; top: 100%;
+    background: var(--paper); border-bottom: 1px solid var(--line);
+    box-shadow: 0 14px 28px rgba(11,15,20,.10);
+  }
+  .mnav-in { display: flex; flex-direction: column; padding-block: 8px 20px; }
+  .mnav-in a:not(.btn) {
+    display: flex; align-items: center; min-height: 48px; color: var(--ink);
+    text-decoration: none; font-weight: 500; font-size: 17px; border-bottom: 1px solid var(--line);
+  }
+  .mnav-in .btn { margin-top: 16px; align-self: flex-start; }
   @media (max-width: 860px) {
     .nl { display: none; }
-    nav { gap: 12px; }
+    nav { gap: 10px; }
     .brand img { height: 30px; }
+    .menu-btn { display: inline-flex; }
+    .lang { min-height: 44px; min-width: 44px; display: inline-flex; align-items: center; justify-content: center; }
   }
-  .site-footer { border-top: 1px solid #E6EAEF; }
+  @media (max-width: 520px) {
+    .cta { display: none; }
+  }
+  @media (min-width: 861px) { .mnav { display: none; } }
+  @media (prefers-reduced-motion: reduce) { .menu-btn path { transition: none; } }
+  .site-footer { border-top: 1px solid var(--line); }
   .foot {
     display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px;
     padding-block: 26px; font-size: 14px; color: var(--muted-2);

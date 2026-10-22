@@ -14,11 +14,11 @@ const ld = {
 };
 ---
 <nav class="crumbs mono" aria-label={lang === 'es' ? 'Ruta' : 'Breadcrumb'}>
-  <a href={paths[lang].projects}>{label}</a> <span aria-hidden="true">›</span> <span aria-current="page">{name}</span>
+  <a class="tap" href={paths[lang].projects}>{label}</a> <span aria-hidden="true">›</span> <span aria-current="page">{name}</span>
 </nav>
 <script type="application/ld+json" set:html={JSON.stringify(ld)} />
 <style>
-  .crumbs { font-size: 13px; color: #9AA7B5; display: flex; gap: 8px; align-items: center; }
+  .crumbs { font-size: 13px; color: var(--on-dark-2); display: flex; gap: 8px; align-items: center; }
   .crumbs a { color: var(--blue-soft); text-decoration: none; }
   .crumbs a:hover { text-decoration: underline; }
 </style>

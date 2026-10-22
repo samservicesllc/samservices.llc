@@ -43,7 +43,6 @@ export const t = {
       statsNote: 'Caso destacado: Gonichea',
     },
     calc: {
-      kicker: 'Calculadora de ahorro',
       h2: '¿Cuántas horas pierde su equipo copiando datos a mano?',
       lead: 'Mueva los controles con los números de su negocio. Es la misma cuenta que hacemos en el diagnóstico gratuito.',
       orders: 'Facturas o pedidos al mes',
@@ -57,7 +56,6 @@ export const t = {
       numLocale: 'en-US',
     },
     services: {
-      kicker: 'Servicios',
       h2: 'Todo lo digital de su empresa, con un solo responsable.',
       items: [
         ['web', 'Sitios web', 'Rápidos, bilingües y listos para Google: diseño, dominio, hosting, correo y SEO local.'],
@@ -101,7 +99,6 @@ export const t = {
       },
     },
     about: {
-      kicker: 'Nosotros',
       h2: 'Un ingeniero responsable de cada proyecto.',
       text: 'Arieskien Mendoza Guerra fundó Sam Services LLC en 2019. Ingeniero en Ciencias Informáticas, 7 años como profesor universitario y, desde 2018, a cargo del sistema backend de Gonichea. Suma especialistas cuando el proyecto lo requiere.',
       chips: ['Español', 'English', 'Naples, FL · todo EE. UU.'],
@@ -122,6 +119,7 @@ export const t = {
       privacyLink: 'Privacidad',
       phone: 'Móvil (opcional, para SMS)',
       phoneError: 'Para recibir SMS, escriba su número móvil.',
+      smsLegend: 'Mensajes de texto (opcional)',
       smsCare: 'Acepto recibir mensajes de texto de Sam Services LLC sobre mi consulta, citas, soporte y avisos de servicio.',
       smsMkt: 'Acepto recibir mensajes de texto promocionales de Sam Services LLC (ofertas y novedades de servicios).',
       smsFine: 'Las casillas son opcionales: puede enviar el formulario sin marcarlas. La frecuencia de mensajes varía. Pueden aplicarse tarifas de mensajes y datos. Responda STOP para cancelar o HELP para ayuda. El consentimiento no es condición de compra. Los operadores no son responsables por mensajes retrasados o no entregados.',
@@ -162,7 +160,6 @@ export const t = {
       statsNote: 'Featured case: Gonichea',
     },
     calc: {
-      kicker: 'Savings calculator',
       h2: 'How many hours does your team lose copying data by hand?',
       lead: 'Move the sliders with your own numbers. It is the same math we do in the free assessment.',
       orders: 'Invoices or orders per month',
@@ -176,7 +173,6 @@ export const t = {
       numLocale: 'en-US',
     },
     services: {
-      kicker: 'Services',
       h2: 'Everything digital in your business, with one accountable partner.',
       items: [
         ['web', 'Websites', 'Fast, bilingual and Google-ready: design, domain, hosting, email and local SEO.'],
@@ -220,7 +216,6 @@ export const t = {
       },
     },
     about: {
-      kicker: 'About',
       h2: 'One accountable engineer on every project.',
       text: 'Arieskien Mendoza Guerra founded Sam Services LLC in 2019. Computer Science engineer, 7 years as a university lecturer and, since 2018, in charge of Gonichea’s backend system. He brings in specialists when a project calls for it.',
       chips: ['English', 'Español', 'Naples, FL · nationwide'],
@@ -241,6 +236,7 @@ export const t = {
       privacyLink: 'Privacy',
       phone: 'Mobile (optional, for texts)',
       phoneError: 'To receive text messages, please enter your mobile number.',
+      smsLegend: 'Text messages (optional)',
       smsCare: 'I agree to receive text messages from Sam Services LLC about my inquiry, appointments, support and service notices.',
       smsMkt: 'I agree to receive promotional text messages from Sam Services LLC (offers and service news).',
       smsFine: 'These boxes are optional: you can submit the form without checking them. Message frequency varies. Message and data rates may apply. Reply STOP to opt out or HELP for help. Consent is not a condition of purchase. Carriers are not liable for delayed or undelivered messages.',
