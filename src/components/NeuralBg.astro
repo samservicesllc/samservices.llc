@@ -16,6 +16,13 @@ const { density = 1, class: cls = '' } = Astro.props;
   // Phones and tablets: fewer nodes and half the frame rate (the drift is slow, 30 fps reads the same)
   const light = matchMedia('(pointer: coarse)').matches;
   const FRAME = light ? 1000 / 30 : 0;
+  // The first frame is drawn still; motion starts on the first interaction or after 4 s,
+  // so the page is visually settled while it loads.
+  let armed = false;
+  const starters: (() => void)[] = [];
+  const arm = () => { if (armed) return; armed = true; starters.forEach((f) => f()); };
+  ['pointermove', 'pointerdown', 'scroll', 'keydown', 'touchstart'].forEach((ev) => addEventListener(ev, arm, { once: true, passive: true }));
+  setTimeout(arm, 4000);
 
   function start(canvas: HTMLCanvasElement) {
     const ctx = canvas.getContext('2d');
@@ -141,7 +148,7 @@ const { density = 1, class: cls = '' } = Astro.props;
       draw(dt);
       if (running) raf = requestAnimationFrame(loop);
     }
-    function play() { if (reduce || running) return; running = true; last = 0; raf = requestAnimationFrame(loop); }
+    function play() { if (reduce || running || !armed) return; running = true; last = 0; raf = requestAnimationFrame(loop); }
     function pause() { running = false; cancelAnimationFrame(raf); }
 
     host.addEventListener('pointermove', (e) => {
@@ -151,6 +158,7 @@ const { density = 1, class: cls = '' } = Astro.props;
     new ResizeObserver(() => resize()).observe(host);
     new IntersectionObserver(([e]) => { onScreen = e.isIntersecting; onScreen && !document.hidden ? play() : pause(); }).observe(host);
     document.addEventListener('visibilitychange', () => (document.hidden || !onScreen ? pause() : play()));
+    starters.push(() => { if (onScreen && !document.hidden) play(); });
     resize();
     if (reduce) { for (let i = 0; i < 3; i++) spawnPulse(); pulses.forEach((p) => (p.t = 0.5)); draw(0); }
   }
