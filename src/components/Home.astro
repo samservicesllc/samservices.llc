@@ -59,7 +59,6 @@ const pos: [number, number][] = [[70, 60], [370, 60], [60, 150], [380, 150], [70
 </section>
 
 <section id="proyectos" class="wrap sec fit" aria-labelledby="proj-title">
-  <p class="kicker"><a class="klink tap" href={paths[lang].projects}>{c.projects.kicker}</a></p>
   <div class="hrow">
     <h2 id="proj-title" class="h2">{c.projects.h2}</h2>
     <a class="allp tap" href={paths[lang].projects}>{c.projects.all} <span aria-hidden="true">→</span></a>
@@ -200,26 +199,31 @@ const pos: [number, number][] = [[70, 60], [370, 60], [60, 150], [380, 150], [70
 
 
 <script>
-  // Turnstile (≈1.2 MB) loads only when the contact form is about to be used
+  // Turnstile (≈1.2 MB) loads on the first interaction with the contact form, so visitors
+  // who never use it don't download it (and the page stays eligible for the back/forward cache).
   const ts = document.querySelector('.cf-turnstile:not([hidden])');
-  if (ts) {
-    let loaded = false;
-    const load = () => {
-      if (loaded) return;
-      loaded = true;
-      const s = document.createElement('script');
-      s.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js';
-      s.async = true;
-      document.head.appendChild(s);
-      io?.disconnect();
-    };
-    const io = 'IntersectionObserver' in window
-      ? new IntersectionObserver((es) => es.some((e) => e.isIntersecting) && load(), { rootMargin: '600px 0px' })
-      : null;
-    const target = document.getElementById('contacto');
-    if (io && target) io.observe(target); else load();
-    document.getElementById('contact-form')?.addEventListener('focusin', load, { once: true });
-  }
+  let tsLoaded = false;
+  const loadTurnstile = () => {
+    if (!ts || tsLoaded) return;
+    tsLoaded = true;
+    const s = document.createElement('script');
+    s.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js';
+    s.async = true;
+    document.head.appendChild(s);
+  };
+  // Resolves once the widget has produced a token (or after ~10 s, letting the server decide)
+  const turnstileReady = async () => {
+    if (!ts) return;
+    loadTurnstile();
+    for (let i = 0; i < 40; i++) {
+      const t = ts.querySelector<HTMLInputElement>('input[name="cf-turnstile-response"]');
+      if (t?.value) return;
+      await new Promise((r) => setTimeout(r, 250));
+    }
+  };
+  const cf = document.getElementById('contact-form');
+  cf?.addEventListener('focusin', loadTurnstile, { once: true });
+  cf?.addEventListener('pointerdown', loadTurnstile, { once: true });
 
   // Savings calculator
   const calc = document.getElementById('calc') as HTMLFormElement | null;
@@ -272,6 +276,7 @@ const pos: [number, number][] = [[70, 60], [370, 60], [60, 150], [380, 150], [70
       btn.textContent = form.dataset.sending || '…';
       status.className = 'form-status';
       try {
+        await turnstileReady();
         const res = await fetch(form.action, {
           method: 'POST',
           body: new FormData(form),
@@ -333,7 +338,7 @@ const pos: [number, number][] = [[70, 60], [370, 60], [60, 150], [380, 150], [70
   .stats-note { display: block; font-size: 12px; color: var(--blue-soft); margin-top: 12px; text-align: right; text-decoration: none; }
   .stats-note:hover { color: #fff; }
 
-  .calc-sec { background: var(--mist); border-bottom: 1px solid var(--line); }
+  .calc-sec { background: var(--surface-2); border-bottom: 1px solid var(--border); }
   .two {
     display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr));
     gap: 48px; align-items: center; padding-block: 88px;
@@ -341,10 +346,10 @@ const pos: [number, number][] = [[70, 60], [370, 60], [60, 150], [380, 150], [70
   .stack { display: flex; flex-direction: column; gap: 14px; }
   .stack .kicker { margin-bottom: 0; }
   .big { font-size: 18px; max-width: var(--measure); }
-  .calc { background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: 28px; display: flex; flex-direction: column; gap: 22px; }
+  .calc { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 28px; display: flex; flex-direction: column; gap: 22px; }
   .field { display: flex; flex-direction: column; gap: 8px; }
   .field label { display: flex; justify-content: space-between; gap: 12px; font-weight: 500; }
-  .field output { color: var(--blue-text); white-space: nowrap; }
+  .field output { color: var(--link); white-space: nowrap; }
   input[type=range] {
     --p: 50%;
     -webkit-appearance: none; appearance: none; width: 100%; height: 44px; background: transparent; cursor: pointer;
@@ -371,7 +376,7 @@ const pos: [number, number][] = [[70, 60], [370, 60], [60, 150], [380, 150], [70
   .num { font-family: var(--display); font-size: clamp(30px, 4vw, 40px); font-weight: 700; font-variant-numeric: tabular-nums; }
   .num.blue { color: var(--blue); }
   .lbl { font-size: 14px; color: var(--on-dark); }
-  .note { font-size: 13px; color: var(--muted-2); }
+  .note { font-size: 13px; color: var(--text-3); }
   .calc .btn { align-self: flex-start; }
 
   .sec { padding-block: 88px 24px; }
@@ -382,8 +387,6 @@ const pos: [number, number][] = [[70, 60], [370, 60], [60, 150], [380, 150], [70
   .hrow { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px 24px; margin-bottom: 28px; }
   .allp { font-weight: 600; text-decoration: none; white-space: nowrap; }
   .allp:hover { text-decoration: underline; }
-  .klink { color: inherit; text-decoration: none; border-bottom: 1px dashed currentColor; }
-  .klink:hover { border-bottom-style: solid; }
   .grid4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr)); gap: 18px; }
   .svc { padding: 26px; display: flex; flex-direction: column; gap: 10px; }
   .svc h3 { font-size: 19px; font-weight: 600; }
@@ -404,9 +407,9 @@ const pos: [number, number][] = [[70, 60], [370, 60], [60, 150], [380, 150], [70
   .feat .muted, .about .muted { max-width: var(--measure); }
   .feat h3 { font-size: 26px; }
   .fm { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin: 6px 0; }
-  .fm div { background: var(--mist); border-radius: 10px; padding: 12px; display: flex; flex-direction: column; }
-  .fm dd { margin: 0; font-size: 22px; color: var(--ink); font-variant-numeric: tabular-nums; }
-  .fm dt { font-size: 12px; color: var(--muted-2); }
+  .fm div { background: var(--surface-2); border-radius: 10px; padding: 12px; display: flex; flex-direction: column; }
+  .fm dd { margin: 0; font-size: 22px; color: var(--text); font-variant-numeric: tabular-nums; }
+  .fm dt { font-size: 12px; color: var(--text-3); }
   .frow { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px; margin-top: auto; }
   .frow .stack-line { margin: 0; }
   .more-k { margin-top: 26px; }
@@ -451,23 +454,23 @@ const pos: [number, number][] = [[70, 60], [370, 60], [60, 150], [380, 150], [70
     .fm { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .mini .shot { aspect-ratio: 16 / 10; }
   }
-  .shot { display: block; aspect-ratio: 16 / 10; overflow: hidden; background: var(--mist); }
+  .shot { display: block; aspect-ratio: 16 / 10; overflow: hidden; background: var(--surface-2); }
   .shot img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .5s ease; }
   .proj:hover .shot img { transform: scale(1.03); }
   .pbody { padding: 26px; display: flex; flex-direction: column; gap: 10px; flex: 1; }
-  .client { font-size: 13px; font-weight: 600; color: var(--blue-text); }
+  .client { font-size: 13px; font-weight: 600; color: var(--link); }
   .pbody h3 { font-size: 22px; font-weight: 600; }
-  .stack-line { font-size: 12px; color: var(--muted-2); margin-top: auto; }
+  .stack-line { font-size: 12px; color: var(--text-3); margin-top: auto; }
   .more { font-weight: 600; margin-top: auto; }
 
   .about {
-    border: 1px solid var(--line); border-radius: 16px; padding: 36px;
+    border: 1px solid var(--border); border-radius: 16px; padding: 36px;
     display: grid; grid-template-columns: minmax(0, 260px) 1fr; gap: 40px; align-items: center;
   }
-  .mark { background: var(--mist); border-radius: 12px; aspect-ratio: 1; display: grid; place-items: center; padding: 36px; }
+  .mark { background: var(--surface-2); border-radius: 12px; aspect-ratio: 1; display: grid; place-items: center; padding: 36px; }
   .mark img { width: 100%; height: auto; }
   .chips { display: flex; flex-wrap: wrap; gap: 8px; font-size: 12px; align-items: center; }
-  .chips span { border: 1px solid var(--line-strong); border-radius: 999px; padding: 6px 12px; }
+  .chips span { border: 1px solid var(--border-strong); border-radius: 999px; padding: 6px 12px; }
   .chips a { margin-left: 4px; font-weight: 500; }
   @media (max-width: 720px) {
     .about { grid-template-columns: 1fr; padding: 24px; }

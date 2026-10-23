@@ -245,7 +245,7 @@ const R: [number, number][] = [[100, 70], [300, 40], [500, 70], [530, 200], [500
   .light { color: #fff; }
   .mods { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: 16px; }
   .mod { padding: 24px; display: flex; flex-direction: column; gap: 8px; }
-  .mod .num { color: var(--blue-text); font-size: 13px; }
+  .mod .num { color: var(--link); font-size: 13px; }
   .mod h3 { font-size: 18px; font-weight: 600; }
 
   .arch-sec { margin-top: 80px; background: linear-gradient(180deg, var(--navy), var(--navy-2)); }
@@ -256,12 +256,12 @@ const R: [number, number][] = [[100, 70], [300, 40], [500, 70], [530, 200], [500
 
   .st { margin-top: 28px; }
   .chips { display: flex; flex-wrap: wrap; gap: 8px; font-size: 12px; }
-  .chips span { border: 1px solid var(--line-strong); border-radius: 999px; padding: 6px 12px; }
+  .chips span { border: 1px solid var(--border-strong); border-radius: 999px; padding: 6px 12px; }
   .tl { list-style: none; margin: 0; padding: 0 0 0 22px; border-left: 2px solid var(--blue-wash); display: flex; flex-direction: column; gap: 22px; }
-  .tl li { position: relative; display: flex; flex-direction: column; gap: 2px; color: var(--body-2); }
-  .tl li::before { content: ''; position: absolute; left: -29px; top: 6px; width: 12px; height: 12px; border-radius: 50%; background: #fff; border: 2px solid var(--blue); }
+  .tl li { position: relative; display: flex; flex-direction: column; gap: 2px; color: var(--text-body); }
+  .tl li::before { content: ''; position: absolute; left: -29px; top: 6px; width: 12px; height: 12px; border-radius: 50%; background: var(--bg); border: 2px solid var(--blue); }
   .tl li:last-child::before { background: var(--blue); }
-  .tl .y { color: var(--blue-text); font-size: 14px; font-weight: 500; }
+  .tl .y { color: var(--link); font-size: 14px; font-weight: 500; }
 
   .ccta {
     position: relative; overflow: hidden; isolation: isolate; border-radius: 18px; padding: clamp(28px, 4vw, 48px);

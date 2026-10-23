@@ -1,6 +1,9 @@
 ---
 import '../styles/global.css';
 import { t, paths, SITE, EMAIL, LINKEDIN_COMPANY, LINKEDIN_PERSON, type Lang } from '../i18n';
+// Fonts used by the first screen (headline + body), preloaded so the hero renders in its final face
+import fontDisplay from '@fontsource/zilla-slab/files/zilla-slab-latin-700-normal.woff2?url';
+import fontBody from '@fontsource/ibm-plex-sans/files/ibm-plex-sans-latin-400-normal.woff2?url';
 
 interface Props {
   lang: Lang;
@@ -64,6 +67,8 @@ const schema = {
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="preload" href={fontDisplay} as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href={fontBody} as="font" type="font/woff2" crossorigin />
   <title>{pageTitle}</title>
   <meta name="description" content={desc} />
   {noindex && <meta name="robots" content="noindex" />}
@@ -75,7 +80,8 @@ const schema = {
       <link rel="alternate" hreflang="x-default" href={new URL(paths.en[page as 'home'], SITE).href} />
     </>
   )}
-  <meta name="theme-color" content="#0B0F14" />
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#FFFFFF" />
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0B0F14" />
   <link rel="icon" href="/favicon.ico" sizes="any" />
   <link rel="icon" type="image/png" href="/favicon-32.png" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
@@ -102,7 +108,10 @@ const schema = {
   <header class="site-header">
     <div class="wrap bar">
       <a href={home} class="brand" aria-label="Sam Services LLC">
-        <img src="/img/logo.webp" srcset="/img/logo-237.webp 237w, /img/logo.webp 474w" sizes="(max-width: 860px) 198px, 237px" alt="Sam Services LLC" width="237" height="36" />
+        <picture>
+          <source media="(prefers-color-scheme: dark)" srcset="/img/logo-dark-237.webp 237w, /img/logo-dark.webp 474w" sizes="(max-width: 860px) 198px, 237px" />
+          <img src="/img/logo.webp" srcset="/img/logo-237.webp 237w, /img/logo.webp 474w" sizes="(max-width: 860px) 198px, 237px" alt="Sam Services LLC" width="237" height="36" />
+        </picture>
       </a>
       <nav aria-label={lang === 'es' ? 'Principal' : 'Main'}>
         <a class="nl" href={`${home}#proyectos`}>{c.nav.projects}</a>
@@ -174,32 +183,33 @@ const schema = {
 <style>
   .site-header {
     position: sticky; top: 0; z-index: 20;
-    background: rgba(255,255,255,.86);
+    background: var(--header-bg);
     -webkit-backdrop-filter: saturate(160%) blur(12px);
     backdrop-filter: saturate(160%) blur(12px);
-    border-bottom: 1px solid var(--line);
+    border-bottom: 1px solid var(--border);
     view-transition-name: site-header;
   }
   .bar { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 12px; }
+  .brand picture { display: block; }
   .brand img { display: block; height: 36px; width: auto; }
   nav { display: flex; align-items: center; gap: 24px; font-size: 15px; font-weight: 500; }
-  .nl { color: var(--ink); text-decoration: none; position: relative; }
+  .nl { color: var(--text); text-decoration: none; position: relative; }
   .nl::after {
     content: ''; position: absolute; left: 0; right: 0; bottom: -4px; height: 2px;
     background: var(--blue); transform: scaleX(0); transform-origin: left; transition: transform .2s ease;
   }
-  .nl:hover { color: var(--ink); }
+  .nl:hover { color: var(--text); }
   .nl:hover::after { transform: scaleX(1); }
   .lang {
-    font-family: var(--mono); font-size: 13px; color: var(--muted-2); text-decoration: none;
-    border: 1px solid var(--line-strong); border-radius: 6px; padding: 6px 10px;
+    font-family: var(--mono); font-size: 13px; color: var(--text-3); text-decoration: none;
+    border: 1px solid var(--border-strong); border-radius: 6px; padding: 6px 10px;
   }
-  .lang:hover { border-color: var(--blue); color: var(--ink); }
+  .lang:hover { border-color: var(--blue); color: var(--text); }
   .cta { padding: 10px 16px; font-size: 15px; }
   .menu-btn {
     display: none; width: 44px; height: 44px; margin-right: -8px; padding: 0;
     align-items: center; justify-content: center; border: 0; border-radius: 8px;
-    background: transparent; color: var(--ink); cursor: pointer;
+    background: transparent; color: var(--text); cursor: pointer;
   }
   .menu-btn path { transition: transform .2s ease, opacity .2s ease; transform-origin: 12px 12px; }
   .menu-btn[aria-expanded="true"] .l1 { transform: translateY(5px) rotate(45deg); }
@@ -207,13 +217,13 @@ const schema = {
   .menu-btn[aria-expanded="true"] .l3 { transform: translateY(-5px) rotate(-45deg); }
   .mnav {
     position: absolute; left: 0; right: 0; top: 100%;
-    background: var(--paper); border-bottom: 1px solid var(--line);
+    background: var(--surface); border-bottom: 1px solid var(--border);
     box-shadow: 0 14px 28px rgba(11,15,20,.10);
   }
   .mnav-in { display: flex; flex-direction: column; padding-block: 8px 20px; }
   .mnav-in a:not(.btn) {
-    display: flex; align-items: center; min-height: 48px; color: var(--ink);
-    text-decoration: none; font-weight: 500; font-size: 17px; border-bottom: 1px solid var(--line);
+    display: flex; align-items: center; min-height: 48px; color: var(--text);
+    text-decoration: none; font-weight: 500; font-size: 17px; border-bottom: 1px solid var(--border);
   }
   .mnav-in .btn { margin-top: 16px; align-self: flex-start; }
   @media (max-width: 860px) {
@@ -228,9 +238,9 @@ const schema = {
   }
   @media (min-width: 861px) { .mnav { display: none; } }
   @media (prefers-reduced-motion: reduce) { .menu-btn path { transition: none; } }
-  .site-footer { border-top: 1px solid var(--line); }
+  .site-footer { border-top: 1px solid var(--border); }
   .foot {
     display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px;
-    padding-block: 26px; font-size: 14px; color: var(--muted-2);
+    padding-block: 26px; font-size: 14px; color: var(--text-3);
   }
 </style>

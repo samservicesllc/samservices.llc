@@ -75,11 +75,11 @@ const itemList = {
   .lead { font-size: 19px; color: var(--on-dark); max-width: 62ch; }
   .psec { padding-block: 40px 88px; }
   .filters { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 26px; }
-  .chip { font: inherit; font-size: 14px; font-weight: 500; border: 1px solid var(--line-strong); background: #fff; color: var(--ink); border-radius: 999px; padding: 8px 14px; min-height: 44px; cursor: pointer; transition: border-color .15s ease, background-color .15s ease; }
-  .chip span { color: var(--muted-2); font-size: 12px; margin-left: 4px; }
+  .chip { font: inherit; font-size: 14px; font-weight: 500; border: 1px solid var(--border-strong); background: var(--surface); color: var(--text); border-radius: 999px; padding: 8px 14px; min-height: 44px; cursor: pointer; transition: border-color .15s ease, background-color .15s ease; }
+  .chip span { color: var(--text-3); font-size: 12px; margin-left: 4px; }
   .chip:hover { border-color: var(--blue); }
-  .chip.on { background: var(--ink); color: #fff; border-color: var(--ink); }
-  .chip.on span { color: var(--blue-soft); }
+  .chip.on { background: var(--inverse); color: var(--inverse-text); border-color: var(--inverse); }
+  .chip.on span { color: var(--inverse-accent); }
   .pgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr)); gap: 20px; }
   .pcard { overflow: hidden; display: flex; flex-direction: column; }
   .pcard[hidden] { display: none; }
@@ -87,14 +87,14 @@ const itemList = {
   .pimg img { width: 100%; height: 100%; object-fit: cover; object-position: center top; display: block; transition: transform .5s ease; }
   .pcard:hover .pimg img { transform: scale(1.03); }
   .pb { padding: 22px; display: flex; flex-direction: column; gap: 10px; flex: 1; }
-  .client { font-size: 13px; font-weight: 600; color: var(--blue-text); }
+  .client { font-size: 13px; font-weight: 600; color: var(--link); }
   .pb h2 { font-size: 21px; font-weight: 600; }
   .pb h2 a { color: inherit; text-decoration: none; }
-  .pb h2 a:hover { color: var(--blue-text); }
+  .pb h2 a:hover { color: var(--link); }
   .pm { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin: 4px 0; }
-  .pm div { background: var(--mist); border-radius: 8px; padding: 8px 10px; display: flex; flex-direction: column; }
+  .pm div { background: var(--surface-2); border-radius: 8px; padding: 8px 10px; display: flex; flex-direction: column; }
   .pm dd { margin: 0; font-size: 18px; }
-  .pm dt { font-size: 11px; color: var(--muted-2); }
+  .pm dt { font-size: 11px; color: var(--text-3); }
   .more { font-weight: 600; margin-top: auto; }
   .ctacard { background: linear-gradient(160deg, var(--navy), var(--ink)); border-color: var(--line-dark); color: #fff; justify-content: center; }
   .ctacard .pb { justify-content: center; align-items: flex-start; }

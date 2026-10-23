@@ -65,11 +65,10 @@ export const t = {
       ],
     },
     projects: {
-      kicker: 'Casos',
       h2: 'Resultados para clientes reales.',
       featured: 'Caso destacado',
       more: 'Otros proyectos',
-      all: 'Ver todos los proyectos',
+      all: 'Todos los casos',
       log: [
         ['ok', 'square.sync', 'pedidos importados'],
         ['ok', 'ebay.orders', 'inventario actualizado'],
@@ -182,11 +181,10 @@ export const t = {
       ],
     },
     projects: {
-      kicker: 'Case studies',
       h2: 'Results for real clients.',
       featured: 'Featured case',
       more: 'Other projects',
-      all: 'See all projects',
+      all: 'All case studies',
       log: [
         ['ok', 'square.sync', 'orders imported'],
         ['ok', 'ebay.orders', 'inventory updated'],

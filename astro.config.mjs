@@ -4,7 +4,7 @@ import sitemap from '@astrojs/sitemap';
 export default defineConfig({
   site: 'https://samservices.llc',
   trailingSlash: 'ignore',
-  build: { format: 'directory', inlineStylesheets: 'auto' },
+  build: { format: 'directory', inlineStylesheets: 'always' },
   integrations: [
     sitemap({
       filter: (page) => !page.includes('/404'),
