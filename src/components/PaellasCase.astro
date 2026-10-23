@@ -1,6 +1,7 @@
 ---
 import NeuralBg from './NeuralBg.astro';
 import Crumbs from './Crumbs.astro';
+import { srcset } from '../projects';
 import { paths, type Lang } from '../i18n';
 interface Props { lang: Lang }
 const { lang } = Astro.props;
@@ -104,7 +105,7 @@ const fx = [90, 270, 450, 630, 810];
 
 <section class="wrap csec">
   <figure class="hero-shot reveal">
-    <img src="/img/paellas-case.webp" alt={T.heroAlt} width="1200" height="960" loading="lazy" decoding="async" />
+    <img src="/img/paellas-case.webp" srcset={srcset('/img/paellas-case.webp')} sizes="(max-width: 1028px) calc(100vw - 48px), 980px" alt={T.heroAlt} width="1200" height="960" loading="lazy" decoding="async" />
   </figure>
 </section>
 

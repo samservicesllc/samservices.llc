@@ -66,7 +66,7 @@ const pos: [number, number][] = [[70, 60], [370, 60], [60, 150], [380, 150], [70
   </div>
   <article class="card feat reveal">
     <a class="fimg" href={paths[lang].case} tabindex="-1" aria-hidden="true">
-      <img src="/img/gonichea-case.webp" srcset={srcset('/img/gonichea-case.webp')} sizes="(max-width: 860px) 100vw, 480px" alt="" width="1200" height="960" loading="lazy" decoding="async" />
+      <img src="/img/gonichea-case.webp" srcset={srcset('/img/gonichea-case.webp')} sizes="(max-width: 860px) calc(100vw - 48px), 480px" alt="" width="1200" height="960" loading="lazy" decoding="async" />
       <span class="tag mono">{c.projects.featured}</span>
     </a>
     <div class="pbody">
@@ -87,7 +87,7 @@ const pos: [number, number][] = [[70, 60], [370, 60], [60, 150], [380, 150], [70
     {minis.map((p) => (
       <article class="card mini reveal">
         <a href={p.href[lang]} class="shot" tabindex="-1" aria-hidden="true">
-          <img src={p.image} srcset={srcset(p.image)} sizes="(max-width: 860px) 100vw, 200px" alt="" width={p.imageW} height={p.imageH} loading="lazy" decoding="async" />
+          <img src={p.image} srcset={srcset(p.image)} sizes="(max-width: 860px) calc(100vw - 48px), 200px" alt="" width={p.imageW} height={p.imageH} loading="lazy" decoding="async" />
         </a>
         <div class="pbody">
           <p class="client">{p.client[lang]}</p>

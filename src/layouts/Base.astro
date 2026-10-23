@@ -102,7 +102,7 @@ const schema = {
   <header class="site-header">
     <div class="wrap bar">
       <a href={home} class="brand" aria-label="Sam Services LLC">
-        <img src="/img/logo.webp" alt="Sam Services LLC" width="237" height="36" />
+        <img src="/img/logo.webp" srcset="/img/logo-237.webp 237w, /img/logo.webp 474w" sizes="(max-width: 860px) 198px, 237px" alt="Sam Services LLC" width="237" height="36" />
       </a>
       <nav aria-label={lang === 'es' ? 'Principal' : 'Main'}>
         <a class="nl" href={`${home}#proyectos`}>{c.nav.projects}</a>

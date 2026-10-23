@@ -14,7 +14,7 @@ export const t = {
   es: {
     htmlLang: 'es',
     locale: 'es_US',
-    title: 'Sam Services LLC · Sitios web, software e infraestructura · Naples, FL',
+    title: 'Sam Services LLC · Sitios web, software e IT · Naples, FL',
     description:
       'Sitios web, software a la medida, integraciones, servidores, correo corporativo y telefonía FusionPBX para pequeñas y medianas empresas en EE. UU. Naples, Florida.',
     og: '/og-es.png',
@@ -131,7 +131,7 @@ export const t = {
   en: {
     htmlLang: 'en',
     locale: 'en_US',
-    title: 'Sam Services LLC · Websites, software and infrastructure · Naples, FL',
+    title: 'Sam Services LLC · Websites, software & IT · Naples, FL',
     description:
       'Websites, custom software, integrations, servers, business email and FusionPBX phone systems for small and medium businesses across the US. Naples, Florida.',
     og: '/og-en.png',

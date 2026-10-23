@@ -13,6 +13,9 @@ const { density = 1, class: cls = '' } = Astro.props;
 
   const BLUE = '0,153,255';
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // Phones and tablets: fewer nodes and half the frame rate (the drift is slow, 30 fps reads the same)
+  const light = matchMedia('(pointer: coarse)').matches;
+  const FRAME = light ? 1000 / 30 : 0;
 
   function start(canvas: HTMLCanvasElement) {
     const ctx = canvas.getContext('2d');
@@ -31,7 +34,7 @@ const { density = 1, class: cls = '' } = Astro.props;
       canvas.style.width = w + 'px'; canvas.style.height = h + 'px';
       ctx!.setTransform(dpr, 0, 0, dpr, 0, 0);
       linkDist = w < 640 ? 115 : 160;
-      const count = Math.round(Math.min(110, Math.max(28, (w * h) / 10000)) * density);
+      const count = Math.round(Math.min(110, Math.max(28, (w * h) / 10000)) * density * (light ? 0.65 : 1));
       nodes = Array.from({ length: count }, () => ({
         x: Math.random() * w, y: Math.random() * h,
         vx: (Math.random() - 0.5) * 0.12, vy: (Math.random() - 0.5) * 0.12,
@@ -130,6 +133,7 @@ const { density = 1, class: cls = '' } = Astro.props;
 
     let spawnAcc = 0;
     function loop(ts: number) {
+      if (FRAME && last && ts - last < FRAME - 1) { if (running) raf = requestAnimationFrame(loop); return; }
       const dt = Math.min(50, ts - (last || ts)); last = ts;
       spawnAcc += dt;
       const every = w < 640 ? 700 : 380;
