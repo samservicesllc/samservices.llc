@@ -163,7 +163,7 @@ const pos: [number, number][] = [[70, 60], [370, 60], [60, 150], [380, 150], [70
       <p class="on-dark">{c.contact.lead}</p>
       <a class="mail" href={`mailto:${EMAIL}`}>{EMAIL}</a>
     </div>
-    <form id="contact-form" class="cform" action="/api/contact" method="post" data-error={c.contact.error} data-sending={c.contact.sending} data-ok={c.contact.ok} data-email={EMAIL}>
+    <form id="contact-form" class="cform" action="/api/contact" method="post" data-error={c.contact.error} data-verify={c.contact.verify} data-sending={c.contact.sending} data-ok={c.contact.ok} data-email={EMAIL}>
       <input type="hidden" name="lang" value={lang} />
       <div class="hp" aria-hidden="true"><label>Website<input type="text" name="website" tabindex="-1" autocomplete="off" /></label></div>
       <div class="g2">
@@ -211,15 +211,16 @@ const pos: [number, number][] = [[70, 60], [370, 60], [60, 150], [380, 150], [70
     s.async = true;
     document.head.appendChild(s);
   };
-  // Resolves once the widget has produced a token (or after ~10 s, letting the server decide)
+  // True once the widget has produced a token; false if the visitor still has to tick the box (~6 s)
   const turnstileReady = async () => {
-    if (!ts) return;
+    if (!ts) return true;
     loadTurnstile();
-    for (let i = 0; i < 40; i++) {
+    for (let i = 0; i < 24; i++) {
       const t = ts.querySelector<HTMLInputElement>('input[name="cf-turnstile-response"]');
-      if (t?.value) return;
+      if (t?.value) return true;
       await new Promise((r) => setTimeout(r, 250));
     }
+    return false;
   };
   const cf = document.getElementById('contact-form');
   cf?.addEventListener('focusin', loadTurnstile, { once: true });
@@ -275,8 +276,15 @@ const pos: [number, number][] = [[70, 60], [370, 60], [60, 150], [380, 150], [70
       btn.disabled = true;
       btn.textContent = form.dataset.sending || '…';
       status.className = 'form-status';
+      if (!(await turnstileReady())) {
+        status.textContent = form.dataset.verify || '';
+        status.classList.add('is-err');
+        btn.disabled = false;
+        btn.textContent = label;
+        (ts as HTMLElement | null)?.scrollIntoView({ block: 'center', behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+        return;
+      }
       try {
-        await turnstileReady();
         const res = await fetch(form.action, {
           method: 'POST',
           body: new FormData(form),
