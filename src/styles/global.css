@@ -4,6 +4,18 @@
 @import '@fontsource/ibm-plex-sans/latin-600.css';
 @import '@fontsource/ibm-plex-mono/latin-400.css';
 
+/* Metric-matched fallbacks: while the brand fonts load, text is set in a local font scaled to the
+   same width and line metrics, so nothing reflows when IBM Plex / Zilla Slab swap in.
+   Values computed from the site's own copy (size-adjust = brand avg advance / fallback avg advance). */
+@font-face { font-family: 'Plex Sans Fallback'; font-weight: 400 500; src: local('Arial'), local('ArialMT'), local('Liberation Sans'), local('LiberationSans'), local('Helvetica'), local('Arimo');
+  size-adjust: 100.21%; ascent-override: 102.29%; descent-override: 27.44%; line-gap-override: 0%; }
+@font-face { font-family: 'Plex Sans Fallback'; font-weight: 600 700; src: local('Arial Bold'), local('Arial-BoldMT'), local('Liberation Sans Bold'), local('LiberationSans-Bold'), local('Helvetica Bold'), local('Helvetica-Bold'), local('Arimo Bold');
+  size-adjust: 96.66%; ascent-override: 106.04%; descent-override: 28.45%; line-gap-override: 0%; }
+@font-face { font-family: 'Zilla Slab Fallback'; font-weight: 700; src: local('Times New Roman Bold'), local('TimesNewRomanPS-BoldMT'), local('Liberation Serif Bold'), local('LiberationSerif-Bold'), local('Times Bold'), local('Times-Bold'), local('Tinos Bold');
+  size-adjust: 102.24%; ascent-override: 92.34%; descent-override: 25.04%; line-gap-override: 0%; }
+@font-face { font-family: 'Plex Mono Fallback'; font-weight: 400; src: local('Courier New'), local('CourierNewPSMT'), local('Liberation Mono'), local('LiberationMono'), local('Courier'), local('Cousine');
+  size-adjust: 99.98%; ascent-override: 102.52%; descent-override: 27.5%; line-gap-override: 0%; }
+
 :root {
   --ink: #0B0F14;
   --ink-2: #111821;
@@ -35,9 +47,9 @@
   --blue-wash: #D5E6F5;     /* light blue rails and borders */
   --blue-hover: #005A9C;
   --measure: 58ch;          /* ≈70 characters of IBM Plex Sans prose */
-  --display: 'Zilla Slab', Georgia, serif;
-  --sans: 'IBM Plex Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
-  --mono: 'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace;
+  --display: 'Zilla Slab', 'Zilla Slab Fallback', Georgia, serif;
+  --sans: 'IBM Plex Sans', 'Plex Sans Fallback', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --mono: 'IBM Plex Mono', 'Plex Mono Fallback', ui-monospace, Menlo, Consolas, monospace;
   --radius: 14px;
   --wrap: 1200px;
   --hdr: 65px;
@@ -162,6 +174,8 @@ p { margin: 0; text-wrap: pretty; }
 
 /* Motion */
 @keyframes rise { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+/* Scroll reveal moves but never fades: text is fully legible at every scroll position */
+@keyframes slide { from { transform: translateY(18px); } to { transform: none; } }
 @keyframes flow { to { stroke-dashoffset: -24; } }
 @keyframes pulse { 0%, 100% { opacity: .35; } 50% { opacity: 1; } }
 @keyframes blink { 50% { opacity: 0; } }
@@ -171,7 +185,7 @@ p { margin: 0; text-wrap: pretty; }
 .pulse { animation: pulse 2.4s ease-in-out infinite; }
 .caret { animation: blink 1s steps(1) infinite; }
 @supports (animation-timeline: view()) {
-  .reveal { animation: rise linear both; animation-timeline: view(); animation-range: entry 0% cover 25%; }
+  .reveal { animation: slide linear both; animation-timeline: view(); animation-range: entry 0% cover 25%; }
 }
 
 @media (prefers-reduced-motion: reduce) {
