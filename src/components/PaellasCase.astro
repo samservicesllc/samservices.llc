@@ -7,6 +7,7 @@ const { lang } = Astro.props;
 
 const T = {
   es: {
+    heroAlt: 'Sitio de Paellas by Carlitin en escritorio y móvil: un chef sirviendo paella en vivo, con botones para planear la paella y escribir por WhatsApp.',
     h1a: 'Un sitio que convierte visitas',
     h1b: 'en cotizaciones.',
     lead: 'Diseñamos y desarrollamos el sitio de Paellas by Carlitin, catering de paella española cocinada en vivo en Miami y el sur de Florida: identidad propia, planificador interactivo, cotización en un toque y SEO local en 5 idiomas.',
@@ -46,6 +47,7 @@ const T = {
     back: 'Volver al inicio',
   },
   en: {
+    heroAlt: 'The Paellas by Carlitin website on desktop and mobile: a chef serving paella live, with buttons to plan a paella and message on WhatsApp.',
     h1a: 'A website that turns visits',
     h1b: 'into quote requests.',
     lead: 'We designed and built the website for Paellas by Carlitin, a live Spanish paella catering business in Miami and South Florida: its own identity, an interactive planner, one-tap quotes and local SEO in 5 languages.',
@@ -102,7 +104,7 @@ const fx = [90, 270, 450, 630, 810];
 
 <section class="wrap csec">
   <figure class="hero-shot reveal">
-    <img src="/img/paellas-case.webp" alt="" width="1200" height="960" loading="lazy" decoding="async" />
+    <img src="/img/paellas-case.webp" alt={T.heroAlt} width="1200" height="960" loading="lazy" decoding="async" />
   </figure>
 </section>
 
@@ -225,7 +227,7 @@ const fx = [90, 270, 450, 630, 810];
   .csec.last { padding-bottom: 88px; }
   .two-col { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr)); gap: 40px; align-items: start; }
   .stack { display: flex; flex-direction: column; gap: 14px; }
-  .big { font-size: 18px; }
+  .big { font-size: 18px; max-width: var(--measure); }
   .mb { margin-bottom: 32px; }
   .light { color: #fff; }
   .mods { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: 16px; }

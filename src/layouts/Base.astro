@@ -144,6 +144,10 @@ const schema = {
       document.addEventListener('click', (e) => {
         if (!panel.hidden && !(e.target as Element).closest('.site-header')) set(false);
       });
+      document.querySelector('.site-header')!.addEventListener('focusout', (e) => {
+        const next = (e as FocusEvent).relatedTarget as Element | null;
+        if (!panel.hidden && next && !next.closest('.site-header')) set(false);
+      });
       matchMedia('(min-width: 861px)').addEventListener('change', (m) => { if (m.matches) set(false); });
     }
   </script>

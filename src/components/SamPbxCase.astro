@@ -8,6 +8,7 @@ const PORTAL = 'https://portal.pbx.samservices.llc/login';
 
 const T = {
   es: {
+    heroAlt: 'Portal Sam PBX: el dashboard con llamadas por devolver, SMS y extensiones fuera de línea, y detrás el historial de llamadas.',
     h1a: 'Telefonía de empresa,',
     h1b: 'clara y bajo control.',
     lead: 'Sam PBX es nuestro portal sobre centrales FusionPBX. El dueño del negocio ve en una sola pantalla qué llamadas hay que devolver, cómo responde cada extensión y cuándo está abierto cada número. Las líneas las contrata el cliente directamente con su operador.',
@@ -45,6 +46,7 @@ const T = {
     back: 'Volver al inicio',
   },
   en: {
+    heroAlt: 'The Sam PBX portal: the dashboard with calls to return, texts and offline extensions, with the call history behind it.',
     h1a: 'Business phone systems,',
     h1b: 'clear and under control.',
     lead: 'Sam PBX is our portal on top of FusionPBX. Business owners see on one screen which calls need a callback, how each extension is performing and when each number is open. Clients keep their lines directly with their own carrier.',
@@ -97,7 +99,7 @@ const T = {
 </section>
 
 <section class="wrap csec">
-  <figure class="hero-shot reveal"><img src="/img/sampbx-case.webp" alt="" width="1200" height="750" loading="lazy" decoding="async" /></figure>
+  <figure class="hero-shot reveal"><img src="/img/sampbx-case.webp" alt={T.heroAlt} width="1200" height="750" loading="lazy" decoding="async" /></figure>
 </section>
 
 <section class="wrap csec two-col">
@@ -194,7 +196,7 @@ const T = {
   .csec.last { padding-bottom: 88px; }
   .two-col { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr)); gap: 40px; align-items: start; }
   .stack { display: flex; flex-direction: column; gap: 14px; }
-  .big { font-size: 18px; }
+  .big { font-size: 18px; max-width: var(--measure); }
   .mb { margin-bottom: 32px; }
   .light { color: #fff; }
   .mods { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: 16px; }

@@ -19,6 +19,10 @@ export interface Project {
   metrics: Record<Lang, [string, string][]>;
 }
 
+/** Responsive variants generated next to each image: name-480.webp, name-800.webp, original (1200w). */
+export const srcset = (img: string) =>
+  `${img.replace(/\.webp$/, '-480.webp')} 480w, ${img.replace(/\.webp$/, '-800.webp')} 800w, ${img} 1200w`;
+
 /** Add new projects here. Order = order on /proyectos/. */
 export const projects: Project[] = [
   {

@@ -20,7 +20,7 @@ const { density = 1, class: cls = '' } = Astro.props;
     const host = canvas.parentElement as HTMLElement;
     const density = Number(canvas.dataset.density || 1);
     let w = 0, h = 0, dpr = 1, nodes: Node[] = [], pulses: Pulse[] = [];
-    let linkDist = 140, running = false, raf = 0, last = 0;
+    let linkDist = 140, running = false, raf = 0, last = 0, onScreen = false;
     const mouse = { x: -9999, y: -9999 };
 
     function resize() {
@@ -145,8 +145,8 @@ const { density = 1, class: cls = '' } = Astro.props;
     });
     host.addEventListener('pointerleave', () => { mouse.x = mouse.y = -9999; });
     new ResizeObserver(() => resize()).observe(host);
-    new IntersectionObserver(([e]) => (e.isIntersecting && !document.hidden ? play() : pause())).observe(host);
-    document.addEventListener('visibilitychange', () => (document.hidden ? pause() : play()));
+    new IntersectionObserver(([e]) => { onScreen = e.isIntersecting; onScreen && !document.hidden ? play() : pause(); }).observe(host);
+    document.addEventListener('visibilitychange', () => (document.hidden || !onScreen ? pause() : play()));
     resize();
     if (reduce) { for (let i = 0; i < 3; i++) spawnPulse(); pulses.forEach((p) => (p.t = 0.5)); draw(0); }
   }
