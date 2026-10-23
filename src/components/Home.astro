@@ -332,6 +332,8 @@ const pos: [number, number][] = [[70, 60], [370, 60], [60, 150], [380, 150], [70
   .accent { color: var(--blue); }
   .lead { font-size: 19px; color: var(--on-dark); max-width: 540px; }
   .actions { display: flex; flex-wrap: wrap; gap: 12px; padding-top: 6px; }
+  /* Phones: one button per row, so the layout doesn't depend on which font has loaded */
+  @media (max-width: 480px) { .actions { flex-direction: column; align-items: flex-start; } }
 
   .panel { background: rgba(14,22,34,.72); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); border: 1px solid rgba(80,120,160,.25); border-radius: 16px; padding: 22px; }
   .panel-top { display: flex; justify-content: space-between; font-size: 12px; color: var(--on-dark-3); padding-bottom: 12px; }

@@ -1,9 +1,12 @@
 ---
 import '../styles/global.css';
 import { t, paths, SITE, EMAIL, LINKEDIN_COMPANY, LINKEDIN_PERSON, type Lang } from '../i18n';
-// Fonts used by the first screen (headline + body), preloaded so the hero renders in its final face
+// Fonts used by the first screen (headline, body, buttons, mono labels), preloaded so the hero
+// renders in its final face and nothing reflows when they arrive
 import fontDisplay from '@fontsource/zilla-slab/files/zilla-slab-latin-700-normal.woff2?url';
 import fontBody from '@fontsource/ibm-plex-sans/files/ibm-plex-sans-latin-400-normal.woff2?url';
+import fontMono from '@fontsource/ibm-plex-mono/files/ibm-plex-mono-latin-400-normal.woff2?url';
+import fontBold from '@fontsource/ibm-plex-sans/files/ibm-plex-sans-latin-600-normal.woff2?url';
 
 interface Props {
   lang: Lang;
@@ -69,6 +72,8 @@ const schema = {
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="preload" href={fontDisplay} as="font" type="font/woff2" crossorigin />
   <link rel="preload" href={fontBody} as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href={fontMono} as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href={fontBold} as="font" type="font/woff2" crossorigin />
   <title>{pageTitle}</title>
   <meta name="description" content={desc} />
   {noindex && <meta name="robots" content="noindex" />}
