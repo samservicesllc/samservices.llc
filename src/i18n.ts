@@ -16,7 +16,7 @@ export const t = {
     locale: 'es_US',
     title: 'Sam Services LLC · Sitios web, software e IT · Naples, FL',
     description:
-      'Sitios web, software a la medida, integraciones, servidores, correo corporativo y telefonía FusionPBX para pequeñas y medianas empresas en EE. UU. Naples, Florida.',
+      'Sitios web, software a la medida, integraciones, servidores, correo y telefonía FusionPBX para pequeñas y medianas empresas en EE. UU. Naples, Florida.',
     og: '/og-es.png',
     skip: 'Saltar al contenido',
     nav: { services: 'Servicios', calc: 'Calculadora', projects: 'Casos', about: 'Nosotros', cta: 'Hablemos' },

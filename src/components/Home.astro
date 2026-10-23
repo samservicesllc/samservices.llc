@@ -118,17 +118,17 @@ const pos: [number, number][] = [[70, 60], [370, 60], [60, 150], [380, 150], [70
       <h2 id="calc-title" class="h2">{c.calc.h2}</h2>
       <p class="muted big">{c.calc.lead}</p>
     </div>
-    <form class="calc reveal" id="calc" data-locale={c.calc.numLocale} onsubmit="return false">
+    <div class="calc reveal" id="calc" role="group" aria-labelledby="calc-title" data-locale={c.calc.numLocale}>
       <div class="field">
-        <label for="c-orders"><span>{c.calc.orders}</span><output class="mono" id="o-orders" for="c-orders">800</output></label>
+        <div class="lrow"><label for="c-orders">{c.calc.orders}</label><output class="mono" id="o-orders" for="c-orders">800</output></div>
         <input id="c-orders" type="range" min="50" max="3000" step="50" value="800" />
       </div>
       <div class="field">
-        <label for="c-mins"><span>{c.calc.mins}</span><output class="mono" id="o-mins" for="c-mins">6 {c.calc.minUnit}</output></label>
+        <div class="lrow"><label for="c-mins">{c.calc.mins}</label><output class="mono" id="o-mins" for="c-mins">6 {c.calc.minUnit}</output></div>
         <input id="c-mins" type="range" min="1" max="15" step="1" value="6" data-unit={c.calc.minUnit} />
       </div>
       <div class="field">
-        <label for="c-rate"><span>{c.calc.rate}</span><output class="mono" id="o-rate" for="c-rate">$25</output></label>
+        <div class="lrow"><label for="c-rate">{c.calc.rate}</label><output class="mono" id="o-rate" for="c-rate">$25</output></div>
         <input id="c-rate" type="range" min="15" max="60" step="1" value="25" />
       </div>
       <div class="result" aria-live="polite">
@@ -137,7 +137,7 @@ const pos: [number, number][] = [[70, 60], [370, 60], [60, 150], [380, 150], [70
       </div>
       <p class="note">{c.calc.note}</p>
       <a class="btn btn-blue" href="#contacto" id="calc-cta">{c.calc.cta}</a>
-    </form>
+    </div>
   </div>
 </section>
 
@@ -227,7 +227,7 @@ const pos: [number, number][] = [[70, 60], [370, 60], [60, 150], [380, 150], [70
   cf?.addEventListener('pointerdown', loadTurnstile, { once: true });
 
   // Savings calculator
-  const calc = document.getElementById('calc') as HTMLFormElement | null;
+  const calc = document.getElementById('calc') as HTMLElement | null;
   if (calc) {
     const loc = calc.dataset.locale || 'en-US';
     const fmt = (n: number) => n.toLocaleString(loc);
@@ -358,7 +358,7 @@ const pos: [number, number][] = [[70, 60], [370, 60], [60, 150], [380, 150], [70
   .big { font-size: 18px; max-width: var(--measure); }
   .calc { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 28px; display: flex; flex-direction: column; gap: 22px; }
   .field { display: flex; flex-direction: column; gap: 8px; }
-  .field label { display: flex; justify-content: space-between; gap: 12px; font-weight: 500; }
+  .lrow { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; font-weight: 500; }
   .field output { color: var(--link); white-space: nowrap; }
   input[type=range] {
     --p: 50%;
@@ -379,6 +379,15 @@ const pos: [number, number][] = [[70, 60], [370, 60], [60, 150], [380, 150], [70
     width: 18px; height: 18px; border-radius: 50%; background: #fff; border: 2px solid var(--blue);
   }
   input[type=range]:active::-webkit-slider-thumb { transform: scale(1.15); }
+  /* Windows high-contrast: backgrounds are dropped, so draw the track with system colors */
+  @media (forced-colors: active) {
+    input[type=range] { forced-color-adjust: none; }
+    input[type=range]::-webkit-slider-runnable-track { background: linear-gradient(to right, Highlight var(--p), CanvasText var(--p)); }
+    input[type=range]::-moz-range-track { background: CanvasText; }
+    input[type=range]::-moz-range-progress { background: Highlight; }
+    input[type=range]::-webkit-slider-thumb { background: Canvas; border-color: Highlight; box-shadow: none; }
+    input[type=range]::-moz-range-thumb { background: Canvas; border-color: Highlight; }
+  }
   .result {
     background: var(--ink); color: #fff; border-radius: 12px; padding: 22px;
     display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px;
@@ -505,7 +514,8 @@ const pos: [number, number][] = [[70, 60], [370, 60], [60, 150], [380, 150], [70
     padding: 11px 13px; border-radius: 8px; border: 1px solid var(--field-line); background: rgba(14,22,34,.88);
     color: #fff; font-size: 16px; font-family: inherit; transition: border-color .15s ease;
   }
-  .cform input:focus, .cform textarea:focus { outline: none; border-color: var(--blue); box-shadow: 0 0 0 3px rgba(0,153,255,.25); }
+  /* transparent outline: invisible normally, drawn by the system in Windows high-contrast mode */
+  .cform input:focus, .cform textarea:focus { outline: 2px solid transparent; outline-offset: 1px; border-color: var(--blue); box-shadow: 0 0 0 3px rgba(0,153,255,.25); }
   .cform .btn { margin-top: 12px; align-self: flex-start; }
   .sendrow { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 16px; }
   .sendrow .btn { margin-top: 8px; flex: none; }

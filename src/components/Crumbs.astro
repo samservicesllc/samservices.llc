@@ -3,15 +3,23 @@ import { paths, SITE, type Lang } from '../i18n';
 interface Props { lang: Lang; name: string; href: string }
 const { lang, name, href } = Astro.props;
 const label = lang === 'es' ? 'Proyectos' : 'Projects';
-const ld = {
-  '@context': 'https://schema.org',
+const url = new URL(href, SITE).href;
+const org = { '@type': 'Organization', name: 'Sam Services LLC', url: new URL(paths[lang].home, SITE).href };
+const crumbs = {
   '@type': 'BreadcrumbList',
   itemListElement: [
     { '@type': 'ListItem', position: 1, name: 'Sam Services LLC', item: new URL(paths[lang].home, SITE).href },
     { '@type': 'ListItem', position: 2, name: label, item: new URL(paths[lang].projects, SITE).href },
-    { '@type': 'ListItem', position: 3, name, item: new URL(href, SITE).href },
+    { '@type': 'ListItem', position: 3, name, item: url },
   ],
 };
+// The case study itself, credited to Sam Services LLC
+const work = {
+  '@type': 'CreativeWork', '@id': url + '#case', name: lang === 'es' ? `Caso: ${name}` : `Case study: ${name}`,
+  url, inLanguage: lang === 'es' ? 'es-US' : 'en-US', genre: lang === 'es' ? 'Caso de estudio' : 'Case study',
+  about: { '@type': 'Thing', name }, creator: org, publisher: org,
+};
+const ld = { '@context': 'https://schema.org', '@graph': [crumbs, work] };
 ---
 <nav class="crumbs mono" aria-label={lang === 'es' ? 'Ruta' : 'Breadcrumb'}>
   <a class="tap" href={paths[lang].projects}>{label}</a> <span aria-hidden="true">›</span> <span aria-current="page">{name}</span>

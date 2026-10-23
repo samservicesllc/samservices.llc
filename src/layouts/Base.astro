@@ -3,10 +3,10 @@ import '../styles/global.css';
 import { t, paths, SITE, EMAIL, LINKEDIN_COMPANY, LINKEDIN_PERSON, type Lang } from '../i18n';
 // Fonts used by the first screen (headline, body, buttons, mono labels), preloaded so the hero
 // renders in its final face and nothing reflows when they arrive
-import fontDisplay from '@fontsource/zilla-slab/files/zilla-slab-latin-700-normal.woff2?url';
+import fontDisplay from '../fonts/zilla-slab-latin-700-normal.woff2?url';
 import fontBody from '@fontsource/ibm-plex-sans/files/ibm-plex-sans-latin-400-normal.woff2?url';
 import fontMono from '@fontsource/ibm-plex-mono/files/ibm-plex-mono-latin-400-normal.woff2?url';
-import fontBold from '@fontsource/ibm-plex-sans/files/ibm-plex-sans-latin-600-normal.woff2?url';
+import fontBold from '../fonts/ibm-plex-sans-latin-600-normal.woff2?url';
 
 interface Props {
   lang: Lang;
@@ -125,44 +125,42 @@ const schema = {
         <a class="nl" href={`${home}#nosotros`}>{c.nav.about}</a>
         <a class="lang" href={alt} hreflang={other} lang={other} aria-label={c.switchLabel}>{c.switchText}</a>
         <a class="btn btn-dark cta" href={`${home}#contacto`}>{c.nav.cta}</a>
-        <button class="menu-btn" type="button" aria-expanded="false" aria-controls="mnav" aria-label={menuLabel}>
-          <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path class="l1" d="M4 7h16"/><path class="l2" d="M4 12h16"/><path class="l3" d="M4 17h16"/></svg>
-        </button>
+        <details class="menu">
+          <summary class="menu-btn" aria-label={menuLabel}>
+            <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path class="l1" d="M4 7h16"/><path class="l2" d="M4 12h16"/><path class="l3" d="M4 17h16"/></svg>
+          </summary>
+          <div id="mnav" class="mnav">
+            <div class="wrap mnav-in">
+              <a href={`${home}#proyectos`}>{c.nav.projects}</a>
+              <a href={paths[lang].projects}>{c.footer.projects}</a>
+              <a href={`${home}#servicios`}>{c.nav.services}</a>
+              <a href={`${home}#calculadora`}>{c.nav.calc}</a>
+              <a href={`${home}#nosotros`}>{c.nav.about}</a>
+              <a class="btn btn-blue" href={`${home}#contacto`}>{c.nav.cta}</a>
+            </div>
+          </div>
+        </details>
       </nav>
-    </div>
-    <div id="mnav" class="mnav" hidden>
-      <div class="wrap mnav-in">
-        <a href={`${home}#proyectos`}>{c.nav.projects}</a>
-        <a href={paths[lang].projects}>{c.footer.projects}</a>
-        <a href={`${home}#servicios`}>{c.nav.services}</a>
-        <a href={`${home}#calculadora`}>{c.nav.calc}</a>
-        <a href={`${home}#nosotros`}>{c.nav.about}</a>
-        <a class="btn btn-blue" href={`${home}#contacto`}>{c.nav.cta}</a>
-      </div>
     </div>
   </header>
   <script>
-    const btn = document.querySelector('.menu-btn') as HTMLButtonElement | null;
-    const panel = document.getElementById('mnav');
-    if (btn && panel) {
-      const set = (open: boolean) => {
-        btn.setAttribute('aria-expanded', String(open));
-        panel.hidden = !open;
-        document.documentElement.classList.toggle('menu-open', open);
-      };
-      btn.addEventListener('click', () => set(panel.hidden));
-      panel.addEventListener('click', (e) => { if ((e.target as Element).closest('a')) set(false); });
+    // The menu is a native <details> (works without JS); this only adds closing conveniences
+    const menu = document.querySelector('.menu') as HTMLDetailsElement | null;
+    const btn = menu?.querySelector('summary') as HTMLElement | null;
+    if (menu && btn) {
+      const close = () => { menu.open = false; };
+      menu.querySelector('.mnav')!.addEventListener('click', (e) => { if ((e.target as Element).closest('a')) close(); });
       document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && !panel.hidden) { set(false); btn.focus(); }
+        if (e.key === 'Escape' && menu.open) { close(); btn.focus(); }
       });
       document.addEventListener('click', (e) => {
-        if (!panel.hidden && !(e.target as Element).closest('.site-header')) set(false);
+        if (menu.open && !(e.target as Element).closest('.site-header')) close();
       });
       document.querySelector('.site-header')!.addEventListener('focusout', (e) => {
         const next = (e as FocusEvent).relatedTarget as Element | null;
-        if (!panel.hidden && next && !next.closest('.site-header')) set(false);
+        if (menu.open && next && !next.closest('.site-header')) close();
       });
-      matchMedia('(min-width: 861px)').addEventListener('change', (m) => { if (m.matches) set(false); });
+      matchMedia('(min-width: 861px)').addEventListener('change', (m) => { if (m.matches) close(); });
     }
   </script>
   <main id="main">
@@ -206,20 +204,23 @@ const schema = {
   .nl:hover { color: var(--text); }
   .nl:hover::after { transform: scaleX(1); }
   .lang {
-    font-family: var(--mono); font-size: 13px; color: var(--text-3); text-decoration: none;
+    font-family: var(--mono); font-size: 13px; color: var(--text-2); text-decoration: none;
     border: 1px solid var(--border-strong); border-radius: 6px; padding: 6px 10px;
   }
   .lang:hover { border-color: var(--blue); color: var(--text); }
   .cta { padding: 10px 16px; font-size: 15px; }
+  .menu { display: none; }
+  .menu-btn { list-style: none; }
+  .menu-btn::-webkit-details-marker { display: none; }
   .menu-btn {
-    display: none; width: 44px; height: 44px; margin-right: -8px; padding: 0;
+    display: inline-flex; width: 44px; height: 44px; margin-right: -8px; padding: 0;
     align-items: center; justify-content: center; border: 0; border-radius: 8px;
     background: transparent; color: var(--text); cursor: pointer;
   }
   .menu-btn path { transition: transform .2s ease, opacity .2s ease; transform-origin: 12px 12px; }
-  .menu-btn[aria-expanded="true"] .l1 { transform: translateY(5px) rotate(45deg); }
-  .menu-btn[aria-expanded="true"] .l2 { opacity: 0; }
-  .menu-btn[aria-expanded="true"] .l3 { transform: translateY(-5px) rotate(-45deg); }
+  .menu[open] .l1 { transform: translateY(5px) rotate(45deg); }
+  .menu[open] .l2 { opacity: 0; }
+  .menu[open] .l3 { transform: translateY(-5px) rotate(-45deg); }
   .mnav {
     position: absolute; left: 0; right: 0; top: 100%;
     background: var(--surface); border-bottom: 1px solid var(--border);
@@ -235,13 +236,12 @@ const schema = {
     .nl { display: none; }
     nav { gap: 10px; }
     .brand img { height: 30px; }
-    .menu-btn { display: inline-flex; }
+    .menu { display: block; }
     .lang { min-height: 44px; min-width: 44px; display: inline-flex; align-items: center; justify-content: center; }
   }
   @media (max-width: 520px) {
     .cta { display: none; }
   }
-  @media (min-width: 861px) { .mnav { display: none; } }
   @media (prefers-reduced-motion: reduce) { .menu-btn path { transition: none; } }
   .site-footer { border-top: 1px solid var(--border); }
   .foot {
