@@ -99,7 +99,7 @@ const fx = [90, 270, 450, 630, 810];
     <dl class="cm cm4 mono rise rise-2">
       {T.metrics.map(([n, l]) => <div><dd data-count={n}>{n}</dd><dt>{l}</dt></div>)}
     </dl>
-    <p class="note mono">{T.metricsNote} <a class="tap" href="https://paellasbycarlitin.com/" rel="noopener">{T.visit} →</a></p>
+    <p class="note mono">{T.metricsNote} <a class="tap" href="https://paellasbycarlitin.com/" target="_blank" rel="noopener noreferrer">{T.visit} →<span class="sr-only">{lang === 'es' ? ' (se abre en una pestaña nueva)' : ' (opens in a new tab)'}</span></a></p>
   </div>
 </section>
 

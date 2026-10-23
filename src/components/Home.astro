@@ -149,7 +149,7 @@ const pos: [number, number][] = [[70, 60], [370, 60], [60, 150], [380, 150], [70
       <p class="muted">{c.about.text}</p>
       <div class="chips mono">
         {c.about.chips.map((x) => <span>{x}</span>)}
-        <a class="tap" href={LINKEDIN_PERSON} rel="noopener">{c.about.linkedin} →</a>
+        <a class="tap" href={LINKEDIN_PERSON} target="_blank" rel="noopener noreferrer">{c.about.linkedin} →<span class="sr-only">{lang === 'es' ? ' (se abre en una pestaña nueva)' : ' (opens in a new tab)'}</span></a>
       </div>
     </div>
   </div>

@@ -170,7 +170,7 @@ const schema = {
     <div class="wrap foot">
       <span>© {year} Sam Services LLC · {c.footer.rights}</span>
       <span>
-        <a href={LINKEDIN_COMPANY} rel="noopener">LinkedIn</a> ·
+        <a href={LINKEDIN_COMPANY} target="_blank" rel="noopener noreferrer">LinkedIn<span class="sr-only">{lang === 'es' ? ' (se abre en una pestaña nueva)' : ' (opens in a new tab)'}</span></a> ·
         <a href={`mailto:${EMAIL}`}>{EMAIL}</a> ·
         <a href={paths[lang].projects}>{c.footer.projects}</a> ·
         <a href={paths[lang].privacy}>{c.footer.privacy}</a> ·

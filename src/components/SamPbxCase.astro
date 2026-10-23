@@ -95,7 +95,7 @@ const T = {
     <dl class="cm cm4 mono rise rise-2">
       {T.metrics.map(([n, l]) => <div><dd>{n}</dd><dt>{l}</dt></div>)}
     </dl>
-    <p class="note mono">{T.note} <a class="tap" href={PORTAL} rel="noopener">{T.portal} →</a></p>
+    <p class="note mono">{T.note} <a class="tap" href={PORTAL} target="_blank" rel="noopener noreferrer">{T.portal} →<span class="sr-only">{lang === 'es' ? ' (se abre en una pestaña nueva)' : ' (opens in a new tab)'}</span></a></p>
   </div>
 </section>
 
