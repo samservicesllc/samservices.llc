@@ -107,7 +107,12 @@ const pos: [number, number][] = [[70, 60], [370, 60], [60, 150], [380, 150], [70
         <svg aria-hidden="true" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#0099FF" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" set:html={icons[k]} />
         <h3>{title}</h3>
         <p class="muted">{text}</p>
-        {k === 'code' && <a class="svc-more tap" href={paths[lang].integrations}>{c.services.more} →</a>}
+        {k === 'code' && (
+          <span class="svc-links">
+            <a class="svc-more tap" href={paths[lang].software}>{c.services.more} →</a>
+            <a class="svc-more tap" href={paths[lang].integrations}>{c.services.more2} →</a>
+          </span>
+        )}
       </article>
     ))}
   </div>
@@ -410,7 +415,8 @@ const pos: [number, number][] = [[70, 60], [370, 60], [60, 150], [380, 150], [70
   .grid4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr)); gap: 18px; }
   .svc { padding: 26px; display: flex; flex-direction: column; gap: 10px; }
   .svc h3 { font-size: 19px; font-weight: 600; }
-  .svc-more { margin-top: auto; font-weight: 600; text-decoration: none; }
+  .svc-links { margin-top: auto; display: flex; flex-direction: column; gap: 6px; }
+  .svc-more { font-weight: 600; text-decoration: none; }
   .svc-more:hover { text-decoration: underline; }
 
   .grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr)); gap: 22px; }

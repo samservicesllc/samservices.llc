@@ -10,7 +10,7 @@ import fontBold from '../fonts/ibm-plex-sans-latin-600-normal.woff2?url';
 
 interface Props {
   lang: Lang;
-  page: 'home' | 'projects' | 'case' | 'casePaellas' | 'casePbx' | 'privacy' | 'terms' | 'sms' | 'accessibility' | 'integrations' | '404';
+  page: 'home' | 'projects' | 'case' | 'casePaellas' | 'casePbx' | 'privacy' | 'terms' | 'sms' | 'accessibility' | 'integrations' | 'software' | '404';
   title?: string;
   description?: string;
   noindex?: boolean;
@@ -175,6 +175,7 @@ const schema = {
       <span>
         <a href={LINKEDIN_COMPANY} target="_blank" rel="noopener noreferrer">LinkedIn<span class="sr-only">{lang === 'es' ? ' (se abre en una pestaña nueva)' : ' (opens in a new tab)'}</span></a> ·
         <a href={`mailto:${EMAIL}`}>{EMAIL}</a> ·
+        <a href={paths[lang].software}>{c.footer.software}</a> ·
         <a href={paths[lang].integrations}>{c.footer.integrations}</a> ·
         <a href={paths[lang].projects}>{c.footer.projects}</a> ·
         <a href={paths[lang].privacy}>{c.footer.privacy}</a> ·

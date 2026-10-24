@@ -1,0 +1,30 @@
+export interface ServiceContent {
+  schemaName: string;
+  serviceType: string;
+  crumbParent: string;
+  crumb: string;
+  h1a: string;
+  h1b: string;
+  lead: string;
+  metrics: [string, string][];
+  metricsNote: string;
+  painH: string;
+  pain: string[];
+  whatH: string;
+  items: [string, string][];
+  archLabel?: string;
+  core?: [string, string];
+  nodes?: string[];
+  whyH: string;
+  why: string[];
+  whyLink?: { href: string; label: string };
+  stack?: { label: string; items: string[] };
+  stepsH: string;
+  steps: [string, string][];
+  faqH: string;
+  faq: [string, string][];
+  ctaH: string;
+  ctaP: string;
+  cta: string;
+  calc: string;
+}

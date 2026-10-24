@@ -1,5 +1,6 @@
 ---
 import Base from '../../../layouts/Base.astro';
-import Integrations from '../../../components/Integrations.astro';
+import Service from '../../../components/Service.astro';
+import { integrations } from '../../../services/integrations';
 ---
-<Base lang="es" page="integrations" title="Integración Square, Shopify, eBay y Walmart · Sam Services LLC" description="Sincronice inventario, pedidos y facturas entre Square, Shopify, eBay, Walmart y FedEx. Integraciones a la medida desde Naples, FL para todo EE. UU."><Integrations lang="es" /></Base>
+<Base lang="es" page="integrations" title="Integración Square, Shopify, eBay y Walmart · Sam Services LLC" description="Sincronice inventario, pedidos y facturas entre Square, Shopify, eBay, Walmart y FedEx. Integraciones a la medida desde Naples, FL para todo EE. UU."><Service lang="es" page="integrations" content={integrations} /></Base>
