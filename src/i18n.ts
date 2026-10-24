@@ -6,8 +6,8 @@ export const LINKEDIN_COMPANY = 'https://www.linkedin.com/company/samservicesllc
 export const LINKEDIN_PERSON = 'https://www.linkedin.com/in/arieskienmendoza/';
 
 export const paths = {
-  es: { home: '/es/', projects: '/es/proyectos/', case: '/es/proyectos/gonichea/', casePaellas: '/es/proyectos/paellas-by-carlitin/', casePbx: '/es/proyectos/sam-pbx/', privacy: '/es/privacidad/', terms: '/es/terminos/', sms: '/es/sms/', accessibility: '/es/accesibilidad/' },
-  en: { home: '/', projects: '/projects/', case: '/projects/gonichea/', casePaellas: '/projects/paellas-by-carlitin/', casePbx: '/projects/sam-pbx/', privacy: '/privacy/', terms: '/terms/', sms: '/sms/', accessibility: '/accessibility/' },
+  es: { home: '/es/', projects: '/es/proyectos/', case: '/es/proyectos/gonichea/', casePaellas: '/es/proyectos/paellas-by-carlitin/', casePbx: '/es/proyectos/sam-pbx/', privacy: '/es/privacidad/', terms: '/es/terminos/', sms: '/es/sms/', accessibility: '/es/accesibilidad/', integrations: '/es/integraciones/' },
+  en: { home: '/', projects: '/projects/', case: '/projects/gonichea/', casePaellas: '/projects/paellas-by-carlitin/', casePbx: '/projects/sam-pbx/', privacy: '/privacy/', terms: '/terms/', sms: '/sms/', accessibility: '/accessibility/', integrations: '/integrations/' },
 } as const;
 
 export const t = {
@@ -57,6 +57,7 @@ export const t = {
     },
     services: {
       h2: 'Todo lo digital de su empresa, con un solo responsable.',
+      more: 'Ver integraciones',
       items: [
         ['web', 'Sitios web', 'Rápidos, bilingües y listos para Google: diseño, dominio, hosting, correo y SEO local.'],
         ['code', 'Software e integraciones', 'Plataformas en Python/Django que unen ventas, inventario, facturación y envíos.'],
@@ -126,7 +127,7 @@ export const t = {
       termsLink: 'Términos SMS',
       termsGeneral: 'Términos',
     },
-    footer: { rights: 'Naples, Florida', projects: 'Proyectos', privacy: 'Privacidad', terms: 'Términos', sms: 'Términos SMS', accessibility: 'Accesibilidad' },
+    footer: { rights: 'Naples, Florida', integrations: 'Integraciones', projects: 'Proyectos', privacy: 'Privacidad', terms: 'Términos', sms: 'Términos SMS', accessibility: 'Accesibilidad' },
   },
   en: {
     htmlLang: 'en',
@@ -174,6 +175,7 @@ export const t = {
     },
     services: {
       h2: 'Everything digital in your business, with one accountable partner.',
+      more: 'See integrations',
       items: [
         ['web', 'Websites', 'Fast, bilingual and Google-ready: design, domain, hosting, email and local SEO.'],
         ['code', 'Software & integrations', 'Python/Django platforms that connect sales, inventory, invoicing and shipping.'],
@@ -243,6 +245,6 @@ export const t = {
       termsLink: 'SMS Terms',
       termsGeneral: 'Terms',
     },
-    footer: { rights: 'Naples, Florida', projects: 'Projects', privacy: 'Privacy', terms: 'Terms', sms: 'SMS Terms', accessibility: 'Accessibility' },
+    footer: { rights: 'Naples, Florida', integrations: 'Integrations', projects: 'Projects', privacy: 'Privacy', terms: 'Terms', sms: 'SMS Terms', accessibility: 'Accessibility' },
   },
 } as const;

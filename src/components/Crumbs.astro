@@ -1,28 +1,29 @@
 ---
 import { paths, SITE, type Lang } from '../i18n';
-interface Props { lang: Lang; name: string; href: string }
-const { lang, name, href } = Astro.props;
-const label = lang === 'es' ? 'Proyectos' : 'Projects';
+interface Props { lang: Lang; name: string; href: string; parentLabel?: string; parentHref?: string; work?: boolean }
+const { lang, name, href, parentLabel, parentHref, work = true } = Astro.props;
+const label = parentLabel ?? (lang === 'es' ? 'Proyectos' : 'Projects');
+const parent = parentHref ?? paths[lang].projects;
 const url = new URL(href, SITE).href;
 const org = { '@type': 'Organization', name: 'Sam Services LLC', url: new URL(paths[lang].home, SITE).href };
 const crumbs = {
   '@type': 'BreadcrumbList',
   itemListElement: [
     { '@type': 'ListItem', position: 1, name: 'Sam Services LLC', item: new URL(paths[lang].home, SITE).href },
-    { '@type': 'ListItem', position: 2, name: label, item: new URL(paths[lang].projects, SITE).href },
+    { '@type': 'ListItem', position: 2, name: label, item: new URL(parent, SITE).href },
     { '@type': 'ListItem', position: 3, name, item: url },
   ],
 };
 // The case study itself, credited to Sam Services LLC
-const work = {
+const caseWork = {
   '@type': 'CreativeWork', '@id': url + '#case', name: lang === 'es' ? `Caso: ${name}` : `Case study: ${name}`,
   url, inLanguage: lang === 'es' ? 'es-US' : 'en-US', genre: lang === 'es' ? 'Caso de estudio' : 'Case study',
   about: { '@type': 'Thing', name }, creator: org, publisher: org,
 };
-const ld = { '@context': 'https://schema.org', '@graph': [crumbs, work] };
+const ld = { '@context': 'https://schema.org', '@graph': work ? [crumbs, caseWork] : [crumbs] };
 ---
 <nav class="crumbs mono" aria-label={lang === 'es' ? 'Ruta' : 'Breadcrumb'}>
-  <a class="tap" href={paths[lang].projects}>{label}</a> <span aria-hidden="true">›</span> <span aria-current="page">{name}</span>
+  <a class="tap" href={parent}>{label}</a> <span aria-hidden="true">›</span> <span aria-current="page">{name}</span>
 </nav>
 <script type="application/ld+json" set:html={JSON.stringify(ld)} />
 <style>

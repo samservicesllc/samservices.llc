@@ -1,0 +1,332 @@
+---
+import NeuralBg from './NeuralBg.astro';
+import Crumbs from './Crumbs.astro';
+import { paths, SITE, type Lang } from '../i18n';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+
+const T = {
+  es: {
+    crumbParent: 'Servicios',
+    crumb: 'Integraciones',
+    h1a: 'Integración de Square, Shopify, eBay y Walmart:',
+    h1b: 'un solo inventario para todos sus canales.',
+    lead: 'Conectamos su punto de venta, tienda en línea, marketplaces y envíos con un mismo sistema, para que existencias, pedidos y facturas se actualicen solos. Integraciones a la medida hechas en Naples, Florida, para comercios en todo EE. UU.',
+    metrics: [
+      ['32079', 'órdenes de eBay sincronizadas'],
+      ['64539', 'facturas despachadas'],
+      ['42312', 'envíos con seguimiento'],
+      ['10', 'sedes en 7 estados'],
+    ],
+    metricsNote: 'Datos en producción del caso Gonichea, septiembre 2018 – octubre 2026.',
+    painH: 'Vender en varios canales sin integración cuesta horas y ventas.',
+    pain: [
+      'La última unidad se vende en la tienda y sigue publicada en eBay: el cliente compra algo que ya no existe.',
+      'Cada pedido de Shopify o Walmart se vuelve a escribir a mano en la facturación.',
+      'Las guías de FedEx se llenan copiando direcciones, y el número de rastreo nunca llega al pedido.',
+      'A fin de mes, los números de la tienda, los marketplaces y la contabilidad no coinciden.',
+    ],
+    whatH: 'Qué conectamos y qué se sincroniza.',
+    channels: [
+      ['Square POS', 'Las ventas en tienda descuentan existencias al momento, con cobros y pagos parciales registrados.'],
+      ['Shopify', 'Productos, precios, existencias y pedidos de su tienda en línea, en ambos sentidos.'],
+      ['eBay', 'Publicaciones, precios, inventario y órdenes. En Gonichea: 32,079 órdenes sincronizadas.'],
+      ['Walmart Marketplace', 'Publicaciones, precios, inventario y órdenes desde el mismo inventario central.'],
+      ['FedEx', 'Guías y rastreo generados desde el pedido, con evidencia fotográfica del despacho.'],
+      ['Su sitio web', 'El catálogo, los precios y las existencias del sitio salen del mismo sistema.'],
+    ],
+    archLabel: 'Diagrama: su inventario en el centro, conectado con Square POS, Shopify, eBay, Walmart, FedEx y su sitio web',
+    core: ['Su', 'inventario'],
+    nodes: ['Square POS', 'Shopify', 'eBay', 'Walmart', 'FedEx', 'Su sitio web'],
+    whyH: '¿Por qué a la medida y no una app de sincronización?',
+    why: [
+      'Las apps de sincronización sirven mientras su negocio cabe en ellas. Se quedan cortas cuando hay varias sedes o almacenes, existencias reservadas o en tránsito, pagos parciales, garantías o reglas propias de precios.',
+      'Una integración a la medida sigue las reglas de su operación, no al revés. Y la construye y mantiene un solo ingeniero responsable, que conoce su sistema de principio a fin.',
+    ],
+    stepsH: 'Cómo trabajamos.',
+    steps: [
+      ['Diagnóstico gratis', 'Revisamos sus canales, cómo fluyen hoy los pedidos y dónde se pierde tiempo.'],
+      ['Propuesta según sus requisitos', 'Cada operación es distinta: la propuesta se ajusta a sus canales, su volumen y sus reglas.'],
+      ['Construcción por etapas', 'Empezamos por el canal que más duele, para que vea resultados desde la primera entrega.'],
+      ['Operación y mantenimiento', 'Las APIs de Square, eBay o Walmart cambian; nosotros mantenemos la integración funcionando.'],
+    ],
+    caseLink: 'Ver el caso completo de Gonichea',
+    faqH: 'Preguntas frecuentes',
+    faq: [
+      ['¿Pueden sincronizar el inventario entre Square y Shopify?', 'Sí. Una venta en la tienda descuenta la existencia en Shopify y una venta en línea la descuenta en Square, desde un mismo inventario. Lo mismo aplica a eBay y Walmart.'],
+      ['¿Tengo que cambiar los sistemas que ya uso?', 'No. Conectamos lo que ya tiene. Solo proponemos un sistema central cuando la operación lo necesita, como en el caso de Gonichea con 10 sedes.'],
+      ['¿Cuánto cuesta una integración?', 'Depende de cuántos canales conectar, del volumen de pedidos y de sus reglas: almacenes, reservas, pagos parciales. Por eso cotizamos después del diagnóstico gratis, según sus requisitos.'],
+      ['¿Cuánto tarda?', 'Depende del alcance. Trabajamos por etapas y empezamos por el canal más urgente, así una parte funciona antes de terminar el resto.'],
+      ['¿Trabajan fuera de Naples?', 'Sí. Atendemos en persona en el suroeste de Florida y a distancia en todo EE. UU.; las sedes de Gonichea están en 7 estados.'],
+      ['¿Atienden en español?', 'Sí, en español y en inglés, desde el diagnóstico hasta el soporte.'],
+    ],
+    ctaH: '¿Cuántas horas pierde su equipo copiando pedidos?',
+    ctaP: 'Le mostramos qué conectar primero, sin compromiso.',
+    cta: 'Quiero el diagnóstico gratis',
+    calc: 'Calcular mi ahorro',
+  },
+  en: {
+    crumbParent: 'Services',
+    crumb: 'Integrations',
+    h1a: 'Square, Shopify, eBay and Walmart integration:',
+    h1b: 'one inventory for every channel.',
+    lead: 'We connect your point of sale, online store, marketplaces and shipping to one system, so stock, orders and invoices update themselves. Custom integrations built in Naples, Florida, for retailers across the US.',
+    metrics: [
+      ['32079', 'eBay orders synced'],
+      ['64539', 'invoices dispatched'],
+      ['42312', 'tracked shipments'],
+      ['10', 'locations in 7 states'],
+    ],
+    metricsNote: 'Production data from the Gonichea case, September 2018 – October 2026.',
+    painH: 'Selling on several channels without integration costs hours and sales.',
+    pain: [
+      'The last unit sells in the store and is still listed on eBay: a customer buys something you no longer have.',
+      'Every Shopify or Walmart order gets retyped by hand into invoicing.',
+      'FedEx labels are filled in by copying addresses, and the tracking number never makes it back to the order.',
+      'At month end, the numbers from the store, the marketplaces and accounting do not match.',
+    ],
+    whatH: 'What we connect and what stays in sync.',
+    channels: [
+      ['Square POS', 'In-store sales reduce stock instantly, with payments and partial payments recorded.'],
+      ['Shopify', 'Products, prices, stock and orders from your online store, both ways.'],
+      ['eBay', 'Listings, prices, inventory and orders. At Gonichea: 32,079 orders synced.'],
+      ['Walmart Marketplace', 'Listings, prices, inventory and orders from the same central inventory.'],
+      ['FedEx', 'Labels and tracking created from the order, with photo proof of dispatch.'],
+      ['Your website', 'The catalog, prices and stock on your site come from the same system.'],
+    ],
+    archLabel: 'Diagram: your inventory at the center, connected to Square POS, Shopify, eBay, Walmart, FedEx and your website',
+    core: ['Your', 'inventory'],
+    nodes: ['Square POS', 'Shopify', 'eBay', 'Walmart', 'FedEx', 'Your website'],
+    whyH: 'Why custom instead of a sync app?',
+    why: [
+      'Sync apps work as long as your business fits them. They fall short with several locations or warehouses, reserved or in-transit stock, partial payments, warranties or your own pricing rules.',
+      'A custom integration follows the rules of your operation, not the other way around. One accountable engineer builds and maintains it and knows your system end to end.',
+    ],
+    stepsH: 'How we work.',
+    steps: [
+      ['Free diagnosis', 'We review your channels, how orders flow today and where time is lost.'],
+      ['A proposal based on your requirements', 'Every operation is different: the proposal fits your channels, volume and rules.'],
+      ['Built in stages', 'We start with the channel that hurts most, so you see results from the first delivery.'],
+      ['Run and maintain', 'Square, eBay and Walmart APIs change; we keep the integration working.'],
+    ],
+    caseLink: 'See the full Gonichea case',
+    faqH: 'Frequently asked questions',
+    faq: [
+      ['Can you sync inventory between Square and Shopify?', 'Yes. A sale in the store reduces stock on Shopify and an online sale reduces it in Square, from one inventory. The same applies to eBay and Walmart.'],
+      ['Do I have to replace the systems I already use?', 'No. We connect what you already have. We only propose a central system when the operation needs one, as with Gonichea and its 10 locations.'],
+      ['How much does an integration cost?', 'It depends on how many channels to connect, order volume and your rules: warehouses, reservations, partial payments. That is why we quote after the free diagnosis, based on your requirements.'],
+      ['How long does it take?', 'It depends on scope. We work in stages and start with the most urgent channel, so part of it works before the rest is done.'],
+      ['Do you work outside Naples?', 'Yes. We work in person in Southwest Florida and remotely across the US; Gonichea’s locations are in 7 states.'],
+      ['Do you work in Spanish?', 'Yes, in English and Spanish, from the diagnosis to support.'],
+    ],
+    ctaH: 'How many hours does your team spend retyping orders?',
+    ctaP: 'We will show you what to connect first, no strings attached.',
+    cta: 'Get the free diagnosis',
+    calc: 'Estimate my savings',
+  },
+}[lang];
+
+const fmt = (n: string) => Number(n).toLocaleString('en-US');
+const R: [number, number][] = [[110, 80], [300, 40], [490, 80], [490, 320], [300, 360], [110, 320]];
+const home = paths[lang].home;
+const pageUrl = new URL(paths[lang].integrations, SITE).href;
+const ld = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Service',
+      '@id': pageUrl + '#service',
+      name: lang === 'es' ? 'Integración de Square, Shopify, eBay y Walmart' : 'Square, Shopify, eBay and Walmart integration',
+      serviceType: lang === 'es' ? 'Integración de sistemas e inventario' : 'Inventory and systems integration',
+      description: T.lead,
+      url: pageUrl,
+      inLanguage: lang === 'es' ? 'es-US' : 'en-US',
+      provider: { '@type': 'ProfessionalService', '@id': `${SITE}/#org`, name: 'Sam Services LLC', url: `${SITE}/` },
+      areaServed: [
+        { '@type': 'Country', name: 'United States' },
+        ...['Naples', 'Estero', 'Bonita Springs', 'Fort Myers', 'Cape Coral', 'Marco Island'].map((name) => ({ '@type': 'City', name })),
+      ],
+      availableLanguage: ['es', 'en'],
+    },
+    {
+      '@type': 'FAQPage',
+      '@id': pageUrl + '#faq',
+      mainEntity: T.faq.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })),
+    },
+  ],
+};
+---
+<script type="application/ld+json" set:html={JSON.stringify(ld)} />
+
+<section class="chero" aria-labelledby="int-title">
+  <NeuralBg />
+  <div class="wrap cin">
+    <Crumbs lang={lang} name={T.crumb} href={paths[lang].integrations} parentLabel={T.crumbParent} parentHref={`${home}#servicios`} work={false} />
+    <h1 id="int-title" class="rise">{T.h1a} <span class="accent">{T.h1b}</span></h1>
+    <p class="lead rise rise-2">{T.lead}</p>
+    <div class="cbtns rise rise-2">
+      <a class="btn btn-blue" href={`${home}#contacto`}>{T.cta}</a>
+      <a class="btn btn-ghost" href={`${home}#calculadora`}>{T.calc}</a>
+    </div>
+    <dl class="cm mono">
+      {T.metrics.map(([n, l]) => <div><dd>{fmt(n)}</dd><dt>{l}</dt></div>)}
+    </dl>
+    <p class="note mono">{T.metricsNote}</p>
+  </div>
+</section>
+
+<section class="wrap csec two-col" aria-labelledby="pain-title">
+  <div class="reveal">
+    <h2 id="pain-title" class="h2">{T.painH}</h2>
+  </div>
+  <ul class="pain reveal">
+    {T.pain.map((p) => <li>{p}</li>)}
+  </ul>
+</section>
+
+<section class="wrap csec" aria-labelledby="what-title">
+  <h2 id="what-title" class="h2 mb">{T.whatH}</h2>
+  <div class="mods three">
+    {T.channels.map(([h, p]) => (
+      <article class="card mod reveal">
+        <h3>{h}</h3>
+        <p class="muted">{p}</p>
+      </article>
+    ))}
+  </div>
+</section>
+
+<section class="arch-sec" aria-label={T.archLabel}>
+  <div class="wrap csec">
+    <svg role="img" aria-label={T.archLabel} viewBox="0 0 600 400" class="arch reveal">
+      <g fill="none" stroke="#0099FF" stroke-width="1.6">
+        {R.map(([x, y], i) => <path class="flow" style={`animation-delay:${-i * 0.2}s`} d={`M300 200 L${x} ${y}`} />)}
+      </g>
+      <g font-family="IBM Plex Mono, monospace" font-size="12" text-anchor="middle">
+        {R.map(([x, y], i) => (
+          <g class="node">
+            <rect x={x - 62} y={y - 17} width="124" height="34" rx="8" fill="#13202F" stroke="#2D4256" />
+            <text x={x} y={y + 4} fill="#D7DEE6">{T.nodes[i]}</text>
+          </g>
+        ))}
+        <circle class="pulse" cx="300" cy="200" r="74" fill="none" stroke="#0099FF" stroke-width="1.5" />
+        <circle cx="300" cy="200" r="60" fill="#0099FF" />
+        <text x="300" y="196" fill="#0B0F14" font-size="14" font-weight="600">{T.core[0]}</text>
+        <text x="300" y="214" fill="#0B0F14" font-size="14" font-weight="600">{T.core[1]}</text>
+      </g>
+    </svg>
+  </div>
+</section>
+
+<section class="wrap csec two-col" aria-labelledby="why-title">
+  <div class="reveal">
+    <h2 id="why-title" class="h2">{T.whyH}</h2>
+  </div>
+  <div class="reveal stack">
+    {T.why.map((p) => <p class="muted big">{p}</p>)}
+    <a class="more tap" href={paths[lang].case}>{T.caseLink} →</a>
+  </div>
+</section>
+
+<section class="wrap csec" aria-labelledby="steps-title">
+  <h2 id="steps-title" class="h2 mb">{T.stepsH}</h2>
+  <ol class="mods steps">
+    {T.steps.map(([h, p], i) => (
+      <li class="card mod reveal">
+        <span class="num mono">{String(i + 1).padStart(2, '0')}</span>
+        <h3>{h}</h3>
+        <p class="muted">{p}</p>
+      </li>
+    ))}
+  </ol>
+</section>
+
+<section class="wrap csec" aria-labelledby="faq-title">
+  <h2 id="faq-title" class="h2 mb">{T.faqH}</h2>
+  <dl class="faq">
+    {T.faq.map(([q, a]) => (
+      <div class="qa reveal">
+        <dt>{q}</dt>
+        <dd class="muted">{a}</dd>
+      </div>
+    ))}
+  </dl>
+</section>
+
+<section class="wrap csec last">
+  <div class="ccta reveal">
+    <NeuralBg density={0.5} />
+    <div>
+      <h2 class="h2 light">{T.ctaH}</h2>
+      <p class="on-dark">{T.ctaP}</p>
+    </div>
+    <div class="cbtns">
+      <a class="btn btn-blue" href={`${home}#contacto`}>{T.cta}</a>
+      <a class="btn btn-ghost" href={`${home}#calculadora`}>{T.calc}</a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .chero {
+    position: relative; overflow: hidden; isolation: isolate; color: #fff;
+    background:
+      radial-gradient(1100px 560px at 85% 10%, rgba(0,153,255,.12), transparent 60%),
+      linear-gradient(180deg, var(--navy) 0%, var(--navy-2) 60%, var(--ink) 100%);
+  }
+  .cin { position: relative; z-index: 1; padding-block: 84px 72px; display: flex; flex-direction: column; gap: 20px; }
+  h1 { font-family: var(--display); font-weight: 700; font-size: clamp(36px, 5vw, 56px); line-height: 1.06; max-width: 920px; }
+  .accent { color: var(--blue); }
+  .lead { font-size: 19px; color: var(--on-dark); max-width: 62ch; }
+  .cm { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin: 18px 0 0; max-width: 920px; }
+  .cm div { background: rgba(14,22,34,.72); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); border: 1px solid rgba(80,120,160,.25); border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 4px; }
+  .cm dd { margin: 0; font-size: clamp(22px, 2.4vw, 30px); color: #fff; font-variant-numeric: tabular-nums; }
+  .cm dt { font-size: 12px; color: var(--on-dark-2); }
+  .note { font-size: 12px; color: var(--note-dark); }
+  @media (max-width: 760px) { .cm { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+  .csec { padding-block: 80px 8px; }
+  .csec.last { padding-bottom: 88px; }
+  .two-col { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr)); gap: 40px; align-items: start; }
+  .stack { display: flex; flex-direction: column; gap: 14px; }
+  .big { font-size: 18px; max-width: var(--measure); }
+  .mb { margin-bottom: 32px; }
+  .light { color: #fff; }
+  .more { font-weight: 600; text-decoration: none; }
+  .more:hover { text-decoration: underline; }
+
+  .pain { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 14px; }
+  .pain li, .qa dd, .qa dt { text-wrap: pretty; }
+  .pain li { position: relative; padding-left: 26px; font-size: 18px; color: var(--text-body); max-width: var(--measure); }
+  .pain li::before { content: ''; position: absolute; left: 0; top: .62em; width: 12px; height: 2px; background: var(--blue); }
+
+  .mods { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: 16px; }
+  .steps { list-style: none; margin: 0; padding: 0; }
+  .three { grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); }
+  .mod { padding: 24px; display: flex; flex-direction: column; gap: 8px; }
+  .mod .num { color: var(--link); font-size: 13px; }
+  .mod h3 { font-size: 18px; font-weight: 600; }
+
+  .arch-sec { margin-top: 80px; background: linear-gradient(180deg, var(--navy), var(--navy-2)); }
+  .arch-sec .csec { padding-block: 64px; }
+  .arch { width: 100%; max-width: 820px; display: block; margin: 0 auto; height: auto; }
+  .node rect { transition: stroke .2s ease; }
+  .node:hover rect { stroke: var(--blue); }
+  /* On phones the labels would render at ~7px; the channel cards above carry the same content */
+  @media (max-width: 560px) { .arch-sec { display: none; } }
+
+  .faq { margin: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); gap: 28px 40px; }
+  .qa dt { font-weight: 600; font-size: 18px; margin-bottom: 6px; }
+  .qa dd { margin: 0; max-width: var(--measure); }
+
+  .ccta {
+    position: relative; overflow: hidden; isolation: isolate; border-radius: 18px; padding: clamp(28px, 4vw, 48px);
+    background: linear-gradient(160deg, var(--navy) 0%, var(--navy-2) 60%, var(--ink) 100%);
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 24px;
+  }
+  .ccta > :not(canvas) { position: relative; z-index: 1; }
+  .ccta .h2 { margin-bottom: 8px; }
+  .on-dark { color: var(--on-dark); }
+  .cbtns { display: flex; flex-wrap: wrap; gap: 12px; }
+  @media (max-width: 480px) { .cbtns { flex-direction: column; align-items: stretch; } }
+</style>
