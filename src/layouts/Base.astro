@@ -49,7 +49,10 @@ const schema = {
         postalCode: '34109',
         addressCountry: 'US',
       },
-      areaServed: { '@type': 'Country', name: 'United States' },
+      areaServed: [
+        { '@type': 'Country', name: 'United States' },
+        ...['Naples', 'Estero', 'Bonita Springs', 'Fort Myers', 'Cape Coral', 'Marco Island'].map((name) => ({ '@type': 'City', name, containedInPlace: { '@type': 'State', name: 'Florida' } })),
+      ],
       knowsLanguage: ['es', 'en'],
       sameAs: [LINKEDIN_COMPANY],
       description: t.en.description,
