@@ -6,8 +6,8 @@ export const LINKEDIN_COMPANY = 'https://www.linkedin.com/company/samservicesllc
 export const LINKEDIN_PERSON = 'https://www.linkedin.com/in/arieskienmendoza/';
 
 export const paths = {
-  es: { home: '/es/', projects: '/es/proyectos/', case: '/es/proyectos/gonichea/', casePaellas: '/es/proyectos/paellas-by-carlitin/', casePbx: '/es/proyectos/sam-pbx/', privacy: '/es/privacidad/', terms: '/es/terminos/', sms: '/es/sms/', accessibility: '/es/accesibilidad/', integrations: '/es/integraciones/', software: '/es/software-a-la-medida-naples/' },
-  en: { home: '/', projects: '/projects/', case: '/projects/gonichea/', casePaellas: '/projects/paellas-by-carlitin/', casePbx: '/projects/sam-pbx/', privacy: '/privacy/', terms: '/terms/', sms: '/sms/', accessibility: '/accessibility/', integrations: '/integrations/', software: '/custom-software-naples-fl/' },
+  es: { home: '/es/', projects: '/es/proyectos/', case: '/es/proyectos/gonichea/', casePaellas: '/es/proyectos/paellas-by-carlitin/', casePbx: '/es/proyectos/sam-pbx/', privacy: '/es/privacidad/', terms: '/es/terminos/', sms: '/es/sms/', accessibility: '/es/accesibilidad/', integrations: '/es/integraciones/', software: '/es/software-a-la-medida-naples/', phone: '/es/sistema-telefonico-naples/', email: '/es/correo-corporativo/', web: '/es/diseno-web-naples/', servers: '/es/servidores/' },
+  en: { home: '/', projects: '/projects/', case: '/projects/gonichea/', casePaellas: '/projects/paellas-by-carlitin/', casePbx: '/projects/sam-pbx/', privacy: '/privacy/', terms: '/terms/', sms: '/sms/', accessibility: '/accessibility/', integrations: '/integrations/', software: '/custom-software-naples-fl/', phone: '/business-phone-system-naples-fl/', email: '/business-email/', web: '/web-design-naples-fl/', servers: '/server-management/' },
 } as const;
 
 export const t = {
@@ -59,6 +59,7 @@ export const t = {
       h2: 'Todo lo digital de su empresa, con un solo responsable.',
       more: 'Software a la medida',
       more2: 'Integraciones',
+      links: { web: [['web', 'Diseño web']], code: [['software', 'Software a la medida'], ['integrations', 'Integraciones']], server: [['servers', 'Servidores'], ['email', 'Correo corporativo']], phone: [['phone', 'Sistema telefónico']] },
       items: [
         ['web', 'Sitios web', 'Rápidos, bilingües y listos para Google: diseño, dominio, hosting, correo y SEO local.'],
         ['code', 'Software e integraciones', 'Plataformas en Python/Django que unen ventas, inventario, facturación y envíos.'],
@@ -128,7 +129,7 @@ export const t = {
       termsLink: 'Términos SMS',
       termsGeneral: 'Términos',
     },
-    footer: { rights: 'Naples, Florida', software: 'Software a la medida', integrations: 'Integraciones', projects: 'Proyectos', privacy: 'Privacidad', terms: 'Términos', sms: 'Términos SMS', accessibility: 'Accesibilidad' },
+    footer: { rights: 'Naples, Florida', services: 'Servicios', web: 'Diseño web', software: 'Software a la medida', integrations: 'Integraciones', phone: 'Telefonía', email: 'Correo corporativo', servers: 'Servidores', projects: 'Proyectos', privacy: 'Privacidad', terms: 'Términos', sms: 'Términos SMS', accessibility: 'Accesibilidad' },
   },
   en: {
     htmlLang: 'en',
@@ -178,6 +179,7 @@ export const t = {
       h2: 'Everything digital in your business, with one accountable partner.',
       more: 'Custom software',
       more2: 'Integrations',
+      links: { web: [['web', 'Web design']], code: [['software', 'Custom software'], ['integrations', 'Integrations']], server: [['servers', 'Servers'], ['email', 'Business email']], phone: [['phone', 'Business phone systems']] },
       items: [
         ['web', 'Websites', 'Fast, bilingual and Google-ready: design, domain, hosting, email and local SEO.'],
         ['code', 'Software & integrations', 'Python/Django platforms that connect sales, inventory, invoicing and shipping.'],
@@ -247,6 +249,6 @@ export const t = {
       termsLink: 'SMS Terms',
       termsGeneral: 'Terms',
     },
-    footer: { rights: 'Naples, Florida', software: 'Custom software', integrations: 'Integrations', projects: 'Projects', privacy: 'Privacy', terms: 'Terms', sms: 'SMS Terms', accessibility: 'Accessibility' },
+    footer: { rights: 'Naples, Florida', services: 'Services', web: 'Web design', software: 'Custom software', integrations: 'Integrations', phone: 'Phone systems', email: 'Business email', servers: 'Servers', projects: 'Projects', privacy: 'Privacy', terms: 'Terms', sms: 'SMS Terms', accessibility: 'Accessibility' },
   },
 } as const;

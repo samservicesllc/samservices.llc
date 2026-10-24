@@ -1,0 +1,6 @@
+---
+import Base from '../../../layouts/Base.astro';
+import Service from '../../../components/Service.astro';
+import { email } from '../../../services/email';
+---
+<Base lang="es" page="email" title="Correo corporativo con su dominio · Sam Services LLC" description="Correo con su dominio en Google Workspace, Microsoft 365 o servidor administrado. SPF, DKIM y DMARC configurados para que sus correos lleguen a la bandeja."><Service lang="es" page="email" content={email} /></Base>

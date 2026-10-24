@@ -10,7 +10,7 @@ import fontBold from '../fonts/ibm-plex-sans-latin-600-normal.woff2?url';
 
 interface Props {
   lang: Lang;
-  page: 'home' | 'projects' | 'case' | 'casePaellas' | 'casePbx' | 'privacy' | 'terms' | 'sms' | 'accessibility' | 'integrations' | 'software' | '404';
+  page: 'home' | 'projects' | 'case' | 'casePaellas' | 'casePbx' | 'privacy' | 'terms' | 'sms' | 'accessibility' | 'integrations' | 'software' | 'phone' | 'email' | 'web' | 'servers' | '404';
   title?: string;
   description?: string;
   noindex?: boolean;
@@ -170,13 +170,15 @@ const schema = {
     <slot />
   </main>
   <footer class="site-footer">
+    <nav class="wrap foot-svc" aria-label={c.footer.services}>
+      <span class="foot-k">{c.footer.services}</span>
+      {(['web', 'software', 'integrations', 'phone', 'email', 'servers'] as const).map((k) => <a href={paths[lang][k]}>{c.footer[k]}</a>)}
+    </nav>
     <div class="wrap foot">
       <span>© {year} Sam Services LLC · {c.footer.rights}</span>
       <span>
         <a href={LINKEDIN_COMPANY} target="_blank" rel="noopener noreferrer">LinkedIn<span class="sr-only">{lang === 'es' ? ' (se abre en una pestaña nueva)' : ' (opens in a new tab)'}</span></a> ·
         <a href={`mailto:${EMAIL}`}>{EMAIL}</a> ·
-        <a href={paths[lang].software}>{c.footer.software}</a> ·
-        <a href={paths[lang].integrations}>{c.footer.integrations}</a> ·
         <a href={paths[lang].projects}>{c.footer.projects}</a> ·
         <a href={paths[lang].privacy}>{c.footer.privacy}</a> ·
         <a href={paths[lang].terms}>{c.footer.terms}</a> ·
@@ -249,6 +251,13 @@ const schema = {
   }
   @media (prefers-reduced-motion: reduce) { .menu-btn path { transition: none; } }
   .site-footer { border-top: 1px solid var(--border); }
+  .foot-svc {
+    display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 18px;
+    padding-block: 22px 0; font-size: 14px;
+  }
+  .foot-k { font-family: var(--mono); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--text-3); }
+  .foot-svc a { color: var(--text-2); }
+  .foot-svc a:hover { color: var(--link-hover); }
   .foot {
     display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px;
     padding-block: 26px; font-size: 14px; color: var(--text-3);

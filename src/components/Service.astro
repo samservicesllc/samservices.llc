@@ -3,7 +3,7 @@ import NeuralBg from './NeuralBg.astro';
 import Crumbs from './Crumbs.astro';
 import { paths, SITE, type Lang } from '../i18n';
 import type { ServiceContent } from '../services/types';
-interface Props { lang: Lang; page: 'integrations' | 'software'; content: Record<'es' | 'en', ServiceContent> }
+interface Props { lang: Lang; page: 'integrations' | 'software' | 'phone' | 'email' | 'web' | 'servers'; content: Record<'es' | 'en', ServiceContent> }
 const { lang, page, content } = Astro.props;
 const T = content[lang];
 
