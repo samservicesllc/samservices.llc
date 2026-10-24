@@ -12,6 +12,8 @@ export interface Project {
   image: string;
   imageW: number;
   imageH: number;
+  /** describes the screenshot for image search; the image sits in a link hidden from assistive tech */
+  imageAlt: Record<Lang, string>;
   href: Record<Lang, string>;
   client: Record<Lang, string>;
   title: Record<Lang, string>;
@@ -33,6 +35,7 @@ export const projects: Project[] = [
     image: '/img/gonichea-case.webp',
     imageW: 1200,
     imageH: 960,
+    imageAlt: { es: 'Tienda en línea de Gonichea en escritorio y móvil, alimentada por su backend', en: 'Gonichea online store on desktop and mobile, fed by its backend' },
     href: { es: paths.es.case, en: paths.en.case },
     client: { es: 'Gonichea · Distribuidor HVAC y electrodomésticos', en: 'Gonichea · HVAC and appliance distributor' },
     title: { es: 'Ingeniería backend e integraciones', en: 'Backend engineering & integrations' },
@@ -52,6 +55,7 @@ export const projects: Project[] = [
     image: '/img/sampbx-case.webp',
     imageW: 1200,
     imageH: 750,
+    imageAlt: { es: 'Dashboard del portal de telefonía Sam PBX', en: 'Sam PBX phone portal dashboard' },
     href: { es: paths.es.casePbx, en: paths.en.casePbx },
     client: { es: 'Sam PBX · Producto propio', en: 'Sam PBX · Our own product' },
     title: { es: 'Portal de telefonía FusionPBX', en: 'FusionPBX phone portal' },
@@ -71,6 +75,7 @@ export const projects: Project[] = [
     image: '/img/paellas-case.webp',
     imageW: 1200,
     imageH: 960,
+    imageAlt: { es: 'Sitio de Paellas by Carlitin en escritorio y móvil', en: 'Paellas by Carlitin website on desktop and mobile' },
     href: { es: paths.es.casePaellas, en: paths.en.casePaellas },
     client: { es: 'Paellas by Carlitin · Catering en Miami', en: 'Paellas by Carlitin · Catering in Miami' },
     title: { es: 'Sitio web en 5 idiomas', en: 'Website in 5 languages' },

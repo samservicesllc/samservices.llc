@@ -35,7 +35,7 @@ const itemList = {
     {projects.map((p) => (
       <article class="card pcard" data-cat={p.category.join(' ')}>
         <a href={p.href[lang]} class="pimg" tabindex="-1" aria-hidden="true">
-          <img src={p.image} srcset={srcset(p.image)} sizes="(max-width: 760px) calc(100vw - 48px), 380px" alt="" width={p.imageW} height={p.imageH} loading="lazy" decoding="async" />
+          <img src={p.image} srcset={srcset(p.image)} sizes="(max-width: 760px) calc(100vw - 48px), 380px" alt={p.imageAlt[lang]} width={p.imageW} height={p.imageH} loading="lazy" decoding="async" />
         </a>
         <div class="pb">
           <p class="client">{p.client[lang]}</p>
