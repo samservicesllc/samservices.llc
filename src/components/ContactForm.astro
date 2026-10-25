@@ -2,10 +2,12 @@
 // Contact form + SMS opt-in. Used on the home page (#contacto) and on the SMS program page (/sms/).
 import { t, paths, EMAIL, PHONE, PHONE_DISPLAY, type Lang } from '../i18n';
 import NeuralBg from './NeuralBg.astro';
-interface Props { lang: Lang; title?: string; lead?: string }
-const { lang, title, lead } = Astro.props;
+interface Props { lang: Lang; title?: string; lead?: string; source?: 'web' | 'ss-reviews'; abs?: boolean }
+const { lang, title, lead, source = 'web', abs = false } = Astro.props;
 const c = t[lang];
-const p = paths[lang];
+// abs: links point to samservices.llc (used when the form is shown on another host, e.g. reviews.samservices.llc)
+const base = abs ? 'https://samservices.llc' : '';
+const p = Object.fromEntries(Object.entries(paths[lang]).map(([k, v]) => [k, base + v])) as typeof paths[typeof lang];
 ---
 <div class="contact reveal">
   <NeuralBg density={0.6} />
@@ -18,6 +20,7 @@ const p = paths[lang];
   </div>
   <form id="contact-form" class="cform" action="/api/contact" method="post" data-error={c.contact.error} data-verify={c.contact.verify} data-sending={c.contact.sending} data-ok={c.contact.ok} data-email={EMAIL}>
     <input type="hidden" name="lang" value={lang} />
+    <input type="hidden" name="source" value={source} />
     <div class="hp" aria-hidden="true"><label>Website<input type="text" name="website" tabindex="-1" autocomplete="off" /></label></div>
     <div class="g2">
       <div class="f"><label for="f-name">{c.contact.name}</label>

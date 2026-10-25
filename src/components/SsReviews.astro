@@ -1,0 +1,271 @@
+---
+// SS Reviews public page. Served at https://reviews.samservices.llc/ (EN) and /es/ (ES) by the
+// ss-reviews-site worker, which proxies /ss-reviews/ and /es/ss-reviews/ from samservices.llc.
+// All links to the main site are absolute.
+import '../styles/global.css';
+import qrcode from 'qrcode-generator';
+import NeuralBg from './NeuralBg.astro';
+import ContactForm from './ContactForm.astro';
+import { type Lang } from '../i18n';
+import fontDisplay from '../fonts/zilla-slab-latin-700-normal.woff2?url';
+import fontBody from '@fontsource/ibm-plex-sans/files/ibm-plex-sans-latin-400-normal.woff2?url';
+import fontBold from '../fonts/ibm-plex-sans-latin-600-normal.woff2?url';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const es = lang === 'es';
+const HOST = 'https://reviews.samservices.llc';
+const MAIN = 'https://samservices.llc';
+const canonical = es ? `${HOST}/es/` : `${HOST}/`;
+const demoUrl = 'https://go.samservices.llc/DEMO';
+const q = qrcode(0, 'Q');
+q.addData(demoUrl);
+q.make();
+const qr = q.createSvgTag({ cellSize: 4, margin: 2, scalable: true, alt: es ? 'Código QR de demostración' : 'Demo QR code' });
+
+const c = es ? {
+  title: 'SS Reviews · QR permanentes para reseñas de Google | Sam Services LLC',
+  desc: 'Un QR para las reseñas de Google de su negocio que no se reimprime aunque cambie el perfil, la sede o el dueño. De Sam Services LLC, Naples, Florida.',
+  kicker: 'SS Reviews · de Sam Services LLC',
+  h1a: 'Un QR para sus reseñas de Google.',
+  h1b: 'Cambia el destino, nunca se reimprime.',
+  lead: 'Un código QR permanente por sede o por miembro del equipo. Lleva al cliente directo al formulario de reseña de Google y, si su perfil cambia, actualizamos el destino en segundos: el QR impreso sigue funcionando.',
+  cta: 'Quiero SS Reviews', how: 'Cómo funciona',
+  probH: 'Los QR de reseñas impresos se rompen.',
+  prob: ['Cambió o se fusionó el perfil de Google, y el enlace viejo ya no lleva a ningún lado.', 'Un nuevo dueño, una nueva sede o un cambio de nombre obliga a reimprimir tarjetas, pegatinas y carteles.', 'Los enlaces de reseña son largos y nadie los escribe a mano.', 'No sabe si alguien escanea el QR ni en qué sede.'],
+  howH: 'Cómo funciona.',
+  steps: [['Creamos su QR', 'Uno por sede, por mostrador o por técnico, cada uno con su propio código permanente.'], ['Usted lo imprime', 'En tarjetas, placas de mostrador, pegatinas, facturas o recibos. Le entregamos los archivos listos para imprenta (SVG y PNG).'], ['El cliente escanea y opina', 'Se abre directo el formulario de reseña de Google. Si algo cambia, apuntamos el mismo QR a su nuevo destino.']],
+  keepH: 'Lo que puede cambiar sin reimprimir.',
+  keep: ['Un perfil de Google nuevo, fusionado o verificado otra vez', 'Un cambio de dueño o de nombre del negocio', 'Una sede que se muda o que abre', 'Pasar a otra plataforma de reseñas'],
+  fmtH: 'Formatos.', fmt: ['Tarjeta de presentación', 'Placa de mostrador', 'Pegatina para puerta o caja'],
+  scan: 'Escanee para ver la demo',
+  fairH: 'Limpio con las reglas de Google.',
+  fair: 'El QR lleva directo al formulario de reseña, para todos los clientes por igual. No filtramos a los clientes satisfechos antes de pedirles la reseña (lo que Google llama «review gating») ni damos nada a cambio de una reseña: las dos cosas van contra las políticas de Google y ponen en riesgo su perfil. SS Reviews está montado así desde el principio.',
+  forH: 'Para quién.',
+  forL: [['Negocios con una sede', 'Un QR en el mostrador, en la factura y en la tarjeta.'], ['Negocios con varias sedes', 'Un QR por sede, cada uno hacia la reseña de su propio perfil.'], ['Equipos de servicio', 'Un QR por técnico, estilista o vendedor para entregarlo al terminar el trabajo.']],
+  faqH: 'Preguntas frecuentes',
+  faq: [['¿El cliente necesita una app?', 'No. Basta con la cámara del teléfono.'], ['¿Qué pasa si cambia nuestro perfil de Google?', 'Nos avisa y apuntamos el mismo QR al nuevo perfil. No hay que reimprimir nada.'], ['¿Podemos imprimirlos nosotros?', 'Sí. Le entregamos cada QR en SVG y PNG de alta resolución, listos para imprenta.'], ['¿Saben quién escanea?', 'Contamos los escaneos por fecha, país y tipo de dispositivo. No guardamos datos personales de quien escanea.'], ['¿Google lo permite?', 'Sí: es un enlace directo a su formulario de reseña. No filtramos clientes ni ofrecemos incentivos.'], ['¿Cuánto cuesta?', 'Depende del número de QR y de sedes. Cuéntenos su caso y le preparamos una propuesta.']],
+  formT: '¿Quiere SS Reviews para su negocio?', formL: 'Cuéntenos cuántas sedes o personas tiene y le respondemos en un día hábil, en español o en inglés.',
+  other: 'English', otherHref: '/', by: 'SS Reviews es un producto de', priv: 'Privacidad', terms: 'Términos', sms: 'Términos SMS',
+} : {
+  title: 'SS Reviews · Permanent QR codes for Google reviews | Sam Services LLC',
+  desc: 'A QR code for your business’s Google reviews that never needs reprinting, even if your profile, location or owner changes. From Sam Services LLC, Naples, Florida.',
+  kicker: 'SS Reviews · by Sam Services LLC',
+  h1a: 'One QR for your Google reviews.',
+  h1b: 'Change where it points, never reprint.',
+  lead: 'A permanent QR code for each location or team member. It takes customers straight to your Google review form, and if your profile changes, we update the destination in seconds: the printed QR keeps working.',
+  cta: 'Get SS Reviews', how: 'How it works',
+  probH: 'Printed review QR codes break.',
+  prob: ['Your Google profile changed or was merged, and the old link leads nowhere.', 'A new owner, a new location or a new name means reprinting cards, stickers and signs.', 'Review links are long and nobody types them.', 'You never know if anyone scans the QR, or at which location.'],
+  howH: 'How it works.',
+  steps: [['We create your QR', 'One per location, counter or technician, each with its own permanent code.'], ['You print it', 'On business cards, counter stands, stickers, invoices or receipts. We deliver print-ready files (SVG and PNG).'], ['Customers scan and review', 'Your Google review form opens right away. If anything changes, we point the same QR to the new destination.']],
+  keepH: 'What can change without reprinting.',
+  keep: ['A new, merged or re-verified Google profile', 'A change of owner or business name', 'A location that moves or opens', 'Moving to another review platform'],
+  fmtH: 'Formats.', fmt: ['Business card', 'Counter stand', 'Door or register sticker'],
+  scan: 'Scan to see the demo',
+  fairH: 'Clean with Google’s rules.',
+  fair: 'The QR goes straight to the review form, for every customer alike. We do not filter happy customers before asking for a review (what Google calls “review gating”) and we do not reward reviews: both go against Google’s policies and put your profile at risk. SS Reviews is built that way from the start.',
+  forH: 'Who it’s for.',
+  forL: [['Single-location businesses', 'One QR on the counter, on the invoice and on the business card.'], ['Multi-location businesses', 'One QR per location, each to its own profile’s review form.'], ['Service teams', 'One QR per technician, stylist or salesperson to hand over when the job is done.']],
+  faqH: 'Frequently asked questions',
+  faq: [['Do customers need an app?', 'No. The phone camera is enough.'], ['What if our Google profile changes?', 'Let us know and we point the same QR to the new profile. Nothing needs reprinting.'], ['Can we print them ourselves?', 'Yes. We deliver each QR as print-ready, high-resolution SVG and PNG files.'], ['Do you know who scans?', 'We count scans by date, country and device type. We do not store personal data about who scans.'], ['Does Google allow it?', 'Yes: it is a direct link to your review form. We do not filter customers or offer incentives.'], ['How much does it cost?', 'It depends on the number of QR codes and locations. Tell us about your business and we will prepare a proposal.']],
+  formT: 'Want SS Reviews for your business?', formL: 'Tell us how many locations or people you have and we will reply within one business day, in English or Spanish.',
+  other: 'Español', otherHref: '/es/', by: 'SS Reviews is a product of', priv: 'Privacy', terms: 'Terms', sms: 'SMS Terms',
+};
+const L = es ? '/es' : '';
+const schema = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    { '@type': 'WebPage', '@id': `${canonical}#page`, url: canonical, name: c.title, description: c.desc, inLanguage: es ? 'es-US' : 'en-US', publisher: { '@id': `${MAIN}/#org` } },
+    { '@type': 'Service', '@id': `${HOST}/#service`, name: 'SS Reviews', serviceType: es ? 'Códigos QR permanentes para reseñas de Google' : 'Permanent QR codes for Google reviews', description: c.desc, url: canonical, provider: { '@type': 'ProfessionalService', '@id': `${MAIN}/#org`, name: 'Sam Services LLC', url: `${MAIN}/` }, areaServed: { '@type': 'Country', name: 'United States' } },
+    { '@type': 'FAQPage', mainEntity: c.faq.map(([qq, a]) => ({ '@type': 'Question', name: qq, acceptedAnswer: { '@type': 'Answer', text: a } })) },
+  ],
+};
+---
+<!doctype html>
+<html lang={es ? 'es' : 'en'}>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{c.title}</title>
+  <meta name="description" content={c.desc} />
+  <link rel="canonical" href={canonical} />
+  <link rel="alternate" hreflang="en" href={`${HOST}/`} />
+  <link rel="alternate" hreflang="es" href={`${HOST}/es/`} />
+  <link rel="alternate" hreflang="x-default" href={`${HOST}/`} />
+  <link rel="preload" href={fontDisplay} as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href={fontBody} as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href={fontBold} as="font" type="font/woff2" crossorigin />
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48.png" />
+  <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <meta name="theme-color" content="#0B0F14" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="SS Reviews · Sam Services LLC" />
+  <meta property="og:title" content={c.title} />
+  <meta property="og:description" content={c.desc} />
+  <meta property="og:url" content={canonical} />
+  <meta property="og:image" content={`${MAIN}/og-${es ? 'es' : 'en'}.png`} />
+  <meta name="twitter:card" content="summary_large_image" />
+  <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+</head>
+<body>
+  <a class="skip" href="#main">{es ? 'Saltar al contenido' : 'Skip to content'}</a>
+  <header class="rv-top">
+    <div class="wrap rv-bar">
+      <a class="rv-brand" href={`${L}/`}><span class="rv-mark" aria-hidden="true">★</span> SS Reviews <span class="rv-by mono">by Sam Services LLC</span></a>
+      <nav aria-label={es ? 'Principal' : 'Main'}>
+        <a href="#how">{c.how}</a>
+        <a href="#faq">FAQ</a>
+        <a class="rv-lang" href={c.otherHref} hreflang={es ? 'en' : 'es'} lang={es ? 'en' : 'es'}>{c.other}</a>
+        <a class="btn btn-dark" href="#contacto">{c.cta}</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="rv-hero">
+      <NeuralBg />
+      <div class="wrap rv-hero-in">
+        <div>
+          <p class="kicker mono">{c.kicker}</p>
+          <h1>{c.h1a} <span class="accent">{c.h1b}</span></h1>
+          <p class="lead">{c.lead}</p>
+          <div class="rv-btns">
+            <a class="btn btn-blue" href="#contacto">{c.cta}</a>
+            <a class="btn btn-ghost" href="#how">{c.how}</a>
+          </div>
+        </div>
+        <figure class="rv-demo">
+          <div class="rv-card">
+            <p class="rv-card-k mono">{es ? 'Su negocio' : 'Your business'}</p>
+            <p class="rv-card-t">{es ? '¿Le gustó el servicio?' : 'Enjoyed our service?'}</p>
+            <p class="rv-card-s">{es ? 'Escanee y déjenos una reseña en Google' : 'Scan to leave us a Google review'}</p>
+            <div class="rv-qr" set:html={qr} />
+            <p class="rv-stars" aria-hidden="true">★★★★★</p>
+          </div>
+          <figcaption class="mono">{c.scan}</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="wrap rv-sec rv-two">
+      <h2 class="h2">{c.probH}</h2>
+      <ul class="rv-x">{c.prob.map((p) => <li>{p}</li>)}</ul>
+    </section>
+
+    <section id="how" class="wrap rv-sec">
+      <h2 class="h2">{c.howH}</h2>
+      <ol class="rv-steps">{c.steps.map(([h, p], i) => <li class="card"><span class="mono num">0{i + 1}</span><h3>{h}</h3><p class="muted">{p}</p></li>)}</ol>
+    </section>
+
+    <section class="wrap rv-sec rv-two">
+      <h2 class="h2">{c.keepH}</h2>
+      <ul class="rv-ok">{c.keep.map((p) => <li>{p}</li>)}</ul>
+    </section>
+
+    <section class="wrap rv-sec">
+      <h2 class="h2">{c.fmtH}</h2>
+      <div class="rv-fmts">
+        <div class="rv-f rv-f-card"><div class="rv-mini" set:html={qr} /><span>{c.fmt[0]}</span></div>
+        <div class="rv-f rv-f-stand"><div class="rv-mini" set:html={qr} /><span>{c.fmt[1]}</span></div>
+        <div class="rv-f rv-f-sticker"><div class="rv-mini" set:html={qr} /><span>{c.fmt[2]}</span></div>
+      </div>
+    </section>
+
+    <section class="wrap rv-sec">
+      <div class="rv-fair">
+        <h2 class="h2">{c.fairH}</h2>
+        <p>{c.fair}</p>
+      </div>
+    </section>
+
+    <section class="wrap rv-sec">
+      <h2 class="h2">{c.forH}</h2>
+      <div class="rv-for">{c.forL.map(([h, p]) => <article class="card"><h3>{h}</h3><p class="muted">{p}</p></article>)}</div>
+    </section>
+
+    <section id="faq" class="wrap rv-sec">
+      <h2 class="h2">{c.faqH}</h2>
+      <dl class="rv-faq">{c.faq.map(([qq, a]) => <div><dt>{qq}</dt><dd class="muted">{a}</dd></div>)}</dl>
+    </section>
+
+    <section id="contacto" class="wrap rv-sec rv-last" aria-labelledby="contact-title">
+      <ContactForm lang={lang} title={c.formT} lead={c.formL} source="ss-reviews" abs />
+    </section>
+  </main>
+
+  <footer class="rv-foot">
+    <div class="wrap rv-foot-in">
+      <span>{c.by} <a href={es ? `${MAIN}/es/` : `${MAIN}/`}>Sam Services LLC</a> · 5630 Yahl St, Ste 3, Naples, FL 34109 · <a href="tel:+12393266686">(239) 326-6686</a></span>
+      <span><a href={`${MAIN}${es ? '/es/privacidad/' : '/privacy/'}`}>{c.priv}</a> · <a href={`${MAIN}${es ? '/es/terminos/' : '/terms/'}`}>{c.terms}</a> · <a href={`${MAIN}${es ? '/es/sms/' : '/sms/'}`}>{c.sms}</a></span>
+    </div>
+  </footer>
+
+  <style is:global>
+    .skip { position: absolute; left: -9999px; }
+    .skip:focus { left: 16px; top: 16px; z-index: 50; background: #fff; padding: 8px 12px; }
+    .rv-top { position: sticky; top: 0; z-index: 20; background: var(--header-bg); backdrop-filter: saturate(160%) blur(12px); border-bottom: 1px solid var(--border); }
+    .rv-bar { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 64px; }
+    .rv-brand { display: inline-flex; align-items: baseline; gap: 8px; font-family: var(--display); font-weight: 700; font-size: 22px; color: var(--text); text-decoration: none; }
+    .rv-mark { color: var(--blue); font-family: var(--sans); }
+    .rv-by { font-size: 11px; font-weight: 400; color: var(--text-3); }
+    .rv-top nav { display: flex; align-items: center; gap: 18px; font-size: 15px; }
+    .rv-top nav a:not(.btn) { color: var(--text-2); text-decoration: none; }
+    .rv-top nav a:not(.btn):hover { color: var(--link-hover); }
+    .rv-lang { border: 1px solid var(--border-strong); border-radius: 8px; padding: 6px 10px; font-size: 13px; }
+    @media (max-width: 720px) { .rv-top nav a[href="#how"], .rv-top nav a[href="#faq"] { display: none; } .rv-by { display: none; } }
+    .rv-brand { white-space: nowrap; }
+    @media (max-width: 480px) { .rv-top nav .btn { display: none; } }
+    .rv-hero { position: relative; overflow: hidden; isolation: isolate; color: #fff; background: radial-gradient(1200px 600px at 80% 20%, rgba(0,153,255,.10), transparent 60%), linear-gradient(180deg, var(--navy) 0%, var(--navy-2) 55%, var(--ink) 100%); }
+    .rv-hero > :not(canvas) { position: relative; z-index: 1; }
+    .rv-hero-in { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 48px; align-items: center; padding-block: 72px 80px; }
+    @media (max-width: 860px) { .rv-hero-in { grid-template-columns: 1fr; padding-block: 48px 56px; } }
+    .rv-hero .kicker { color: var(--blue-soft); font-size: 13px; letter-spacing: .04em; margin: 0 0 14px; }
+    .rv-hero h1 { font-family: var(--display); font-size: clamp(36px, 5vw, 58px); line-height: 1.05; margin: 0 0 18px; text-wrap: balance; }
+    .rv-hero .accent { color: var(--blue-soft); display: block; }
+    .rv-hero .lead { font-size: 19px; color: var(--on-dark); max-width: 560px; margin: 0 0 26px; }
+    .rv-btns { display: flex; flex-wrap: wrap; gap: 12px; }
+    .rv-demo { margin: 0; display: grid; justify-items: center; gap: 12px; }
+    .rv-demo figcaption { color: var(--on-dark-2); font-size: 13px; }
+    .rv-card { background: #fff; color: var(--ink); border-radius: 18px; padding: 24px 26px; width: min(320px, 100%); text-align: center; box-shadow: 0 30px 60px rgba(0,0,0,.35); transform: rotate(-2deg); }
+    .rv-card-k { font-size: 11px; color: var(--text-3); margin: 0; letter-spacing: .06em; text-transform: uppercase; }
+    .rv-card-t { font-family: var(--display); font-size: 24px; font-weight: 700; margin: 6px 0 2px; }
+    .rv-card-s { font-size: 14px; color: var(--text-2); margin: 0 0 12px; }
+    .rv-qr svg { width: 190px; height: 190px; display: block; margin: 0 auto; }
+    .rv-stars { color: #F5B400; letter-spacing: 4px; font-size: 18px; margin: 10px 0 0; }
+    .rv-sec { padding-block: 72px 8px; }
+    .rv-last { padding-bottom: 88px; }
+    .rv-sec .h2 { margin-bottom: 24px; }
+    .rv-two { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); gap: 40px; align-items: start; }
+    @media (max-width: 860px) { .rv-two { grid-template-columns: 1fr; gap: 0; } }
+    .rv-x, .rv-ok { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+    .rv-x li, .rv-ok li { position: relative; padding: 14px 16px 14px 44px; background: var(--surface-2); border-radius: 12px; color: var(--text-body); }
+    .rv-x li::before, .rv-ok li::before { position: absolute; left: 16px; top: 13px; font-weight: 700; }
+    .rv-x li::before { content: '✕'; color: #B42318; }
+    .rv-ok li::before { content: '✓'; color: #157F3D; }
+    .rv-steps, .rv-for { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+    @media (max-width: 860px) { .rv-steps, .rv-for { grid-template-columns: 1fr; } }
+    .rv-steps .card, .rv-for .card { padding: 24px; }
+    .rv-steps .num { color: var(--link); font-size: 13px; }
+    .rv-steps h3, .rv-for h3 { font-size: 19px; margin: 8px 0 6px; }
+    .rv-fmts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+    @media (max-width: 720px) { .rv-fmts { grid-template-columns: 1fr; } }
+    .rv-f { display: grid; justify-items: center; gap: 12px; padding: 28px 16px; border-radius: 16px; background: var(--surface-2); color: var(--text-2); font-size: 14px; }
+    .rv-mini { background: #fff; padding: 10px; box-shadow: 0 6px 18px rgba(11,15,20,.12); }
+    .rv-mini svg { width: 96px; height: 96px; display: block; }
+    .rv-f-card .rv-mini { border-radius: 8px; width: 170px; display: grid; justify-items: end; }
+    .rv-f-stand .rv-mini { border-radius: 10px 10px 2px 2px; padding: 14px 14px 26px; border-bottom: 10px solid var(--ink); }
+    .rv-f-sticker .rv-mini { border-radius: 999px; padding: 22px; }
+    .rv-fair { border: 1px solid var(--blue-wash); background: #F4F9FE; border-radius: 16px; padding: 28px; }
+    .rv-fair p { max-width: var(--measure); color: var(--text-body); margin: 0; }
+    .rv-faq { margin: 0; display: grid; gap: 0; max-width: 860px; }
+    .rv-faq div { padding: 16px 0; border-bottom: 1px solid var(--border); }
+    .rv-faq dt { font-weight: 600; margin-bottom: 4px; }
+    .rv-faq dd { margin: 0; }
+    .rv-foot { border-top: 1px solid var(--border); }
+    .rv-foot-in { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px; padding-block: 24px; font-size: 14px; color: var(--text-3); }
+  </style>
+</body>
+</html>

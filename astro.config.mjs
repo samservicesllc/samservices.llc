@@ -7,7 +7,7 @@ export default defineConfig({
   build: { format: 'directory', inlineStylesheets: 'always' },
   integrations: [
     sitemap({
-      filter: (page) => !page.includes('/404'),
+      filter: (page) => !page.includes('/404') && !page.includes('/admin') && !page.includes('/ss-reviews'),
       i18n: { defaultLocale: 'en', locales: { en: 'en-US', es: 'es-US' } },
     }),
   ],

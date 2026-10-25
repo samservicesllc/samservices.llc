@@ -42,7 +42,7 @@ const itemList = {
           <h2><a href={p.href[lang]}>{p.title[lang]}</a></h2>
           <p class="muted">{p.text[lang]}</p>
           <dl class="pm mono">{p.metrics[lang].map(([n, l]) => <div><dd>{n}</dd><dt>{l}</dt></div>)}</dl>
-          <a class="more tap" href={p.href[lang]}>{T.view}<span class="sr-only">: {p.title[lang]}</span> <span aria-hidden="true">→</span></a>
+          <a class="more tap" href={p.href[lang]}>{p.linkLabel?.[lang] ?? T.view}<span class="sr-only">: {p.title[lang]}</span> <span aria-hidden="true">→</span></a>
         </div>
       </article>
     ))}

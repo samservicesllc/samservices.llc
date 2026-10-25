@@ -1,0 +1,397 @@
+---
+// Internal admin. Protected by Cloudflare Access (/admin* and /api/admin*); the API also verifies the
+// Access token. Not indexed, not in the sitemap.
+import '../../styles/global.css';
+---
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Admin · Sam Services LLC</title>
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+</head>
+<body class="adm">
+  <header class="top">
+    <strong>Sam Services · Admin</strong>
+    <nav class="tabs" aria-label="Secciones">
+      <button data-tab="msgs" aria-current="page">Mensajes</button>
+      <button data-tab="sms">SMS</button>
+      <button data-tab="codes">SS Reviews · QR</button>
+      <button data-tab="clients">SS Reviews · Clientes</button>
+      <button data-tab="stats">Estadísticas</button>
+      <button data-tab="audit">Registro</button>
+    </nav>
+    <span class="who" id="who">…</span>
+  </header>
+
+  <p class="banner" id="banner" hidden></p>
+
+  <main>
+    <!-- Mensajes -->
+    <section data-panel="msgs">
+      <div class="bar">
+        <input id="m-q" type="search" placeholder="Buscar nombre, correo, teléfono, texto…" />
+        <select id="m-status"><option value="">Todos</option><option value="new">Nuevos</option><option value="replied">Respondidos</option><option value="archived">Archivados</option></select>
+        <a class="btn-s" href="/api/admin/submissions/export">Exportar CSV</a>
+      </div>
+      <table class="tbl"><thead><tr><th>Fecha</th><th>Origen</th><th>Nombre</th><th>Correo</th><th>Teléfono</th><th>SMS</th><th>Estado</th></tr></thead><tbody id="m-rows"></tbody></table>
+      <p class="muted" id="m-total"></p>
+      <dialog id="m-dlg">
+        <form method="dialog" class="dlg">
+          <h2 id="md-title"></h2>
+          <dl id="md-body" class="kv"></dl>
+          <label>Notas<textarea id="md-notes" rows="3"></textarea></label>
+          <div class="row">
+            <select id="md-status"><option value="new">Nuevo</option><option value="replied">Respondido</option><option value="archived">Archivado</option></select>
+            <button class="btn-p" id="md-save" value="save">Guardar</button>
+            <button value="cancel">Cerrar</button>
+          </div>
+        </form>
+      </dialog>
+    </section>
+
+    <!-- SMS -->
+    <section data-panel="sms" hidden>
+      <h2>Bajas (STOP)</h2>
+      <form class="bar" id="o-form">
+        <input id="o-phone" placeholder="Teléfono" required />
+        <input id="o-note" placeholder="Nota (opcional)" />
+        <button class="btn-p">Añadir baja</button>
+      </form>
+      <table class="tbl"><thead><tr><th>Teléfono</th><th>Fecha</th><th>Origen</th><th>Nota</th><th></th></tr></thead><tbody id="o-rows"></tbody></table>
+      <h2>Consentimientos registrados</h2>
+      <table class="tbl"><thead><tr><th>Fecha</th><th>Nombre</th><th>Teléfono</th><th>Versión</th><th>IP</th><th>Página</th></tr></thead><tbody id="c-rows"></tbody></table>
+    </section>
+
+    <!-- QR -->
+    <section data-panel="codes" hidden>
+      <details class="new" open>
+        <summary>Nuevo QR</summary>
+        <form id="k-form" class="grid">
+          <label>Nombre<input id="k-label" required placeholder="Gonichea – Naples" /></label>
+          <label>Cliente<select id="k-client"><option value="">—</option></select></label>
+          <label class="wide">Destino (https)<input id="k-target" required type="url" placeholder="https://search.google.com/local/writereview?placeid=…" /></label>
+          <label class="wide">Destino de respaldo si se desactiva (opcional)<input id="k-fallback" type="url" placeholder="https://…" /></label>
+          <label class="wide">Notas<input id="k-notes" /></label>
+          <div class="wide helper">
+            <span>Ayuda reseña Google:</span>
+            <input id="h-pid" placeholder="Place ID (ChIJ…)" />
+            <button type="button" id="h-build" class="btn-s">Generar enlace</button>
+          </div>
+          <div class="wide"><button class="btn-p">Crear QR</button></div>
+        </form>
+      </details>
+      <table class="tbl"><thead><tr><th>Código</th><th>Nombre</th><th>Cliente</th><th>Destino</th><th>Escaneos (30 d / total)</th><th>Activo</th><th></th></tr></thead><tbody id="k-rows"></tbody></table>
+      <dialog id="k-dlg">
+        <form method="dialog" class="dlg">
+          <h2 id="kd-title"></h2>
+          <div class="qrbox"><div id="kd-qr"></div><p class="mono" id="kd-url"></p>
+            <div class="row"><button type="button" class="btn-s" id="kd-svg">Descargar SVG</button><button type="button" class="btn-s" id="kd-png">Descargar PNG (2048 px)</button></div></div>
+          <label>Nombre<input id="kd-label" /></label>
+          <label>Cliente<select id="kd-client"></select></label>
+          <label>Destino<input id="kd-target" type="url" /></label>
+          <label>Respaldo<input id="kd-fallback" type="url" /></label>
+          <label>Notas<input id="kd-notes" /></label>
+          <label class="chk"><input type="checkbox" id="kd-active" /> Activo</label>
+          <div class="row"><button class="btn-p" value="save" id="kd-save">Guardar</button><button value="cancel">Cerrar</button></div>
+        </form>
+      </dialog>
+    </section>
+
+    <!-- Clientes -->
+    <section data-panel="clients" hidden>
+      <form class="bar" id="cl-form">
+        <input id="cl-name" placeholder="Nombre del cliente" required />
+        <input id="cl-contact" placeholder="Contacto (correo / teléfono)" />
+        <input id="cl-notes" placeholder="Notas" />
+        <button class="btn-p">Añadir cliente</button>
+      </form>
+      <table class="tbl"><thead><tr><th>Cliente</th><th>Contacto</th><th>QR</th><th>Notas</th></tr></thead><tbody id="cl-rows"></tbody></table>
+    </section>
+
+    <!-- Estadísticas -->
+    <section data-panel="stats" hidden>
+      <div class="bar">
+        <select id="s-days"><option value="7">7 días</option><option value="30" selected>30 días</option><option value="90">90 días</option><option value="365">365 días</option></select>
+        <select id="s-code"><option value="">Todos los QR</option></select>
+      </div>
+      <div class="cards">
+        <div><h3>Escaneos por día</h3><div id="s-daily" class="bars"></div></div>
+        <div><h3>Por QR</h3><ul id="s-code-list" class="lst"></ul></div>
+        <div><h3>Por país</h3><ul id="s-country" class="lst"></ul></div>
+        <div><h3>Por dispositivo</h3><ul id="s-device" class="lst"></ul></div>
+      </div>
+    </section>
+
+    <!-- Registro -->
+    <section data-panel="audit" hidden>
+      <table class="tbl"><thead><tr><th>Fecha</th><th>Usuario</th><th>Acción</th><th>Elemento</th><th>Detalle</th></tr></thead><tbody id="a-rows"></tbody></table>
+    </section>
+  </main>
+
+  <script>
+    import qrcode from 'qrcode-generator';
+
+    const GO = 'https://go.samservices.llc/';
+    const $ = <T extends HTMLElement = HTMLElement>(s: string) => document.querySelector(s) as T;
+    const esc = (v: unknown) => String(v ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]!));
+    const fmt = (iso?: string) => (iso ? new Date(iso).toLocaleString('es-US', { dateStyle: 'short', timeStyle: 'short' }) : '—');
+    const banner = (msg: string, ok = false) => { const b = $('#banner'); b.textContent = msg; b.className = 'banner ' + (ok ? 'ok' : 'err'); b.hidden = false; if (ok) setTimeout(() => (b.hidden = true), 2500); };
+
+    async function api(path: string, opts: RequestInit = {}) {
+      const res = await fetch('/api/admin/' + path, { ...opts, headers: { 'Content-Type': 'application/json', ...(opts.headers || {}) } });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok || !data.ok) {
+        const msg = data.error === 'access_not_configured' ? 'El acceso con Cloudflare Access aún no está configurado.' : `Error: ${data.error || res.status}`;
+        banner(msg);
+        throw new Error(msg);
+      }
+      return data;
+    }
+
+    // ---- tabs ----
+    const loaders: Record<string, () => void> = {};
+    document.querySelectorAll<HTMLButtonElement>('.tabs button').forEach((btn) => btn.addEventListener('click', () => {
+      document.querySelectorAll('.tabs button').forEach((b) => b.removeAttribute('aria-current'));
+      btn.setAttribute('aria-current', 'page');
+      document.querySelectorAll<HTMLElement>('[data-panel]').forEach((p) => (p.hidden = p.dataset.panel !== btn.dataset.tab));
+      loaders[btn.dataset.tab!]?.();
+    }));
+
+    // ---- messages ----
+    let msgs: any[] = [];
+    loaders.msgs = async () => {
+      const qs = new URLSearchParams({ q: ($('#m-q') as HTMLInputElement).value, status: ($('#m-status') as HTMLSelectElement).value, limit: '200' });
+      const d = await api('submissions?' + qs);
+      msgs = d.rows;
+      $('#m-rows').innerHTML = msgs.map((r, i) => `<tr data-i="${i}" class="click ${r.status === 'new' ? 'is-new' : ''}"><td>${fmt(r.created_at)}</td><td>${esc(r.source || 'web')}</td><td>${esc(r.name)}</td><td>${esc(r.email)}</td><td>${esc(r.phone)}</td><td>${r.sms_care ? 'Sí' : ''}</td><td>${esc(r.status)}</td></tr>`).join('') || '<tr><td colspan="7" class="muted">Sin mensajes.</td></tr>';
+      $('#m-total').textContent = `${d.total} mensaje(s)`;
+    };
+    let mCur: any = null;
+    $('#m-rows').addEventListener('click', (e) => {
+      const tr = (e.target as HTMLElement).closest('tr[data-i]') as HTMLElement | null;
+      if (!tr) return;
+      mCur = msgs[+tr.dataset.i!];
+      $('#md-title').textContent = mCur.name;
+      const kv: [string, unknown][] = [['Fecha', fmt(mCur.created_at)], ['Origen', mCur.source], ['Idioma', mCur.lang], ['Correo', mCur.email], ['Empresa', mCur.company], ['Teléfono', mCur.phone], ['SMS', mCur.sms_care ? `Sí · v${mCur.consent_version}` : 'No'], ['Calculadora', mCur.estimate], ['Mensaje', mCur.message]];
+      $('#md-body').innerHTML = kv.map(([k, v]) => `<dt>${k}</dt><dd>${esc(v || '—')}</dd>`).join('');
+      ($('#md-notes') as HTMLTextAreaElement).value = mCur.notes || '';
+      ($('#md-status') as HTMLSelectElement).value = mCur.status || 'new';
+      ($('#m-dlg') as HTMLDialogElement).showModal();
+    });
+    $('#md-save').addEventListener('click', async (e) => {
+      e.preventDefault();
+      await api('submissions/' + mCur.id, { method: 'PATCH', body: JSON.stringify({ status: ($('#md-status') as HTMLSelectElement).value, notes: ($('#md-notes') as HTMLTextAreaElement).value }) });
+      ($('#m-dlg') as HTMLDialogElement).close();
+      banner('Guardado', true);
+      loaders.msgs();
+    });
+    let t: any;
+    $('#m-q').addEventListener('input', () => { clearTimeout(t); t = setTimeout(loaders.msgs, 300); });
+    $('#m-status').addEventListener('change', () => loaders.msgs());
+
+    // ---- SMS ----
+    loaders.sms = async () => {
+      const [o, c] = await Promise.all([api('sms/optouts'), api('sms/consents')]);
+      $('#o-rows').innerHTML = o.rows.map((r: any) => `<tr><td>${esc(r.phone)}</td><td>${fmt(r.created_at)}</td><td>${esc(r.source)}</td><td>${esc(r.note)}</td><td><button class="btn-s" data-del="${esc(r.phone)}">Quitar</button></td></tr>`).join('') || '<tr><td colspan="5" class="muted">Sin bajas.</td></tr>';
+      $('#c-rows').innerHTML = c.rows.map((r: any) => `<tr><td>${fmt(r.created_at)}</td><td>${esc(r.name)}</td><td>${esc(r.phone)}</td><td>${esc(r.consent_version)}</td><td>${esc(r.ip)}</td><td>${esc(r.referer)}</td></tr>`).join('') || '<tr><td colspan="6" class="muted">Sin consentimientos.</td></tr>';
+    };
+    $('#o-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      await api('sms/optouts', { method: 'POST', body: JSON.stringify({ phone: ($('#o-phone') as HTMLInputElement).value, note: ($('#o-note') as HTMLInputElement).value }) });
+      (e.target as HTMLFormElement).reset();
+      banner('Baja añadida', true);
+      loaders.sms();
+    });
+    $('#o-rows').addEventListener('click', async (e) => {
+      const p = (e.target as HTMLElement).dataset.del;
+      if (!p) return;
+      await api('sms/optouts/' + encodeURIComponent(p), { method: 'DELETE' });
+      loaders.sms();
+    });
+
+    // ---- clients ----
+    let clients: any[] = [];
+    const fillClients = (sel: HTMLSelectElement, value: unknown = '') => {
+      sel.innerHTML = '<option value="">—</option>' + clients.map((c) => `<option value="${c.id}">${esc(c.name)}</option>`).join('');
+      sel.value = value ? String(value) : '';
+    };
+    const loadClients = async () => { clients = (await api('clients')).rows; fillClients($('#k-client')); };
+    loaders.clients = async () => {
+      await loadClients();
+      $('#cl-rows').innerHTML = clients.map((c) => `<tr><td>${esc(c.name)}</td><td>${esc(c.contact)}</td><td>${c.codes}</td><td>${esc(c.notes)}</td></tr>`).join('') || '<tr><td colspan="4" class="muted">Sin clientes.</td></tr>';
+    };
+    $('#cl-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      await api('clients', { method: 'POST', body: JSON.stringify({ name: ($('#cl-name') as HTMLInputElement).value, contact: ($('#cl-contact') as HTMLInputElement).value, notes: ($('#cl-notes') as HTMLInputElement).value }) });
+      (e.target as HTMLFormElement).reset();
+      banner('Cliente añadido', true);
+      loaders.clients();
+    });
+
+    // ---- QR codes ----
+    const qrSvg = (url: string) => {
+      const q = qrcode(0, 'Q');
+      q.addData(url);
+      q.make();
+      return q.createSvgTag({ cellSize: 8, margin: 4, scalable: true });
+    };
+    const download = (blob: Blob, name: string) => {
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = name;
+      a.click();
+      setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+    };
+    let codes: any[] = [];
+    loaders.codes = async () => {
+      await loadClients();
+      codes = (await api('codes')).rows;
+      $('#k-rows').innerHTML = codes.map((k, i) => `<tr data-i="${i}" class="click"><td class="mono">${esc(k.code)}</td><td>${esc(k.label)}</td><td>${esc(k.client_name)}</td><td class="url">${esc(k.target_url)}</td><td>${k.scans_30d} / ${k.scans}</td><td>${k.active ? 'Sí' : 'No'}</td><td><button class="btn-s">Abrir</button></td></tr>`).join('') || '<tr><td colspan="7" class="muted">Sin QR.</td></tr>';
+      const sc = $('#s-code') as HTMLSelectElement;
+      const v = sc.value;
+      sc.innerHTML = '<option value="">Todos los QR</option>' + codes.map((k) => `<option value="${esc(k.code)}">${esc(k.code)} · ${esc(k.label)}</option>`).join('');
+      sc.value = v;
+    };
+    $('#h-build').addEventListener('click', () => {
+      const pid = ($('#h-pid') as HTMLInputElement).value.trim();
+      if (!/^[A-Za-z0-9_-]{10,}$/.test(pid)) return banner('Place ID no válido');
+      ($('#k-target') as HTMLInputElement).value = 'https://search.google.com/local/writereview?placeid=' + encodeURIComponent(pid);
+    });
+    $('#k-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const d = await api('codes', { method: 'POST', body: JSON.stringify({ label: ($('#k-label') as HTMLInputElement).value, client_id: ($('#k-client') as HTMLSelectElement).value || null, target_url: ($('#k-target') as HTMLInputElement).value, fallback_url: ($('#k-fallback') as HTMLInputElement).value || null, notes: ($('#k-notes') as HTMLInputElement).value }) });
+      (e.target as HTMLFormElement).reset();
+      banner('QR creado: ' + d.code, true);
+      await loaders.codes();
+      const i = codes.findIndex((k) => k.code === d.code);
+      if (i >= 0) openCode(i);
+    });
+    let kCur: any = null;
+    const openCode = (i: number) => {
+      kCur = codes[i];
+      const url = GO + kCur.code;
+      $('#kd-title').textContent = `${kCur.code} · ${kCur.label}`;
+      $('#kd-qr').innerHTML = qrSvg(url);
+      $('#kd-url').textContent = url;
+      ($('#kd-label') as HTMLInputElement).value = kCur.label;
+      fillClients($('#kd-client'), kCur.client_id);
+      ($('#kd-target') as HTMLInputElement).value = kCur.target_url;
+      ($('#kd-fallback') as HTMLInputElement).value = kCur.fallback_url || '';
+      ($('#kd-notes') as HTMLInputElement).value = kCur.notes || '';
+      ($('#kd-active') as HTMLInputElement).checked = !!kCur.active;
+      ($('#k-dlg') as HTMLDialogElement).showModal();
+    };
+    $('#k-rows').addEventListener('click', (e) => {
+      const tr = (e.target as HTMLElement).closest('tr[data-i]') as HTMLElement | null;
+      if (tr) openCode(+tr.dataset.i!);
+    });
+    $('#kd-svg').addEventListener('click', () => download(new Blob([qrSvg(GO + kCur.code)], { type: 'image/svg+xml' }), `qr-${kCur.code}.svg`));
+    $('#kd-png').addEventListener('click', () => {
+      const svg = qrSvg(GO + kCur.code);
+      const img = new Image();
+      img.onload = () => {
+        const c = document.createElement('canvas');
+        c.width = c.height = 2048;
+        const ctx = c.getContext('2d')!;
+        ctx.fillStyle = '#fff';
+        ctx.fillRect(0, 0, 2048, 2048);
+        ctx.imageSmoothingEnabled = false;
+        ctx.drawImage(img, 0, 0, 2048, 2048);
+        c.toBlob((b) => b && download(b, `qr-${kCur.code}.png`), 'image/png');
+      };
+      img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+    });
+    $('#kd-save').addEventListener('click', async (e) => {
+      e.preventDefault();
+      await api('codes/' + kCur.code, { method: 'PATCH', body: JSON.stringify({ label: ($('#kd-label') as HTMLInputElement).value, client_id: ($('#kd-client') as HTMLSelectElement).value || null, target_url: ($('#kd-target') as HTMLInputElement).value, fallback_url: ($('#kd-fallback') as HTMLInputElement).value || null, notes: ($('#kd-notes') as HTMLInputElement).value, active: ($('#kd-active') as HTMLInputElement).checked }) });
+      ($('#k-dlg') as HTMLDialogElement).close();
+      banner('QR actualizado: el cambio se aplica en el próximo escaneo', true);
+      loaders.codes();
+    });
+
+    // ---- stats ----
+    const list = (rows: any[], key: string) => rows.map((r) => `<li><span>${esc(r[key])}</span><b>${r.n}</b></li>`).join('') || '<li class="muted">Sin datos</li>';
+    loaders.stats = async () => {
+      if (!codes.length) await loaders.codes();
+      const qs = new URLSearchParams({ days: ($('#s-days') as HTMLSelectElement).value, code: ($('#s-code') as HTMLSelectElement).value });
+      const d = await api('stats?' + qs);
+      const max = Math.max(1, ...d.daily.map((r: any) => r.n));
+      $('#s-daily').innerHTML = d.daily.map((r: any) => `<div title="${r.day}: ${r.n}"><i style="height:${Math.round((r.n / max) * 100)}%"></i><span>${r.day.slice(5)}</span></div>`).join('') || '<p class="muted">Sin escaneos en el periodo.</p>';
+      $('#s-code-list').innerHTML = list(d.byCode, 'code');
+      $('#s-country').innerHTML = list(d.byCountry, 'country');
+      $('#s-device').innerHTML = list(d.byDevice, 'device');
+    };
+    $('#s-days').addEventListener('change', () => loaders.stats());
+    $('#s-code').addEventListener('change', () => loaders.stats());
+
+    // ---- audit ----
+    loaders.audit = async () => {
+      const d = await api('audit');
+      $('#a-rows').innerHTML = d.rows.map((r: any) => `<tr><td>${fmt(r.ts)}</td><td>${esc(r.actor)}</td><td>${esc(r.action)}</td><td>${esc(r.entity)} ${esc(r.entity_id)}</td><td class="url">${esc(r.detail)}</td></tr>`).join('') || '<tr><td colspan="5" class="muted">Sin registros.</td></tr>';
+    };
+
+    // ---- boot ----
+    api('me').then((d) => { $('#who').textContent = d.email; loaders.msgs(); }).catch(() => { $('#who').textContent = 'sin acceso'; });
+  </script>
+
+  <style is:global>
+    body.adm { background: var(--surface-2); color: var(--text); font-family: var(--sans); font-size: 14px; }
+    .adm .top { position: sticky; top: 0; z-index: 5; display: flex; flex-wrap: wrap; align-items: center; gap: 10px 20px; padding: 12px 20px; background: var(--ink); color: #fff; }
+    .adm .tabs { display: flex; flex-wrap: wrap; gap: 4px; }
+    .adm .tabs button { background: transparent; color: var(--on-dark); border: 1px solid transparent; border-radius: 8px; padding: 6px 10px; cursor: pointer; font: inherit; }
+    .adm .tabs button[aria-current] { background: var(--ink-3); color: #fff; border-color: var(--line-dark); }
+    .adm .who { margin-left: auto; font-family: var(--mono); font-size: 12px; color: var(--on-dark-2); }
+    .adm main { padding: 20px; max-width: 1400px; margin: 0 auto; }
+    .adm h2 { font-size: 17px; margin: 22px 0 10px; }
+    .adm h3 { font-size: 14px; margin: 0 0 8px; }
+    .adm .bar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 12px; }
+    .adm input, .adm select, .adm textarea { font: inherit; padding: 8px 10px; border: 1px solid var(--border-strong); border-radius: 8px; background: #fff; color: var(--text); min-width: 0; }
+    .adm .bar input[type=search] { flex: 1 1 280px; }
+    .adm .btn-p, .adm .btn-s { font: inherit; border-radius: 8px; padding: 8px 12px; cursor: pointer; text-decoration: none; display: inline-block; }
+    .adm .btn-p { background: var(--blue-text); color: #fff; border: 0; font-weight: 600; }
+    .adm .btn-s { background: #fff; color: var(--text); border: 1px solid var(--border-strong); }
+    .adm .tbl { width: 100%; border-collapse: collapse; background: #fff; border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+    .adm .tbl th, .adm .tbl td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+    .adm .tbl th { background: var(--surface-2); font-weight: 600; font-size: 12px; color: var(--text-2); }
+    .adm .tbl tr.click { cursor: pointer; }
+    .adm .tbl tr.click:hover td { background: #F7FAFD; }
+    .adm .tbl tr.is-new td:first-child { box-shadow: inset 3px 0 0 var(--blue); }
+    .adm .url { max-width: 360px; word-break: break-all; font-size: 12px; }
+    .adm .muted { color: var(--text-3); }
+    .adm .mono { font-family: var(--mono); }
+    .adm .banner { margin: 12px 20px 0; padding: 10px 14px; border-radius: 8px; }
+    .adm .banner.err { background: #FDECEC; color: #8A1F1F; }
+    .adm .banner.ok { background: #E6F7EE; color: #145A32; }
+    .adm dialog { border: 0; border-radius: 14px; padding: 0; width: min(680px, 94vw); box-shadow: 0 20px 60px rgba(0,0,0,.25); }
+    .adm dialog::backdrop { background: rgba(11,15,20,.5); }
+    .adm .dlg { display: flex; flex-direction: column; gap: 10px; padding: 22px; }
+    .adm .dlg h2 { margin: 0; }
+    .adm .dlg label { display: flex; flex-direction: column; gap: 4px; font-weight: 500; }
+    .adm .dlg label.chk { flex-direction: row; align-items: center; gap: 8px; }
+    .adm .row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+    .adm .kv { display: grid; grid-template-columns: 110px 1fr; gap: 6px 12px; margin: 0; }
+    .adm .kv dt { color: var(--text-3); }
+    .adm .kv dd { margin: 0; white-space: pre-wrap; word-break: break-word; }
+    .adm .new { background: #fff; border: 1px solid var(--border); border-radius: 10px; padding: 12px 16px; margin-bottom: 14px; }
+    .adm .new summary { cursor: pointer; font-weight: 600; }
+    .adm .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px 14px; margin-top: 12px; }
+    .adm .grid label { display: flex; flex-direction: column; gap: 4px; font-weight: 500; }
+    .adm .grid .wide { grid-column: 1 / -1; }
+    .adm .helper { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; color: var(--text-2); }
+    .adm .qrbox { display: grid; justify-items: center; gap: 8px; padding: 12px; background: var(--surface-2); border-radius: 10px; }
+    .adm #kd-qr svg { width: 220px; height: 220px; background: #fff; }
+    .adm .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; }
+    .adm .cards > div { background: #fff; border: 1px solid var(--border); border-radius: 10px; padding: 14px; }
+    .adm .bars { display: flex; align-items: flex-end; gap: 3px; height: 160px; overflow-x: auto; }
+    .adm .bars > div { flex: 1 0 14px; height: 100%; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; }
+    .adm .bars i { display: block; width: 100%; background: var(--blue-text); border-radius: 3px 3px 0 0; min-height: 2px; }
+    .adm .bars span { font-size: 9px; color: var(--text-3); writing-mode: vertical-rl; margin-top: 4px; }
+    .adm .lst { list-style: none; margin: 0; padding: 0; }
+    .adm .lst li { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid var(--border); }
+    @media (max-width: 720px) { .adm .grid { grid-template-columns: 1fr; } .adm .tbl { display: block; overflow-x: auto; } }
+  </style>
+</body>
+</html>

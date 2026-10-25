@@ -60,6 +60,7 @@ export async function onRequestPost({ request, env }) {
     estimate: get('estimate'),
     phone: get('phone'),
     smsCare: form.get('sms_care') === 'yes',
+    source: get('source') === 'ss-reviews' ? 'ss-reviews' : 'web',
   };
   if (!data.name || !data.message || !EMAIL_RE.test(data.email)) {
     return reply(request, 422, { ok: false, error: 'invalid', lang });
@@ -69,7 +70,9 @@ export async function onRequestPost({ request, env }) {
     return reply(request, 422, { ok: false, error: 'phone', lang });
   }
   const consentAt = new Date().toISOString();
-  const ip = request.headers.get('CF-Connecting-IP') || '';
+  // Requests proxied by the reviews.samservices.llc worker carry the visitor's IP in X-SS-Client-IP
+  const proxied = env.PROXY_SECRET && request.headers.get('X-SS-Proxy') === env.PROXY_SECRET;
+  const ip = (proxied ? request.headers.get('X-SS-Client-IP') : request.headers.get('CF-Connecting-IP')) || '';
   const referer = request.headers.get('Referer') || '';
   const smsConsent = data.smsCare
     ? `SÍ/YES · customer care · ${consentAt} · IP ${ip || '?'} · form v${SMS_CONSENT_VERSION} · ${referer}`
@@ -80,7 +83,6 @@ export async function onRequestPost({ request, env }) {
     const body = new FormData();
     body.append('secret', env.TURNSTILE_SECRET);
     body.append('response', token);
-    const ip = request.headers.get('CF-Connecting-IP');
     if (ip) body.append('remoteip', ip);
     const v = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', { method: 'POST', body })
       .then((r) => r.json())
@@ -93,15 +95,15 @@ export async function onRequestPost({ request, env }) {
   if (env.DB) {
     try {
       await env.DB.prepare(
-        `INSERT INTO submissions (created_at, lang, name, email, company, phone, message, estimate, sms_care, consent_version, consent_text, ip, user_agent, referer)
-         VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14)`,
+        `INSERT INTO submissions (created_at, lang, name, email, company, phone, message, estimate, sms_care, consent_version, consent_text, ip, user_agent, referer, source)
+         VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14, ?15)`,
       )
         .bind(
           consentAt, lang, data.name, data.email, data.company, data.phone, data.message, data.estimate,
           data.smsCare ? 1 : 0,
           data.smsCare ? SMS_CONSENT_VERSION : null,
           data.smsCare ? SMS_CONSENT_TEXT[lang] : null,
-          ip, (request.headers.get('User-Agent') || '').slice(0, 300), referer.slice(0, 300),
+          ip, (request.headers.get('User-Agent') || '').slice(0, 300), referer.slice(0, 300), data.source,
         )
         .run();
       stored = true;
@@ -143,7 +145,7 @@ export async function onRequestPost({ request, env }) {
       sender: { name: 'samservices.llc', email: from },
       to: [{ email: to }],
       replyTo: { email: data.email, name: data.name },
-      subject: `[Web] ${data.name}${data.company ? ' · ' + data.company : ''}`,
+      subject: `[${data.source === 'ss-reviews' ? 'SS Reviews' : 'Web'}] ${data.name}${data.company ? ' · ' + data.company : ''}`,
       htmlContent: html,
       textContent: text,
       tags: data.smsCare ? ['web-contact', 'sms-optin'] : ['web-contact'],

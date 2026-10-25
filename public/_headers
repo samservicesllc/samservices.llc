@@ -14,3 +14,7 @@
 
 /img/gbp/*
   Access-Control-Allow-Origin: *
+
+/admin*
+  X-Robots-Tag: noindex, nofollow
+  Cache-Control: no-store

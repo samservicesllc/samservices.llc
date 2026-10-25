@@ -19,6 +19,8 @@ export interface Project {
   title: Record<Lang, string>;
   text: Record<Lang, string>;
   metrics: Record<Lang, [string, string][]>;
+  /** link text when the card does not lead to a case study (e.g. a product site) */
+  linkLabel?: Record<Lang, string>;
 }
 
 /** Responsive variants generated next to each image: name-{320,480,640,800}.webp plus the 1200w original. */
@@ -87,6 +89,27 @@ export const projects: Project[] = [
       es: [['5', 'idiomas'], ['16', 'zonas de servicio']],
       en: [['5', 'languages'], ['16', 'service areas']],
     },
+  },
+  {
+    id: 'ss-reviews',
+    featured: false,
+    category: ['software'],
+    image: '/img/ssreviews-case.webp',
+    imageW: 1200,
+    imageH: 750,
+    imageAlt: { es: 'Página de SS Reviews con una tarjeta de reseñas y su código QR', en: 'SS Reviews page with a review card and its QR code' },
+    href: { es: 'https://reviews.samservices.llc/es/', en: 'https://reviews.samservices.llc/' },
+    client: { es: 'SS Reviews · Producto propio', en: 'SS Reviews · Our own product' },
+    title: { es: 'QR permanentes para reseñas de Google', en: 'Permanent QR codes for Google reviews' },
+    text: {
+      es: 'Un QR por sede o por técnico que lleva directo a la reseña de Google. Si el perfil cambia, se cambia el destino y el QR impreso sigue funcionando.',
+      en: 'One QR per location or technician that goes straight to the Google review form. If the profile changes, we change the destination and the printed QR keeps working.',
+    },
+    metrics: {
+      es: [['SVG + PNG', 'listos para imprenta'], ['ES · EN', 'página bilingüe']],
+      en: [['SVG + PNG', 'print-ready files'], ['EN · ES', 'bilingual page']],
+    },
+    linkLabel: { es: 'Ver SS Reviews', en: 'Visit SS Reviews' },
   },
 ];
 
