@@ -1,13 +1,19 @@
 // Cloudflare Pages Function: POST /api/contact
-// Env vars (Pages > Settings > Variables and secrets):
-//   BREVO_API_KEY      (secret)  Brevo transactional email API key
+// Bindings / env vars (Pages > Settings):
+//   DB                 (D1)      contact submissions + SMS consent log (table `submissions`)
+//   BREVO_API_KEY      (secret)  optional: email notification (pending)
 //   TURNSTILE_SECRET   (secret)  Turnstile secret key; if unset, only the honeypot is used
 //   CONTACT_TO         (text)    default contact@samservices.llc
 //   CONTACT_FROM       (text)    default web@samservices.llc (domain must be authenticated in Brevo)
 
 const MAX = { name: 120, email: 160, company: 160, message: 4000, estimate: 300, phone: 25 };
 // Bump when the consent wording on the form changes (kept as opt-in evidence)
-const SMS_CONSENT_VERSION = '2026-10-18';
+const SMS_CONSENT_VERSION = '2026-10-24';
+// Exact checkbox wording shown on the form for each version (opt-in evidence)
+const SMS_CONSENT_TEXT = {
+  en: '(Optional) I agree to receive customer care text messages from Sam Services (Sam Services LLC) about my inquiry, appointments, support and service notices at the phone number provided. Msg frequency varies. Msg & data rates may apply. Reply HELP for help, STOP to opt out. Consent is not a condition of purchase. We will not share mobile information with third parties for promotional or marketing purposes.',
+  es: '(Opcional) Acepto recibir mensajes de texto de atención al cliente de Sam Services (Sam Services LLC) sobre mi consulta, citas, soporte y avisos de servicio en el número indicado. La frecuencia de mensajes varía. Pueden aplicarse tarifas de mensajes y datos. Responda HELP para ayuda y STOP para cancelar. El consentimiento no es condición de compra. No compartiremos información móvil con terceros para fines promocionales o de marketing.',
+};
 const EMAIL_RE = /^[^\s@<>]+@[^\s@<>]+\.[^\s@<>]{2,}$/;
 
 const esc = (s) =>
@@ -54,18 +60,19 @@ export async function onRequestPost({ request, env }) {
     estimate: get('estimate'),
     phone: get('phone'),
     smsCare: form.get('sms_care') === 'yes',
-    smsMarketing: form.get('sms_marketing') === 'yes',
   };
   if (!data.name || !data.message || !EMAIL_RE.test(data.email)) {
     return reply(request, 422, { ok: false, error: 'invalid', lang });
   }
   const phoneDigits = data.phone.replace(/\D/g, '');
-  if ((data.smsCare || data.smsMarketing) && (phoneDigits.length < 10 || phoneDigits.length > 15)) {
+  if (data.smsCare && (phoneDigits.length < 10 || phoneDigits.length > 15)) {
     return reply(request, 422, { ok: false, error: 'phone', lang });
   }
   const consentAt = new Date().toISOString();
-  const smsConsent = data.smsCare || data.smsMarketing
-    ? `SÍ/YES · care=${data.smsCare ? 'yes' : 'no'} · marketing=${data.smsMarketing ? 'yes' : 'no'} · ${consentAt} · IP ${request.headers.get('CF-Connecting-IP') || '?'} · form v${SMS_CONSENT_VERSION} · ${request.headers.get('Referer') || ''}`
+  const ip = request.headers.get('CF-Connecting-IP') || '';
+  const referer = request.headers.get('Referer') || '';
+  const smsConsent = data.smsCare
+    ? `SÍ/YES · customer care · ${consentAt} · IP ${ip || '?'} · form v${SMS_CONSENT_VERSION} · ${referer}`
     : 'NO';
 
   if (env.TURNSTILE_SECRET) {
@@ -81,8 +88,33 @@ export async function onRequestPost({ request, env }) {
     if (!v.success) return reply(request, 403, { ok: false, error: 'captcha', lang });
   }
 
+  // 1) Store the submission and the SMS consent evidence (D1)
+  let stored = false;
+  if (env.DB) {
+    try {
+      await env.DB.prepare(
+        `INSERT INTO submissions (created_at, lang, name, email, company, phone, message, estimate, sms_care, consent_version, consent_text, ip, user_agent, referer)
+         VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14)`,
+      )
+        .bind(
+          consentAt, lang, data.name, data.email, data.company, data.phone, data.message, data.estimate,
+          data.smsCare ? 1 : 0,
+          data.smsCare ? SMS_CONSENT_VERSION : null,
+          data.smsCare ? SMS_CONSENT_TEXT[lang] : null,
+          ip, (request.headers.get('User-Agent') || '').slice(0, 300), referer.slice(0, 300),
+        )
+        .run();
+      stored = true;
+    } catch (e) {
+      console.error('D1 insert failed', e);
+    }
+  }
+
+  // 2) Email notification (optional, pending configuration)
   if (!env.BREVO_API_KEY) {
-    return reply(request, 503, { ok: false, error: 'not_configured', lang });
+    return stored
+      ? reply(request, 200, { ok: true, lang })
+      : reply(request, 503, { ok: false, error: 'not_configured', lang });
   }
 
   const to = env.CONTACT_TO || 'contact@samservices.llc';
@@ -114,12 +146,12 @@ export async function onRequestPost({ request, env }) {
       subject: `[Web] ${data.name}${data.company ? ' · ' + data.company : ''}`,
       htmlContent: html,
       textContent: text,
-      tags: data.smsCare || data.smsMarketing ? ['web-contact', 'sms-optin'] : ['web-contact'],
+      tags: data.smsCare ? ['web-contact', 'sms-optin'] : ['web-contact'],
     }),
   }).catch(() => null);
 
   if (!res || !res.ok) {
-    return reply(request, 502, { ok: false, error: 'send_failed', lang });
+    return stored ? reply(request, 200, { ok: true, lang }) : reply(request, 502, { ok: false, error: 'send_failed', lang });
   }
   return reply(request, 200, { ok: true, lang });
 }

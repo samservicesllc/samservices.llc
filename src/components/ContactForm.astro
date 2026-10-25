@@ -1,0 +1,186 @@
+---
+// Contact form + SMS opt-in. Used on the home page (#contacto) and on the SMS program page (/sms/).
+import { t, paths, EMAIL, PHONE, PHONE_DISPLAY, type Lang } from '../i18n';
+import NeuralBg from './NeuralBg.astro';
+interface Props { lang: Lang; title?: string; lead?: string }
+const { lang, title, lead } = Astro.props;
+const c = t[lang];
+const p = paths[lang];
+---
+<div class="contact reveal">
+  <NeuralBg density={0.6} />
+  <div class="stack">
+    <h2 id="contact-title" class="h2">{title ?? c.contact.h2}</h2>
+    <p class="on-dark">{lead ?? c.contact.lead}</p>
+    <a class="mail" href={`mailto:${EMAIL}`}>{EMAIL}</a>
+    <a class="mail" href={`tel:${PHONE}`}>{PHONE_DISPLAY}</a>
+    <p class="fine txt">{c.contact.textNotice} <a href={p.sms}>{c.contact.termsLink}</a></p>
+  </div>
+  <form id="contact-form" class="cform" action="/api/contact" method="post" data-error={c.contact.error} data-verify={c.contact.verify} data-sending={c.contact.sending} data-ok={c.contact.ok} data-email={EMAIL}>
+    <input type="hidden" name="lang" value={lang} />
+    <div class="hp" aria-hidden="true"><label>Website<input type="text" name="website" tabindex="-1" autocomplete="off" /></label></div>
+    <div class="g2">
+      <div class="f"><label for="f-name">{c.contact.name}</label>
+      <input id="f-name" name="name" type="text" required maxlength="120" autocomplete="name" /></div>
+      <div class="f"><label for="f-email">{c.contact.email}</label>
+      <input id="f-email" name="email" type="email" required maxlength="160" autocomplete="email" /></div>
+    </div>
+    <div class="f"><label for="f-msg">{c.contact.message}</label>
+    <textarea id="f-msg" name="message" rows="3" required maxlength="4000"></textarea></div>
+    <div class="g2">
+      <div class="f"><label for="f-company">{c.contact.company}</label>
+      <input id="f-company" name="company" type="text" maxlength="160" autocomplete="organization" /></div>
+      <div class="f"><label for="f-phone">{c.contact.phone}</label>
+      <input id="f-phone" name="phone" type="tel" maxlength="25" autocomplete="tel" inputmode="tel" data-error={c.contact.phoneError} /></div>
+    </div>
+    <fieldset class="sms">
+      <legend>{c.contact.smsLegend}</legend>
+      <label class="chk"><input type="checkbox" name="sms_care" value="yes" id="f-sms-care" /><span>{c.contact.smsCare}</span></label>
+      <p class="fine links"><a href={p.privacy}>{c.contact.privacyPolicy}</a> | <a href={p.terms}>{c.contact.termsGeneral}</a> | <a href={p.sms}>{c.contact.termsLink}</a></p>
+      <p class="fine">{c.contact.smsFine}</p>
+    </fieldset>
+    <input type="hidden" name="estimate" id="f-estimate" />
+    <div class="cf-turnstile" data-theme="dark" data-language={lang} data-sitekey={import.meta.env.PUBLIC_TURNSTILE_SITEKEY} hidden={!import.meta.env.PUBLIC_TURNSTILE_SITEKEY}></div>
+    <div class="sendrow">
+      <button class="btn btn-blue" type="submit">{c.contact.send}</button>
+      <p class="fine">{c.contact.privacy} <a href={p.privacy}>{c.contact.privacyLink}</a> · <a href={p.terms}>{c.contact.termsGeneral}</a></p>
+    </div>
+    <p class="form-status" role="status" aria-live="polite"></p>
+  </form>
+</div>
+
+<script>
+  // Turnstile (≈1.2 MB) loads on the first interaction with the contact form, so visitors
+  // who never use it don't download it (and the page stays eligible for the back/forward cache).
+  const ts = document.querySelector('.cf-turnstile:not([hidden])');
+  let tsLoaded = false;
+  const loadTurnstile = () => {
+    if (!ts || tsLoaded) return;
+    tsLoaded = true;
+    const s = document.createElement('script');
+    s.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js';
+    s.async = true;
+    document.head.appendChild(s);
+  };
+  // True once the widget has produced a token; false if the visitor still has to tick the box (~6 s)
+  const turnstileReady = async () => {
+    if (!ts) return true;
+    loadTurnstile();
+    for (let i = 0; i < 24; i++) {
+      const tok = ts.querySelector<HTMLInputElement>('input[name="cf-turnstile-response"]');
+      if (tok?.value) return true;
+      await new Promise((r) => setTimeout(r, 250));
+    }
+    return false;
+  };
+
+  // Contact form (progressive enhancement; without JS it posts normally)
+  const form = document.getElementById('contact-form') as HTMLFormElement | null;
+  if (form) {
+    form.addEventListener('focusin', loadTurnstile, { once: true });
+    form.addEventListener('pointerdown', loadTurnstile, { once: true });
+    const status = form.querySelector('.form-status') as HTMLElement;
+    const btn = form.querySelector('button[type=submit]') as HTMLButtonElement;
+    const phone = form.querySelector('#f-phone') as HTMLInputElement;
+    const care = form.querySelector('#f-sms-care') as HTMLInputElement;
+    const clearPhone = () => phone.setCustomValidity('');
+    [phone, care].forEach((el) => {
+      el.addEventListener('input', clearPhone);
+      el.addEventListener('change', clearPhone);
+    });
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const digits = phone.value.replace(/\D/g, '');
+      phone.setCustomValidity(care.checked && digits.length < 10 ? (phone.dataset.error || 'Phone required') : '');
+      if (!form.reportValidity()) return;
+      const label = btn.textContent;
+      btn.disabled = true;
+      btn.textContent = form.dataset.sending || '…';
+      status.className = 'form-status';
+      if (!(await turnstileReady())) {
+        status.textContent = form.dataset.verify || '';
+        status.classList.add('is-err');
+        btn.disabled = false;
+        btn.textContent = label;
+        (ts as HTMLElement | null)?.scrollIntoView({ block: 'center', behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+        return;
+      }
+      try {
+        const res = await fetch(form.action, {
+          method: 'POST',
+          body: new FormData(form),
+          headers: { Accept: 'application/json' },
+        });
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok || !data.ok) throw new Error(data.error || String(res.status));
+        status.textContent = form.dataset.ok || 'OK';
+        status.classList.add('is-ok');
+        form.reset();
+      } catch {
+        const email = form.dataset.email!;
+        status.innerHTML = `${form.dataset.error} <a href="mailto:${email}">${email}</a>`;
+        status.classList.add('is-err');
+      } finally {
+        btn.disabled = false;
+        btn.textContent = label;
+        (window as any).turnstile?.reset?.();
+      }
+    });
+  }
+</script>
+
+<style>
+  .contact {
+    position: relative; overflow: hidden; isolation: isolate;
+    background: linear-gradient(160deg, var(--navy) 0%, var(--navy-2) 60%, var(--ink) 100%); color: #fff; border-radius: 18px; padding: clamp(24px, 4vw, 44px);
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); gap: 44px;
+  }
+  .contact > :not(canvas) { position: relative; z-index: 1; }
+  .stack { display: flex; flex-direction: column; gap: 14px; }
+  .on-dark { color: var(--on-dark); }
+  .mail { color: var(--blue-soft); font-weight: 600; font-size: 18px; word-break: break-all; }
+  .mail:hover { color: #fff; }
+  .txt { max-width: 420px; line-height: 1.5; }
+  .cform { display: flex; flex-direction: column; gap: 8px; color-scheme: dark; }
+  .cform label { font-size: 14px; font-weight: 500; margin-top: 4px; }
+  .cform .f { display: flex; flex-direction: column; gap: 6px; }
+  .cform .g2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; align-items: end; }
+  @media (max-width: 560px) { .cform .g2 { grid-template-columns: 1fr; } }
+  .cform input, .cform textarea {
+    padding: 11px 13px; border-radius: 8px; border: 1px solid var(--field-line); background: rgba(14,22,34,.88);
+    color: #fff; font-size: 16px; font-family: inherit; transition: border-color .15s ease;
+  }
+  /* transparent outline: invisible normally, drawn by the system in Windows high-contrast mode */
+  .cform input:focus, .cform textarea:focus { outline: 2px solid transparent; outline-offset: 1px; border-color: var(--blue); box-shadow: 0 0 0 3px rgba(0,153,255,.25); }
+  .cform .btn { margin-top: 12px; align-self: flex-start; }
+  .sendrow { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 16px; }
+  .sendrow .btn { margin-top: 8px; flex: none; }
+  .sendrow .fine { flex: 1 1 200px; margin: 8px 0 0; }
+  .cform .btn:disabled { opacity: .6; cursor: progress; }
+  .hp { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
+  .fine { font-size: 13px; color: var(--on-dark-3); }
+  .sms { border: 0; border-top: 1px solid var(--line-dark); padding: 12px 0 0; margin: 8px 0 0; min-width: 0; display: flex; flex-direction: column; gap: 8px; }
+  .sms legend { float: left; width: 100%; padding: 0; margin-bottom: 2px; font-size: 14px; font-weight: 500; color: #fff; }
+  .sms .fine { font-size: 12px; line-height: 1.5; max-width: var(--measure); margin: 0; }
+  .sms .links { padding-left: 28px; font-size: 13px; }
+  .fine a, .form-status a { color: var(--blue-soft); text-decoration: underline; }
+  .cform .chk { display: flex; gap: 10px; align-items: flex-start; font-weight: 400; font-size: 13px; line-height: 1.5; color: var(--on-dark-hi); margin: 0; cursor: pointer; }
+  .cform .chk input { width: 18px; height: 18px; margin: 2px 0 0; padding: 0; flex: none; accent-color: var(--blue); }
+  .form-status:empty { display: none; }
+  .form-status { font-size: 15px; padding: 12px 14px; border-radius: 8px; }
+  .form-status.is-ok { background: rgba(43,212,125,.12); color: #8EF0BE; }
+  .form-status.is-err { background: rgba(255,120,120,.12); color: #FFB4B4; }
+  @media (min-width: 900px) and (max-height: 820px) {
+    .cform { gap: 4px; }
+    .cform label { font-size: 13px; }
+    .cform input, .cform textarea { padding: 9px 12px; }
+    .sms { padding: 6px 0 0; margin-top: 4px; gap: 4px; }
+    .sms legend { font-size: 13px; margin-bottom: 0; }
+    .sms .fine { font-size: 11px; line-height: 1.4; }
+    .cform .chk { font-size: 12px; line-height: 1.4; }
+    .cform .btn { margin-top: 6px; padding: 11px 18px; }
+    .contact { padding: 22px 32px; gap: 32px; }
+    .cform textarea { height: 50px; }
+    .cform .g2 { gap: 10px; }
+  }
+</style>

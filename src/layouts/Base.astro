@@ -189,6 +189,7 @@ const schema = {
         <a href={paths[lang].accessibility}>{c.footer.accessibility}</a>
       </span>
     </div>
+    <p class="wrap foot-sms">{PHONE_DISPLAY}: {c.contact.textNotice} <a href={paths[lang].sms}>{c.contact.termsLink}</a></p>
   </footer>
 </body>
 </html>
@@ -265,4 +266,5 @@ const schema = {
     display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px;
     padding-block: 26px; font-size: 14px; color: var(--text-3);
   }
+  .foot-sms { font-size: 12px; line-height: 1.5; color: var(--text-3); padding-block: 0 26px; margin: -10px auto 0; }
 </style>

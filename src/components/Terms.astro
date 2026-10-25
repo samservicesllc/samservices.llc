@@ -1,10 +1,11 @@
 ---
 import Legal from './Legal.astro';
-import { EMAIL, paths, type Lang } from '../i18n';
+import { EMAIL, PHONE, PHONE_DISPLAY, paths, type Lang } from '../i18n';
 interface Props { lang: Lang }
 const { lang } = Astro.props;
 const es = lang === 'es';
 const mail = `mailto:${EMAIL}`;
+const tel = `tel:${PHONE}`;
 ---
 {es ? (
 <Legal lang={lang} current="terms" title="Términos de uso">
@@ -25,8 +26,13 @@ const mail = `mailto:${EMAIL}`;
   <h2>5. Enlaces a terceros</h2>
   <p>El sitio puede enlazar a sitios de terceros. No somos responsables de su contenido ni de sus políticas.</p>
 
-  <h2>6. Mensajes de texto</h2>
-  <p>Si se suscribe a nuestros SMS, aplican los <a href={paths.es.sms}>Términos del programa SMS</a>. La frecuencia varía, pueden aplicarse tarifas de mensajes y datos, responda <code>STOP</code> para cancelar y <code>HELP</code> para ayuda. No compartimos su número ni su consentimiento con terceros para marketing.</p>
+  <h2>6. Mensajes de texto (SMS)</h2>
+  <p><strong>Programa:</strong> mensajes de texto de atención al cliente de Sam Services (Sam Services LLC). Enviamos respuestas a su consulta, confirmación y recordatorio de citas, seguimiento de soporte y avisos de servicio. No enviamos mensajes de marketing ni promocionales por SMS.</p>
+  <p><strong>Cómo se suscribe:</strong> (1) marcando la casilla opcional del formulario de contacto en <a href={paths.es.sms}>samservices.llc/es/sms/</a> o en la sección de contacto de la página principal, o (2) escribiéndonos por SMS al <a href={tel}>{PHONE_DISPLAY}</a>; en ese caso solo le respondemos sobre su consulta.</p>
+  <p><strong>Frecuencia y costos:</strong> la frecuencia de mensajes varía según su actividad con nosotros. Pueden aplicarse tarifas de mensajes y datos.</p>
+  <p><strong>Cómo cancelar:</strong> responda <code>STOP</code> a cualquier mensaje (también <code>STOPALL</code>, <code>UNSUBSCRIBE</code>, <code>CANCEL</code>, <code>END</code> o <code>QUIT</code>). Recibirá una confirmación y no le enviaremos más mensajes. Para volver a suscribirse, responda <code>START</code> o <code>UNSTOP</code>.</p>
+  <p><strong>Ayuda:</strong> responda <code>HELP</code> o <code>INFO</code>, escriba a <a href={mail}>{EMAIL}</a> o llame al <a href={tel}>{PHONE_DISPLAY}</a>.</p>
+  <p>El consentimiento no es condición de compra. Los operadores no son responsables por mensajes retrasados o no entregados. No compartiremos información móvil con terceros ni afiliados para fines de marketing o promoción. Condiciones completas en los <a href={paths.es.sms}>Términos del programa SMS</a> y en la <a href={paths.es.privacy}>Política de privacidad</a>.</p>
 
   <h2>7. Exención de garantías</h2>
   <p>El sitio se ofrece «tal cual». Procuramos que la información sea correcta y que el sitio esté disponible, pero no lo garantizamos.</p>
@@ -41,7 +47,7 @@ const mail = `mailto:${EMAIL}`;
   <p>Podemos actualizar estos términos. La versión vigente estará siempre en esta página.</p>
 
   <h2>11. Contacto</h2>
-  <p><a href={mail}>{EMAIL}</a> · <a href={paths.es.privacy}>Política de privacidad</a></p>
+  <p>Sam Services LLC · 5630 Yahl St, Ste 3, Naples, FL 34109 · <a href={mail}>{EMAIL}</a> · <a href={tel}>{PHONE_DISPLAY}</a> · <a href={paths.es.privacy}>Política de privacidad</a></p>
 </Legal>
 ) : (
 <Legal lang={lang} current="terms" title="Terms of Use">
@@ -62,8 +68,13 @@ const mail = `mailto:${EMAIL}`;
   <h2>5. Third-party links</h2>
   <p>The site may link to third-party websites. We are not responsible for their content or policies.</p>
 
-  <h2>6. Text messages</h2>
-  <p>If you subscribe to our text messages, the <a href={paths.en.sms}>SMS Program Terms</a> apply. Message frequency varies, message and data rates may apply, reply <code>STOP</code> to opt out and <code>HELP</code> for help. We do not share your number or consent with third parties for marketing.</p>
+  <h2>6. Text messages (SMS)</h2>
+  <p><strong>Program:</strong> Sam Services (Sam Services LLC) customer care text messages. We send replies to your inquiry, appointment confirmations and reminders, support follow-up and service notices. We do not send marketing or promotional text messages.</p>
+  <p><strong>How to opt in:</strong> (1) check the optional box on the contact form at <a href={paths.en.sms}>samservices.llc/sms/</a> or in the contact section of the home page, or (2) text us at <a href={tel}>{PHONE_DISPLAY}</a>; in that case we only reply about your inquiry.</p>
+  <p><strong>Frequency and costs:</strong> message frequency varies based on your activity with us. Message and data rates may apply.</p>
+  <p><strong>How to opt out:</strong> reply <code>STOP</code> to any message (<code>STOPALL</code>, <code>UNSUBSCRIBE</code>, <code>CANCEL</code>, <code>END</code> or <code>QUIT</code> also work). You will receive one confirmation and no further messages. To opt back in, reply <code>START</code> or <code>UNSTOP</code>.</p>
+  <p><strong>Help:</strong> reply <code>HELP</code> or <code>INFO</code>, email <a href={mail}>{EMAIL}</a> or call <a href={tel}>{PHONE_DISPLAY}</a>.</p>
+  <p>Consent is not a condition of purchase. Carriers are not liable for delayed or undelivered messages. No mobile information will be shared with third parties or affiliates for marketing or promotional purposes. Full terms are in the <a href={paths.en.sms}>SMS Program Terms</a> and the <a href={paths.en.privacy}>Privacy Policy</a>.</p>
 
   <h2>7. Disclaimer</h2>
   <p>The site is provided "as is". We aim to keep information accurate and the site available, but we do not guarantee it.</p>
@@ -78,6 +89,6 @@ const mail = `mailto:${EMAIL}`;
   <p>We may update these terms. The current version is always posted on this page.</p>
 
   <h2>11. Contact</h2>
-  <p><a href={mail}>{EMAIL}</a> · <a href={paths.en.privacy}>Privacy Policy</a></p>
+  <p>Sam Services LLC · 5630 Yahl St, Ste 3, Naples, FL 34109 · <a href={mail}>{EMAIL}</a> · <a href={tel}>{PHONE_DISPLAY}</a> · <a href={paths.en.privacy}>Privacy Policy</a></p>
 </Legal>
 )}

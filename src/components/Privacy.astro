@@ -1,23 +1,24 @@
 ---
 import Legal from './Legal.astro';
-import { EMAIL, paths, type Lang } from '../i18n';
+import { EMAIL, PHONE, PHONE_DISPLAY, paths, type Lang } from '../i18n';
 interface Props { lang: Lang }
 const { lang } = Astro.props;
 const es = lang === 'es';
 const mail = `mailto:${EMAIL}`;
+const tel = `tel:${PHONE}`;
 ---
 {es ? (
 <Legal lang={lang} current="privacy" title="Política de privacidad">
   <p>Esta política explica cómo Sam Services LLC («Sam Services», «nosotros») recoge, usa y protege la información de las personas que visitan samservices.llc, nos contactan o reciben nuestros mensajes de texto (SMS).</p>
   <div class="box">
-    <p><strong>Sam Services LLC</strong> · 5630 Yahl St, Ste 3, Naples, FL 34109, EE. UU. · <a href={mail}>{EMAIL}</a></p>
+    <p><strong>Sam Services LLC</strong> · 5630 Yahl St, Ste 3, Naples, FL 34109, EE. UU. · <a href={mail}>{EMAIL}</a> · <a href={tel}>{PHONE_DISPLAY}</a></p>
   </div>
 
   <h2>1. Información que recogemos</h2>
   <ul>
     <li><strong>La que usted nos da:</strong> nombre, correo, empresa, número de teléfono móvil (opcional), el contenido de su mensaje, los valores que eligió en la calculadora y sus preferencias de consentimiento para SMS.</li>
     <li><strong>La que se genera al visitar el sitio:</strong> datos técnicos básicos (dirección IP, navegador, páginas visitadas, fecha y hora) que procesa nuestro proveedor de hosting por seguridad y para medir visitas de forma agregada.</li>
-    <li><strong>Registros de mensajes de texto:</strong> si se suscribe a SMS, guardamos su número, la fecha, hora, IP y versión del formulario con que dio su consentimiento, y las respuestas STOP/HELP, como prueba de consentimiento.</li>
+    <li><strong>Registros de mensajes de texto:</strong> si se suscribe a nuestros SMS de atención al cliente o nos escribe por SMS, guardamos su número, la fecha, hora, IP y versión del formulario con que dio su consentimiento, y las respuestas STOP/HELP, como prueba de consentimiento.</li>
   </ul>
   <p>No recogemos datos de tarjetas de pago en este sitio.</p>
 
@@ -34,17 +35,19 @@ const mail = `mailto:${EMAIL}`;
   <p>No vendemos, alquilamos ni intercambiamos su información personal. Solo la compartimos con proveedores que nos ayudan a operar, bajo obligación de confidencialidad y únicamente para ese fin:</p>
   <ul>
     <li><strong>Cloudflare</strong>: hosting del sitio, seguridad, protección anti-spam (Turnstile) y estadísticas agregadas sin cookies.</li>
-    <li><strong>Brevo</strong>: entrega por correo de los mensajes del formulario.</li>
-    <li><strong>Proveedor de mensajería SMS</strong> (por ejemplo, Telnyx): envío de los mensajes de texto que usted autorizó.</li>
+    <li><strong>Cloudflare</strong> también guarda los envíos del formulario de contacto y los registros de consentimiento SMS.</li>
+    <li><strong>Telnyx</strong> (proveedor de SMS): envío y recepción de los mensajes de texto que usted autorizó o nos envió.</li>
   </ul>
   <p>También podemos revelar información si la ley lo exige o para proteger nuestros derechos o la seguridad de otras personas.</p>
 
   <h2>4. Mensajes de texto (SMS) e información móvil</h2>
+  <p>Sam Services solo envía mensajes de texto de <strong>atención al cliente</strong>: respuestas a su consulta, confirmación y recordatorio de citas, seguimiento de soporte y avisos de servicio. <strong>No enviamos mensajes de marketing ni promocionales por SMS.</strong></p>
+  <p>Solo le escribimos si usted lo autoriza: marcando la casilla opcional del formulario de contacto (en <a href={paths.es.sms}>samservices.llc/es/sms/</a> y en la sección de contacto de la página principal) o escribiéndonos primero al <a href={tel}>{PHONE_DISPLAY}</a>.</p>
   <div class="box">
-    <p><strong>No compartiremos su número de teléfono móvil ni su consentimiento para recibir SMS con terceros ni con empresas afiliadas para fines de marketing o promoción.</strong></p>
-    <p>Todas las categorías de información y de destinatarios descritas en esta política excluyen los datos de suscripción (opt-in) y el consentimiento para mensajes de texto: esa información no se venderá ni se compartirá con terceros, salvo con los proveedores que nos ayudan a prestar el servicio de mensajería (como el proveedor de SMS) y solo para ese fin.</p>
+    <p><strong>No compartiremos información móvil con terceros ni con empresas afiliadas para fines de marketing o promoción.</strong></p>
+    <p>Todas las categorías anteriores excluyen los datos de suscripción (opt-in) y el consentimiento del remitente de mensajes de texto; esta información no se compartirá con ningún tercero.</p>
   </div>
-  <p>Puede cancelar en cualquier momento respondiendo <code>STOP</code>. Las condiciones completas están en los <a href={paths.es.sms}>Términos del programa SMS</a>.</p>
+  <p>Responda <code>STOP</code> para cancelar en cualquier momento, <code>START</code> para volver a suscribirse y <code>HELP</code> para obtener ayuda. Las condiciones completas están en los <a href={paths.es.sms}>Términos del programa SMS</a>.</p>
 
   <h2>5. Cookies</h2>
   <p>Este sitio no usa cookies de publicidad ni de seguimiento. Las estadísticas de visitas de Cloudflare funcionan sin cookies. La verificación anti-spam de Turnstile puede usar almacenamiento técnico estrictamente necesario para funcionar.</p>
@@ -68,20 +71,20 @@ const mail = `mailto:${EMAIL}`;
   <p>Podemos actualizar esta política. Publicaremos la versión vigente en esta página con su fecha.</p>
 
   <h2>12. Contacto</h2>
-  <p>Sam Services LLC · 5630 Yahl St, Ste 3, Naples, FL 34109 · <a href={mail}>{EMAIL}</a></p>
+  <p>Sam Services LLC · 5630 Yahl St, Ste 3, Naples, FL 34109 · <a href={mail}>{EMAIL}</a> · <a href={tel}>{PHONE_DISPLAY}</a></p>
 </Legal>
 ) : (
 <Legal lang={lang} current="privacy" title="Privacy Policy">
   <p>This policy explains how Sam Services LLC ("Sam Services", "we", "us") collects, uses and protects information from people who visit samservices.llc, contact us or receive our text messages (SMS).</p>
   <div class="box">
-    <p><strong>Sam Services LLC</strong> · 5630 Yahl St, Ste 3, Naples, FL 34109, USA · <a href={mail}>{EMAIL}</a></p>
+    <p><strong>Sam Services LLC</strong> · 5630 Yahl St, Ste 3, Naples, FL 34109, USA · <a href={mail}>{EMAIL}</a> · <a href={tel}>{PHONE_DISPLAY}</a></p>
   </div>
 
   <h2>1. Information we collect</h2>
   <ul>
     <li><strong>Information you give us:</strong> name, email, company, mobile phone number (optional), the content of your message, the values you chose in the calculator and your SMS consent choices.</li>
     <li><strong>Information generated when you visit:</strong> basic technical data (IP address, browser, pages visited, date and time) processed by our hosting provider for security and aggregated visit statistics.</li>
-    <li><strong>Text message records:</strong> if you subscribe to SMS, we keep your number, the date, time, IP address and form version of your consent, and your STOP/HELP replies, as proof of consent.</li>
+    <li><strong>Text message records:</strong> if you subscribe to our customer care texts or text us, we keep your number, the date, time, IP address and form version of your consent, and your STOP/HELP replies, as proof of consent.</li>
   </ul>
   <p>We do not collect payment card data on this website.</p>
 
@@ -98,17 +101,19 @@ const mail = `mailto:${EMAIL}`;
   <p>We do not sell, rent or trade your personal information. We only share it with providers that help us operate, under confidentiality obligations and only for that purpose:</p>
   <ul>
     <li><strong>Cloudflare</strong>: website hosting, security, spam protection (Turnstile) and cookieless aggregated analytics.</li>
-    <li><strong>Brevo</strong>: email delivery of contact form messages.</li>
-    <li><strong>SMS messaging provider</strong> (for example, Telnyx): delivery of the text messages you authorized.</li>
+    <li><strong>Cloudflare</strong> also stores contact form submissions and SMS consent records.</li>
+    <li><strong>Telnyx</strong> (SMS provider): sending and receiving the text messages you authorized or sent us.</li>
   </ul>
   <p>We may also disclose information when required by law or to protect our rights or the safety of others.</p>
 
   <h2>4. Text messaging (SMS) and mobile information</h2>
+  <p>Sam Services only sends <strong>customer care</strong> text messages: replies to your inquiry, appointment confirmations and reminders, support follow-up and service notices. <strong>We do not send marketing or promotional text messages.</strong></p>
+  <p>We only text you if you agree: by checking the optional box on our contact form (at <a href={paths.en.sms}>samservices.llc/sms/</a> and in the contact section of the home page) or by texting us first at <a href={tel}>{PHONE_DISPLAY}</a>.</p>
   <div class="box">
     <p><strong>No mobile information will be shared with third parties or affiliates for marketing or promotional purposes.</strong></p>
-    <p>All of the above categories exclude text messaging originator opt-in data and consent; this information will not be sold or shared with any third parties, except with providers that help us deliver our messaging services (such as our SMS provider) and only for that purpose.</p>
+    <p>All the above categories exclude text messaging originator opt-in data and consent; this information will not be shared with any third parties.</p>
   </div>
-  <p>You can opt out at any time by replying <code>STOP</code>. Full terms are in the <a href={paths.en.sms}>SMS Program Terms</a>.</p>
+  <p>Reply <code>STOP</code> to opt out at any time, <code>START</code> to opt back in and <code>HELP</code> for help. Full terms are in the <a href={paths.en.sms}>SMS Program Terms</a>.</p>
 
   <h2>5. Cookies</h2>
   <p>This site does not use advertising or tracking cookies. Cloudflare visit statistics work without cookies. The Turnstile spam check may use strictly necessary technical storage to work.</p>
@@ -132,6 +137,6 @@ const mail = `mailto:${EMAIL}`;
   <p>We may update this policy. The current version is always posted on this page with its date.</p>
 
   <h2>12. Contact</h2>
-  <p>Sam Services LLC · 5630 Yahl St, Ste 3, Naples, FL 34109 · <a href={mail}>{EMAIL}</a></p>
+  <p>Sam Services LLC · 5630 Yahl St, Ste 3, Naples, FL 34109 · <a href={mail}>{EMAIL}</a> · <a href={tel}>{PHONE_DISPLAY}</a></p>
 </Legal>
 )}

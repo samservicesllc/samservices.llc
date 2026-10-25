@@ -1,39 +1,55 @@
 ---
 import Legal from './Legal.astro';
-import { EMAIL, paths, type Lang } from '../i18n';
+import ContactForm from './ContactForm.astro';
+import { EMAIL, PHONE, PHONE_DISPLAY, paths, t, type Lang } from '../i18n';
 interface Props { lang: Lang }
 const { lang } = Astro.props;
 const es = lang === 'es';
+const p = paths[lang];
+const c = t[lang].contact;
 const mail = `mailto:${EMAIL}`;
+const tel = `tel:${PHONE}`;
+// Keep these three texts identical to the Telnyx campaign and the messaging profile auto-replies
+const optIn = "Sam Services Customer Care: You're subscribed to texts about your inquiry, appointments, support and service notices. Msg frequency varies. Msg & data rates may apply. Reply HELP for help, STOP to opt out.";
+const help = 'Sam Services (Sam Services LLC): For help email contact@samservices.llc, call (239) 326-6686 or visit samservices.llc/sms. Msg frequency varies. Msg & data rates may apply. Reply STOP to opt out.';
+const stop = 'Sam Services: You are unsubscribed and will receive no further messages. Reply START to resubscribe.';
 ---
 {es ? (
 <Legal lang={lang} current="sms" title="Términos del programa de mensajes de texto (SMS)">
   <div class="box">
-    <p><strong>Programa:</strong> Sam Services LLC SMS · <strong>Empresa:</strong> Sam Services LLC, Naples, FL</p>
-    <p>La frecuencia de mensajes varía. Pueden aplicarse tarifas de mensajes y datos. Responda <code>STOP</code> para cancelar o <code>HELP</code> para obtener ayuda. El consentimiento no es condición de compra.</p>
+    <p><strong>Programa:</strong> Mensajes de texto de atención al cliente de Sam Services</p>
+    <p><strong>Empresa:</strong> Sam Services LLC · 5630 Yahl St, Ste 3, Naples, FL 34109, EE. UU. · <a href={mail}>{EMAIL}</a> · <a href={tel}>{PHONE_DISPLAY}</a></p>
+    <p>La frecuencia de mensajes varía. Pueden aplicarse tarifas de mensajes y datos. Responda <code>HELP</code> para ayuda y <code>STOP</code> para cancelar. El consentimiento no es condición de compra.</p>
   </div>
 
-  <h2>1. Descripción del programa</h2>
-  <p>Sam Services LLC envía mensajes de texto a quienes lo autorizan expresamente. Hay dos tipos, y cada uno requiere su propio consentimiento:</p>
-  <ul>
-    <li><strong>Atención al cliente:</strong> respuestas a su consulta, confirmación y recordatorio de citas o reuniones, estado de proyectos, seguimiento de casos de soporte y avisos de servicio (por ejemplo, mantenimientos o incidencias en servidores, correo o centrales telefónicas que administramos para usted).</li>
-    <li><strong>Promocionales (opcional):</strong> ofertas y novedades sobre nuestros servicios.</li>
-  </ul>
+  <h2>1. Qué mensajes enviamos</h2>
+  <p>Solo mensajes de <strong>atención al cliente</strong>: respuestas a su consulta, confirmación y recordatorio de citas o reuniones, seguimiento de casos de soporte y avisos de servicio (por ejemplo, mantenimientos o incidencias en servidores, correo o centrales telefónicas que administramos para usted). <strong>No enviamos mensajes de marketing ni promocionales por SMS.</strong></p>
 
   <h2>2. Cómo se suscribe</h2>
-  <p>Marcando la casilla correspondiente en el <a href={`${paths.es.home}#contacto`}>formulario de contacto</a> e indicando su número móvil, o pidiéndonoslo por escrito. Las casillas no vienen marcadas y no son obligatorias para enviar el formulario. Al suscribirse recibirá un mensaje de confirmación.</p>
+  <p>Hay dos formas, y en las dos el consentimiento es suyo y voluntario:</p>
+  <ol>
+    <li><strong>Formulario web:</strong> el <a href="#opt-in">formulario de esta página</a> y el de la sección de contacto de la <a href={`${p.home}#contacto`}>página principal</a> (botón «Hablemos» del menú) tienen un campo de teléfono móvil opcional y una casilla opcional, sin marcar, con este texto:
+      <blockquote>{c.smsCare}</blockquote>
+      Debajo de la casilla están los enlaces a la <a href={p.privacy}>Política de privacidad</a>, los <a href={p.terms}>Términos</a> y estos Términos SMS. El formulario se puede enviar sin marcarla.</li>
+    <li><strong>Escribiéndonos por SMS:</strong> si nos escribe primero a nuestro número, le respondemos solo sobre su consulta. Nuestro único número habilitado para SMS es <a href={tel}><strong>+1 {PHONE_DISPLAY}</strong></a>.</li>
+  </ol>
+  <p>Al suscribirse con el formulario recibirá este mensaje de confirmación:</p>
+  <blockquote lang="en">{optIn}</blockquote>
 
   <h2>3. Frecuencia</h2>
-  <p>La frecuencia varía. Los mensajes de atención al cliente dependen de su actividad con nosotros. Los promocionales son como máximo 4 al mes.</p>
+  <p>La frecuencia de mensajes varía según su actividad con nosotros (consultas, citas y casos de soporte abiertos).</p>
 
   <h2>4. Costos</h2>
   <p>Pueden aplicarse tarifas de mensajes y datos según el plan de su operador. Sam Services no cobra por los mensajes.</p>
 
   <h2>5. Cómo cancelar</h2>
-  <p>Responda <code>STOP</code> a cualquier mensaje (también funcionan <code>CANCEL</code>, <code>END</code>, <code>QUIT</code>, <code>UNSUBSCRIBE</code> y <code>STOPALL</code>). Recibirá un último mensaje confirmando la baja y no le enviaremos más mensajes. Para volver a suscribirse, responda <code>START</code>. También puede pedir la baja escribiendo a <a href={mail}>{EMAIL}</a>.</p>
+  <p>Responda <code>STOP</code> a cualquier mensaje (también funcionan <code>STOPALL</code>, <code>UNSUBSCRIBE</code>, <code>CANCEL</code>, <code>END</code> y <code>QUIT</code>). <code>STOP</code> cancela todos los mensajes. Recibirá esta última confirmación y no le enviaremos más mensajes:</p>
+  <blockquote lang="en">{stop}</blockquote>
+  <p>Para volver a suscribirse, responda <code>START</code> o <code>UNSTOP</code>. También puede pedir la baja escribiendo a <a href={mail}>{EMAIL}</a>.</p>
 
   <h2>6. Ayuda</h2>
-  <p>Responda <code>HELP</code> a cualquier mensaje o escriba a <a href={mail}>{EMAIL}</a>.</p>
+  <p>Responda <code>HELP</code> o <code>INFO</code> a cualquier mensaje, escriba a <a href={mail}>{EMAIL}</a> o llame al <a href={tel}>{PHONE_DISPLAY}</a>. La respuesta automática a <code>HELP</code> es:</p>
+  <blockquote lang="en">{help}</blockquote>
 
   <h2>7. Operadores</h2>
   <p>Los operadores no son responsables por mensajes retrasados o no entregados. El servicio está disponible en los principales operadores de EE. UU.; la compatibilidad puede variar.</p>
@@ -42,7 +58,10 @@ const mail = `mailto:${EMAIL}`;
   <p>Debe ser mayor de 18 años y titular o usuario autorizado del número móvil. Si cambia o da de baja su número, avísenos o responda <code>STOP</code> antes.</p>
 
   <h2>9. Privacidad</h2>
-  <p><strong>No compartiremos su número móvil ni su consentimiento para SMS con terceros ni afiliados para fines de marketing o promoción.</strong> Más detalles en nuestra <a href={paths.es.privacy}>Política de privacidad</a>.</p>
+  <div class="box">
+    <p><strong>No compartiremos información móvil con terceros ni con empresas afiliadas para fines de marketing o promoción.</strong> Los datos de suscripción (opt-in) y el consentimiento para mensajes de texto no se compartirán con ningún tercero.</p>
+  </div>
+  <p>Más detalles en nuestra <a href={p.privacy}>Política de privacidad</a> y en los <a href={p.terms}>Términos</a>.</p>
 
   <h2>10. Cambios</h2>
   <p>Podemos modificar estos términos o terminar el programa. Publicaremos la versión vigente en esta página.</p>
@@ -50,31 +69,39 @@ const mail = `mailto:${EMAIL}`;
 ) : (
 <Legal lang={lang} current="sms" title="Text Messaging (SMS) Program Terms">
   <div class="box">
-    <p><strong>Program:</strong> Sam Services LLC SMS · <strong>Company:</strong> Sam Services LLC, Naples, FL</p>
-    <p>Message frequency varies. Message and data rates may apply. Reply <code>STOP</code> to opt out or <code>HELP</code> for help. Consent is not a condition of purchase.</p>
+    <p><strong>Program:</strong> Sam Services Customer Care Text Messages</p>
+    <p><strong>Company:</strong> Sam Services LLC · 5630 Yahl St, Ste 3, Naples, FL 34109, USA · <a href={mail}>{EMAIL}</a> · <a href={tel}>{PHONE_DISPLAY}</a></p>
+    <p>Msg frequency varies. Msg &amp; data rates may apply. Reply <code>HELP</code> for help, <code>STOP</code> to opt out. Consent is not a condition of purchase.</p>
   </div>
 
-  <h2>1. Program description</h2>
-  <p>Sam Services LLC sends text messages to people who expressly agree to receive them. There are two types, and each requires its own consent:</p>
-  <ul>
-    <li><strong>Customer care:</strong> replies to your inquiry, appointment and meeting confirmations and reminders, project status, support case follow-up and service notices (for example, maintenance or incidents affecting servers, email or phone systems we manage for you).</li>
-    <li><strong>Promotional (optional):</strong> offers and news about our services.</li>
-  </ul>
+  <h2>1. What we send</h2>
+  <p><strong>Customer care</strong> messages only: replies to your inquiry, appointment and meeting confirmations and reminders, support case follow-up and service notices (for example, maintenance or incidents affecting servers, email or phone systems we manage for you). <strong>We do not send marketing or promotional text messages.</strong></p>
 
   <h2>2. How to opt in</h2>
-  <p>By checking the matching box on our <a href={`${paths.en.home}#contacto`}>contact form</a> and entering your mobile number, or by asking us in writing. The boxes are unchecked by default and are not required to submit the form. You will receive a confirmation message when you opt in.</p>
+  <p>There are two ways, and in both your consent is your own and voluntary:</p>
+  <ol>
+    <li><strong>Web form:</strong> the <a href="#opt-in">form on this page</a> and the one in the contact section of the <a href={`${p.home}#contacto`}>home page</a> ("Let's talk" button in the menu) have an optional mobile phone field and one optional, unchecked box with this text:
+      <blockquote>{c.smsCare}</blockquote>
+      Links to our <a href={p.privacy}>Privacy Policy</a>, <a href={p.terms}>Terms</a> and these SMS Terms are right below the box. The form can be submitted without checking it.</li>
+    <li><strong>Texting us:</strong> if you text our number first, we only reply about your inquiry. Our only text-enabled number is <a href={tel}><strong>+1 {PHONE_DISPLAY}</strong></a>.</li>
+  </ol>
+  <p>When you opt in through the form you will receive this confirmation message:</p>
+  <blockquote>{optIn}</blockquote>
 
   <h2>3. Message frequency</h2>
-  <p>Message frequency varies. Customer care messages depend on your activity with us. Promotional messages are limited to 4 per month.</p>
+  <p>Message frequency varies based on your activity with us (open inquiries, appointments and support cases).</p>
 
   <h2>4. Costs</h2>
   <p>Message and data rates may apply according to your carrier plan. Sam Services does not charge for messages.</p>
 
   <h2>5. How to opt out</h2>
-  <p>Reply <code>STOP</code> to any message (<code>CANCEL</code>, <code>END</code>, <code>QUIT</code>, <code>UNSUBSCRIBE</code> and <code>STOPALL</code> also work). You will receive one final message confirming you have been unsubscribed, and we will send no further messages. To subscribe again, reply <code>START</code>. You can also opt out by emailing <a href={mail}>{EMAIL}</a>.</p>
+  <p>Reply <code>STOP</code> to any message (<code>STOPALL</code>, <code>UNSUBSCRIBE</code>, <code>CANCEL</code>, <code>END</code> and <code>QUIT</code> also work). <code>STOP</code> opts you out of all messages. You will receive this final confirmation and no further messages:</p>
+  <blockquote>{stop}</blockquote>
+  <p>To opt back in, reply <code>START</code> or <code>UNSTOP</code>. You can also opt out by emailing <a href={mail}>{EMAIL}</a>.</p>
 
   <h2>6. Help</h2>
-  <p>Reply <code>HELP</code> to any message or email <a href={mail}>{EMAIL}</a>.</p>
+  <p>Reply <code>HELP</code> or <code>INFO</code> to any message, email <a href={mail}>{EMAIL}</a> or call <a href={tel}>{PHONE_DISPLAY}</a>. The automatic reply to <code>HELP</code> is:</p>
+  <blockquote>{help}</blockquote>
 
   <h2>7. Carriers</h2>
   <p>Carriers are not liable for delayed or undelivered messages. The service is available on major US carriers; compatibility may vary.</p>
@@ -83,9 +110,26 @@ const mail = `mailto:${EMAIL}`;
   <p>You must be 18 or older and the account holder or an authorized user of the mobile number. If you change or cancel your number, let us know or reply <code>STOP</code> first.</p>
 
   <h2>9. Privacy</h2>
-  <p><strong>No mobile information will be shared with third parties or affiliates for marketing or promotional purposes.</strong> See our <a href={paths.en.privacy}>Privacy Policy</a> for details.</p>
+  <div class="box">
+    <p><strong>No mobile information will be shared with third parties or affiliates for marketing or promotional purposes.</strong> Text messaging originator opt-in data and consent will not be shared with any third parties.</p>
+  </div>
+  <p>See our <a href={p.privacy}>Privacy Policy</a> and <a href={p.terms}>Terms</a> for details.</p>
 
   <h2>10. Changes</h2>
   <p>We may change these terms or end the program. The current version is always posted on this page.</p>
 </Legal>
 )}
+<section id="opt-in" class="wrap optin" aria-labelledby="contact-title">
+  <ContactForm
+    lang={lang}
+    title={es ? 'Suscríbase o escríbanos' : 'Opt in or contact us'}
+    lead={es ? 'Deje su consulta y, si quiere recibir mensajes de texto de atención al cliente, escriba su móvil y marque la casilla.' : 'Send us your inquiry and, if you want customer care text messages, enter your mobile number and check the box.'}
+  />
+</section>
+
+<style>
+  .optin { max-width: 1040px; padding-block: 0 96px; }
+  :global(.legal) blockquote { margin: 10px 0 14px; padding: 12px 16px; border-left: 3px solid var(--blue); background: var(--surface-2); border-radius: 0 8px 8px 0; color: var(--text-body); font-size: 15px; max-width: var(--measure); }
+  :global(.legal) ol { margin: 0 0 14px; padding-left: 22px; max-width: var(--measure); }
+  :global(.legal) ol li { margin-bottom: 10px; color: var(--text-body); }
+</style>
