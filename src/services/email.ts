@@ -10,7 +10,7 @@ export const email: Record<'es' | 'en', ServiceContent> = {
     h1b: 'que llegue a la bandeja de entrada, no a spam.',
     lead: 'Configuramos, migramos y mantenemos el correo de su empresa con su propio dominio, en Google Workspace, Microsoft 365 o un servidor administrado, con SPF, DKIM y DMARC bien configurados. Desde Naples, Florida, para empresas en todo EE. UU.',
     metrics: [
-      ['9.4/10', 'puntuación de nuestro servidor en mail-tester'],
+      ['10/10', 'puntuación de nuestro servidor en mail-tester'],
       ['4', 'dominios con correo en producción'],
       ['3', 'registros de autenticación: SPF, DKIM y DMARC'],
       ['2', 'idiomas de soporte: español e inglés'],
@@ -68,7 +68,7 @@ export const email: Record<'es' | 'en', ServiceContent> = {
     h1b: 'in the inbox, not in spam.',
     lead: 'We set up, migrate and maintain your company email on your own domain, on Google Workspace, Microsoft 365 or a managed server, with SPF, DKIM and DMARC done right. From Naples, Florida, for businesses across the US.',
     metrics: [
-      ['9.4/10', 'our server’s score on mail-tester'],
+      ['10/10', 'our server’s score on mail-tester'],
       ['4', 'domains with email in production'],
       ['3', 'authentication records: SPF, DKIM and DMARC'],
       ['2', 'support languages: English and Spanish'],
