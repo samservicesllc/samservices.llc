@@ -33,6 +33,15 @@ const schema = {
   '@context': 'https://schema.org',
   '@graph': [
     {
+      '@type': 'WebSite',
+      '@id': `${SITE}/#website`,
+      url: `${SITE}/`,
+      name: 'Sam Services LLC',
+      alternateName: ['Sam Services', 'samservices.llc'],
+      publisher: { '@id': `${SITE}/#org` },
+      inLanguage: ['en', 'es'],
+    },
+    {
       '@type': 'ProfessionalService',
       '@id': `${SITE}/#org`,
       name: 'Sam Services LLC',
@@ -94,6 +103,8 @@ const schema = {
   <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0B0F14" />
   <link rel="icon" href="/favicon.ico" sizes="any" />
   <link rel="icon" type="image/png" href="/favicon-32.png" />
+  <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48.png" />
+  <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
   <link rel="manifest" href="/site.webmanifest" />
   <meta property="og:type" content="website" />
