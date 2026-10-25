@@ -1,6 +1,6 @@
 ---
 import '../styles/global.css';
-import { t, paths, SITE, EMAIL, LINKEDIN_COMPANY, LINKEDIN_PERSON, type Lang } from '../i18n';
+import { t, paths, SITE, EMAIL, PHONE, PHONE_DISPLAY, LINKEDIN_COMPANY, LINKEDIN_PERSON, type Lang } from '../i18n';
 // Fonts used by the first screen (headline, body, buttons, mono labels), preloaded so the hero
 // renders in its final face and nothing reflows when they arrive
 import fontDisplay from '../fonts/zilla-slab-latin-700-normal.woff2?url';
@@ -40,10 +40,12 @@ const schema = {
       logo: `${SITE}/icon-512.png`,
       image: `${SITE}/og-en.png`,
       email: EMAIL,
+      telephone: '+1-239-326-6686',
       foundingDate: '2019-02-01',
       founder: { '@id': `${SITE}/#founder` },
       address: {
         '@type': 'PostalAddress',
+        streetAddress: '5630 Yahl St Ste 3',
         addressLocality: 'Naples',
         addressRegion: 'FL',
         postalCode: '34109',
@@ -179,6 +181,7 @@ const schema = {
       <span>
         <a href={LINKEDIN_COMPANY} target="_blank" rel="noopener noreferrer">LinkedIn<span class="sr-only">{lang === 'es' ? ' (se abre en una pestaña nueva)' : ' (opens in a new tab)'}</span></a> ·
         <a href={`mailto:${EMAIL}`}>{EMAIL}</a> ·
+        <a href={`tel:${PHONE}`}>{PHONE_DISPLAY}</a> ·
         <a href={paths[lang].projects}>{c.footer.projects}</a> ·
         <a href={paths[lang].privacy}>{c.footer.privacy}</a> ·
         <a href={paths[lang].terms}>{c.footer.terms}</a> ·

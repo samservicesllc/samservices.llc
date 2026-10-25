@@ -2,6 +2,8 @@ export type Lang = 'es' | 'en';
 
 export const SITE = 'https://samservices.llc';
 export const EMAIL = 'contact@samservices.llc';
+export const PHONE = '+12393266686';
+export const PHONE_DISPLAY = '(239) 326-6686';
 export const LINKEDIN_COMPANY = 'https://www.linkedin.com/company/samservicesllc';
 export const LINKEDIN_PERSON = 'https://www.linkedin.com/in/arieskienmendoza/';
 

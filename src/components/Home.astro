@@ -1,5 +1,5 @@
 ---
-import { t, paths, EMAIL, LINKEDIN_PERSON, type Lang } from '../i18n';
+import { t, paths, EMAIL, PHONE, PHONE_DISPLAY, LINKEDIN_PERSON, type Lang } from '../i18n';
 import NeuralBg from './NeuralBg.astro';
 import { projects, srcset } from '../projects';
 const minis = projects.filter((p) => p.featured && !p.main);
@@ -170,6 +170,7 @@ const pos: [number, number][] = [[70, 60], [370, 60], [60, 150], [380, 150], [70
       <h2 id="contact-title" class="h2">{c.contact.h2}</h2>
       <p class="on-dark">{c.contact.lead}</p>
       <a class="mail" href={`mailto:${EMAIL}`}>{EMAIL}</a>
+      <a class="mail" href={`tel:${PHONE}`}>{PHONE_DISPLAY}</a>
     </div>
     <form id="contact-form" class="cform" action="/api/contact" method="post" data-error={c.contact.error} data-verify={c.contact.verify} data-sending={c.contact.sending} data-ok={c.contact.ok} data-email={EMAIL}>
       <input type="hidden" name="lang" value={lang} />
