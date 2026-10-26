@@ -67,7 +67,7 @@ import '../../styles/global.css';
 
     <!-- QR -->
     <section data-panel="codes">
-      <details class="new" open>
+      <details class="new">
         <summary>Nuevo QR</summary>
         <form id="k-form" class="grid">
           <label>Nombre<input id="k-label" required placeholder="Gonichea – Naples" /></label>
@@ -275,6 +275,7 @@ import '../../styles/global.css';
       e.preventDefault();
       const d = await api('codes', { method: 'POST', body: JSON.stringify({ label: ($('#k-label') as HTMLInputElement).value, client_id: ($('#k-client') as HTMLSelectElement).value || null, target_url: ($('#k-target') as HTMLInputElement).value, fallback_url: ($('#k-fallback') as HTMLInputElement).value || null, notes: ($('#k-notes') as HTMLInputElement).value }) });
       (e.target as HTMLFormElement).reset();
+      ((e.target as HTMLElement).closest('details') as HTMLDetailsElement).open = false;
       banner('QR creado: ' + d.code, true);
       await loaders.codes();
       const i = codes.findIndex((k) => k.code === d.code);
