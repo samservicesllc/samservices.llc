@@ -55,3 +55,6 @@ CREATE TABLE IF NOT EXISTS audit_log (
 ALTER TABLE rv_codes ADD COLUMN og_title TEXT;
 ALTER TABLE rv_codes ADD COLUMN og_description TEXT;
 ALTER TABLE rv_codes ADD COLUMN og_image TEXT;
+
+-- 004: soft delete for QR codes (codes are never reused)
+ALTER TABLE rv_codes ADD COLUMN deleted_at TEXT;

@@ -194,7 +194,7 @@ export async function onRequest(context) {
           (SELECT COUNT(*) FROM rv_scans s WHERE s.code = k.code) AS scans,
           (SELECT COUNT(*) FROM rv_scans s WHERE s.code = k.code AND s.ts >= ?1) AS scans_30d,
           (SELECT MAX(ts) FROM rv_scans s WHERE s.code = k.code) AS last_scan
-        FROM rv_codes k LEFT JOIN rv_clients c ON c.id = k.client_id ORDER BY k.created_at DESC`).bind(new Date(Date.now() - 30 * 864e5).toISOString()));
+        FROM rv_codes k LEFT JOIN rv_clients c ON c.id = k.client_id WHERE k.deleted_at IS NULL ORDER BY k.created_at DESC`).bind(new Date(Date.now() - 30 * 864e5).toISOString()));
       return json({ ok: true, rows });
     }
     if (r0 === 'codes' && !r1 && m === 'POST') {
@@ -220,9 +220,21 @@ export async function onRequest(context) {
       await audit(env, actor, 'create', 'code', code, { label, target });
       return json({ ok: true, code });
     }
+    if (r0 === 'codes' && r1 && m === 'DELETE') {
+      // Soft delete: the code is never reused (a printed QR must never point to someone else),
+      // scan history is kept, and go.samservices.llc treats it as unknown (SS Reviews page).
+      const code = String(r1).toUpperCase();
+      const b = await body();
+      if (String(b.confirm || '').toUpperCase() !== code) return err(422, 'confirm');
+      const cur = await env.DB.prepare('SELECT label, target_url FROM rv_codes WHERE code = ?1 AND deleted_at IS NULL').bind(code).first();
+      if (!cur) return err(404, 'not_found');
+      await env.DB.prepare('UPDATE rv_codes SET deleted_at = ?1, active = 0, updated_at = ?1 WHERE code = ?2').bind(now(), code).run();
+      await audit(env, actor, 'delete', 'code', code, { label: cur.label, target: cur.target_url });
+      return json({ ok: true });
+    }
     if (r0 === 'codes' && r1 && m === 'PATCH') {
       const code = String(r1).toUpperCase();
-      const cur = await env.DB.prepare('SELECT * FROM rv_codes WHERE code = ?1').bind(code).first();
+      const cur = await env.DB.prepare('SELECT * FROM rv_codes WHERE code = ?1 AND deleted_at IS NULL').bind(code).first();
       if (!cur) return err(404, 'not_found');
       const b = await body();
       const label = b.label !== undefined ? str(b.label, 160) : cur.label;

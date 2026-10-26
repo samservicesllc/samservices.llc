@@ -101,7 +101,12 @@ import '../../styles/global.css';
             <label>Imagen (https, 1200×630)<input id="kd-og-image" type="url" placeholder="Por defecto: tarjeta SS Reviews" /></label>
           </fieldset>
           <label class="chk"><input type="checkbox" id="kd-active" /> Activo</label>
-          <div class="row"><button class="btn-p" value="save" id="kd-save">Guardar</button><button value="cancel">Cerrar</button></div>
+          <div class="row"><button class="btn-p" value="save" id="kd-save">Guardar</button><button value="cancel">Cerrar</button><button type="button" class="btn-d" id="kd-del">Eliminar QR…</button></div>
+          <div class="danger" id="kd-del-box" hidden>
+            <p><strong>¿Eliminar este QR?</strong> Los QR ya impresos o compartidos dejarán de llevar a la reseña y mostrarán la página de SS Reviews. El código no se volverá a usar y las estadísticas se conservan. Si solo quiere pausarlo, desmarque «Activo».</p>
+            <label>Escriba <span class="mono" id="kd-del-code"></span> para confirmar<input id="kd-del-input" autocomplete="off" /></label>
+            <div class="row"><button type="button" class="btn-d" id="kd-del-ok" disabled>Eliminar definitivamente</button><button type="button" id="kd-del-cancel">Cancelar</button></div>
+          </div>
         </form>
       </dialog>
     </section>
@@ -291,8 +296,21 @@ import '../../styles/global.css';
       ($('#kd-og-desc') as HTMLInputElement).value = kCur.og_description || '';
       ($('#kd-og-image') as HTMLInputElement).value = kCur.og_image || '';
       ($('#kd-active') as HTMLInputElement).checked = !!kCur.active;
+      ($('#kd-del-box') as HTMLElement).hidden = true;
+      ($('#kd-del-input') as HTMLInputElement).value = '';
+      ($('#kd-del-ok') as HTMLButtonElement).disabled = true;
+      $('#kd-del-code').textContent = kCur.code;
       ($('#k-dlg') as HTMLDialogElement).showModal();
     };
+    $('#kd-del').addEventListener('click', () => { ($('#kd-del-box') as HTMLElement).hidden = false; ($('#kd-del-input') as HTMLInputElement).focus(); });
+    $('#kd-del-cancel').addEventListener('click', () => { ($('#kd-del-box') as HTMLElement).hidden = true; ($('#kd-del-input') as HTMLInputElement).value = ''; ($('#kd-del-ok') as HTMLButtonElement).disabled = true; });
+    $('#kd-del-input').addEventListener('input', (e) => { ($('#kd-del-ok') as HTMLButtonElement).disabled = (e.target as HTMLInputElement).value.trim().toUpperCase() !== kCur.code; });
+    $('#kd-del-ok').addEventListener('click', async () => {
+      await api('codes/' + kCur.code, { method: 'DELETE', body: JSON.stringify({ confirm: ($('#kd-del-input') as HTMLInputElement).value.trim() }) });
+      ($('#k-dlg') as HTMLDialogElement).close();
+      banner('QR ' + kCur.code + ' eliminado', true);
+      loaders.codes();
+    });
     $('#k-rows').addEventListener('click', (e) => {
       const tr = (e.target as HTMLElement).closest('tr[data-i]') as HTMLElement | null;
       if (tr) openCode(+tr.dataset.i!);
@@ -381,6 +399,11 @@ import '../../styles/global.css';
     .adm .dlg label { display: flex; flex-direction: column; gap: 4px; font-weight: 500; }
     .adm .dlg label.chk { flex-direction: row; align-items: center; gap: 8px; }
     .adm .row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+    .adm .btn-d { font: inherit; border-radius: 8px; padding: 8px 12px; cursor: pointer; background: #fff; color: #B42318; border: 1px solid #F1B8B3; margin-left: auto; }
+    .adm .btn-d:disabled { opacity: .5; cursor: not-allowed; }
+    .adm .danger .btn-d { margin-left: 0; background: #B42318; color: #fff; border-color: #B42318; }
+    .adm .danger { border: 1px solid #F1B8B3; background: #FEF3F2; border-radius: 10px; padding: 12px 14px; display: flex; flex-direction: column; gap: 10px; }
+    .adm .danger p { margin: 0; color: #7A271A; }
     .adm .og { border: 1px solid var(--border); border-radius: 10px; padding: 10px 12px; display: flex; flex-direction: column; gap: 8px; }
     .adm .og legend { font-weight: 600; font-size: 13px; padding: 0 4px; }
     .adm .kv { display: grid; grid-template-columns: 110px 1fr; gap: 6px 12px; margin: 0; }

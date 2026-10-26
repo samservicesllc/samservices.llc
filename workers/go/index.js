@@ -70,7 +70,7 @@ export default {
     let row = null;
     try {
       row = await env.DB.prepare(
-        'SELECT k.target_url, k.fallback_url, k.active, k.label, k.og_title, k.og_description, k.og_image, c.name AS client_name FROM rv_codes k LEFT JOIN rv_clients c ON c.id = k.client_id WHERE k.code = ?1',
+        'SELECT k.target_url, k.fallback_url, k.active, k.label, k.og_title, k.og_description, k.og_image, c.name AS client_name FROM rv_codes k LEFT JOIN rv_clients c ON c.id = k.client_id WHERE k.code = ?1 AND k.deleted_at IS NULL',
       ).bind(code).first();
     } catch (e) {
       console.error('lookup failed', e);
