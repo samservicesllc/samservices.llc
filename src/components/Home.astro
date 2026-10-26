@@ -8,6 +8,7 @@ const main = projects.find((p) => p.main)!;
 interface Props { lang: Lang }
 const { lang } = Astro.props;
 const c = t[lang];
+const REVIEWS = lang === 'es' ? 'https://reviews.samservices.llc/es/' : 'https://reviews.samservices.llc/';
 const svcLinks = c.services.links as Record<string, readonly (readonly [string, string])[]>;
 const langPaths = paths[lang] as Record<string, string>;
 
@@ -113,7 +114,7 @@ const pos: [number, number][] = [[70, 60], [370, 60], [60, 150], [380, 150], [70
         <p class="muted">{text}</p>
         <span class="svc-links">
           {svcLinks[k]?.map(([key, label]) => (
-            <a class="svc-more tap" href={langPaths[key]}>{label} →</a>
+            <a class="svc-more tap" href={key === 'reviews' ? REVIEWS : langPaths[key]}>{label} →</a>
           ))}
         </span>
       </article>

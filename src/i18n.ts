@@ -61,7 +61,7 @@ export const t = {
       h2: 'Todo lo digital de su empresa, con un solo responsable.',
       more: 'Software a la medida',
       more2: 'Integraciones',
-      links: { web: [['web', 'Diseño web']], code: [['software', 'Software a la medida'], ['integrations', 'Integraciones']], server: [['servers', 'Servidores'], ['email', 'Correo corporativo']], phone: [['phone', 'Sistema telefónico']] },
+      links: { web: [['web', 'Diseño web']], code: [['software', 'Software a la medida'], ['integrations', 'Integraciones'], ['reviews', 'SS Reviews']], server: [['servers', 'Servidores'], ['email', 'Correo corporativo']], phone: [['phone', 'Sistema telefónico']] },
       items: [
         ['web', 'Sitios web', 'Rápidos, bilingües y listos para Google: diseño, dominio, hosting, correo y SEO local.'],
         ['code', 'Software e integraciones', 'Plataformas en Python/Django que unen ventas, inventario, facturación y envíos.'],
@@ -182,7 +182,7 @@ export const t = {
       h2: 'Everything digital in your business, with one accountable partner.',
       more: 'Custom software',
       more2: 'Integrations',
-      links: { web: [['web', 'Web design']], code: [['software', 'Custom software'], ['integrations', 'Integrations']], server: [['servers', 'Servers'], ['email', 'Business email']], phone: [['phone', 'Business phone systems']] },
+      links: { web: [['web', 'Web design']], code: [['software', 'Custom software'], ['integrations', 'Integrations'], ['reviews', 'SS Reviews']], server: [['servers', 'Servers'], ['email', 'Business email']], phone: [['phone', 'Business phone systems']] },
       items: [
         ['web', 'Websites', 'Fast, bilingual and Google-ready: design, domain, hosting, email and local SEO.'],
         ['code', 'Software & integrations', 'Python/Django platforms that connect sales, inventory, invoicing and shipping.'],

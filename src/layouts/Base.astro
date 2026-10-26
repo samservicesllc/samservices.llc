@@ -186,6 +186,7 @@ const schema = {
     <nav class="wrap foot-svc" aria-label={c.footer.services}>
       <span class="foot-k">{c.footer.services}</span>
       {(['web', 'software', 'integrations', 'phone', 'email', 'servers'] as const).map((k) => <a href={paths[lang][k]}>{c.footer[k]}</a>)}
+      <a href={lang === 'es' ? 'https://reviews.samservices.llc/es/' : 'https://reviews.samservices.llc/'}>SS Reviews</a>
     </nav>
     <div class="wrap foot">
       <span>© {year} Sam Services LLC · {c.footer.rights}</span>
