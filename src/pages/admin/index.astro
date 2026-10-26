@@ -94,6 +94,12 @@ import '../../styles/global.css';
           <label>Destino<input id="kd-target" type="url" /></label>
           <label>Respaldo<input id="kd-fallback" type="url" /></label>
           <label>Notas<input id="kd-notes" /></label>
+          <fieldset class="og">
+            <legend>Vista previa al compartir el enlace (WhatsApp, iMessage, redes)</legend>
+            <label>Título<input id="kd-og-title" maxlength="120" placeholder="Por defecto: «Cliente: leave us a review on Google»" /></label>
+            <label>Descripción<input id="kd-og-desc" maxlength="200" placeholder="Por defecto: «It takes less than a minute. Thank you!»" /></label>
+            <label>Imagen (https, 1200×630)<input id="kd-og-image" type="url" placeholder="Por defecto: tarjeta SS Reviews" /></label>
+          </fieldset>
           <label class="chk"><input type="checkbox" id="kd-active" /> Activo</label>
           <div class="row"><button class="btn-p" value="save" id="kd-save">Guardar</button><button value="cancel">Cerrar</button></div>
         </form>
@@ -281,6 +287,9 @@ import '../../styles/global.css';
       ($('#kd-target') as HTMLInputElement).value = kCur.target_url;
       ($('#kd-fallback') as HTMLInputElement).value = kCur.fallback_url || '';
       ($('#kd-notes') as HTMLInputElement).value = kCur.notes || '';
+      ($('#kd-og-title') as HTMLInputElement).value = kCur.og_title || '';
+      ($('#kd-og-desc') as HTMLInputElement).value = kCur.og_description || '';
+      ($('#kd-og-image') as HTMLInputElement).value = kCur.og_image || '';
       ($('#kd-active') as HTMLInputElement).checked = !!kCur.active;
       ($('#k-dlg') as HTMLDialogElement).showModal();
     };
@@ -306,7 +315,7 @@ import '../../styles/global.css';
     });
     $('#kd-save').addEventListener('click', async (e) => {
       e.preventDefault();
-      await api('codes/' + kCur.code, { method: 'PATCH', body: JSON.stringify({ label: ($('#kd-label') as HTMLInputElement).value, client_id: ($('#kd-client') as HTMLSelectElement).value || null, target_url: ($('#kd-target') as HTMLInputElement).value, fallback_url: ($('#kd-fallback') as HTMLInputElement).value || null, notes: ($('#kd-notes') as HTMLInputElement).value, active: ($('#kd-active') as HTMLInputElement).checked }) });
+      await api('codes/' + kCur.code, { method: 'PATCH', body: JSON.stringify({ label: ($('#kd-label') as HTMLInputElement).value, client_id: ($('#kd-client') as HTMLSelectElement).value || null, target_url: ($('#kd-target') as HTMLInputElement).value, fallback_url: ($('#kd-fallback') as HTMLInputElement).value || null, notes: ($('#kd-notes') as HTMLInputElement).value, og_title: ($('#kd-og-title') as HTMLInputElement).value, og_description: ($('#kd-og-desc') as HTMLInputElement).value, og_image: ($('#kd-og-image') as HTMLInputElement).value, active: ($('#kd-active') as HTMLInputElement).checked }) });
       ($('#k-dlg') as HTMLDialogElement).close();
       banner('QR actualizado: el cambio se aplica en el próximo escaneo', true);
       loaders.codes();
@@ -372,6 +381,8 @@ import '../../styles/global.css';
     .adm .dlg label { display: flex; flex-direction: column; gap: 4px; font-weight: 500; }
     .adm .dlg label.chk { flex-direction: row; align-items: center; gap: 8px; }
     .adm .row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+    .adm .og { border: 1px solid var(--border); border-radius: 10px; padding: 10px 12px; display: flex; flex-direction: column; gap: 8px; }
+    .adm .og legend { font-weight: 600; font-size: 13px; padding: 0 4px; }
     .adm .kv { display: grid; grid-template-columns: 110px 1fr; gap: 6px 12px; margin: 0; }
     .adm .kv dt { color: var(--text-3); }
     .adm .kv dd { margin: 0; white-space: pre-wrap; word-break: break-word; }

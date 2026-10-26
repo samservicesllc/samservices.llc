@@ -50,3 +50,8 @@ CREATE TABLE IF NOT EXISTS audit_log (
   entity_id TEXT,
   detail TEXT
 );
+
+-- 003: link preview (Open Graph) per QR
+ALTER TABLE rv_codes ADD COLUMN og_title TEXT;
+ALTER TABLE rv_codes ADD COLUMN og_description TEXT;
+ALTER TABLE rv_codes ADD COLUMN og_image TEXT;

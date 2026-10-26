@@ -213,8 +213,10 @@ export async function onRequest(context) {
         if (!exists) { code = c; break; }
       }
       if (!code) return err(500, 'code_generation');
-      await env.DB.prepare('INSERT INTO rv_codes (code, label, client_id, target_url, fallback_url, active, notes, created_at, updated_at) VALUES (?1,?2,?3,?4,?5,1,?6,?7,?7)')
-        .bind(code, label, b.client_id ? +b.client_id : null, target, fallback, str(b.notes, 2000), t).run();
+      const ogImage = b.og_image ? httpsUrl(b.og_image) : null;
+      if (b.og_image && !ogImage) return err(422, 'og_image');
+      await env.DB.prepare('INSERT INTO rv_codes (code, label, client_id, target_url, fallback_url, active, notes, og_title, og_description, og_image, created_at, updated_at) VALUES (?1,?2,?3,?4,?5,1,?6,?7,?8,?9,?10,?10)')
+        .bind(code, label, b.client_id ? +b.client_id : null, target, fallback, str(b.notes, 2000), str(b.og_title, 120), str(b.og_description, 200), ogImage, t).run();
       await audit(env, actor, 'create', 'code', code, { label, target });
       return json({ ok: true, code });
     }
@@ -232,8 +234,12 @@ export async function onRequest(context) {
       const active = b.active !== undefined ? (b.active ? 1 : 0) : cur.active;
       const client = b.client_id !== undefined ? (b.client_id ? +b.client_id : null) : cur.client_id;
       const notes = b.notes !== undefined ? str(b.notes, 2000) : cur.notes;
-      await env.DB.prepare('UPDATE rv_codes SET label=?1, target_url=?2, fallback_url=?3, active=?4, client_id=?5, notes=?6, updated_at=?7 WHERE code=?8')
-        .bind(label, target, fallback, active, client, notes, now(), code).run();
+      const ogTitle = b.og_title !== undefined ? str(b.og_title, 120) : cur.og_title;
+      const ogDesc = b.og_description !== undefined ? str(b.og_description, 200) : cur.og_description;
+      const ogImage = b.og_image !== undefined ? (b.og_image ? httpsUrl(b.og_image) : null) : cur.og_image;
+      if (b.og_image && !ogImage) return err(422, 'og_image');
+      await env.DB.prepare('UPDATE rv_codes SET label=?1, target_url=?2, fallback_url=?3, active=?4, client_id=?5, notes=?6, og_title=?7, og_description=?8, og_image=?9, updated_at=?10 WHERE code=?11')
+        .bind(label, target, fallback, active, client, notes, ogTitle, ogDesc, ogImage, now(), code).run();
       await audit(env, actor, 'update', 'code', code, { from: { target: cur.target_url, active: cur.active }, to: { target, active } });
       return json({ ok: true });
     }
