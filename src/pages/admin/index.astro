@@ -16,10 +16,10 @@ import '../../styles/global.css';
   <header class="top">
     <strong>Sam Services · Admin</strong>
     <nav class="tabs" aria-label="Secciones">
-      <button data-tab="msgs" aria-current="page">Mensajes</button>
-      <button data-tab="sms">SMS</button>
-      <button data-tab="codes">SS Reviews · QR</button>
+      <button data-tab="codes" aria-current="page">SS Reviews · QR</button>
       <button data-tab="clients">SS Reviews · Clientes</button>
+      <button data-tab="msgs">Mensajes</button>
+      <button data-tab="sms">SMS</button>
       <button data-tab="stats">Estadísticas</button>
       <button data-tab="audit">Registro</button>
     </nav>
@@ -30,7 +30,7 @@ import '../../styles/global.css';
 
   <main>
     <!-- Mensajes -->
-    <section data-panel="msgs">
+    <section data-panel="msgs" hidden>
       <div class="bar">
         <input id="m-q" type="search" placeholder="Buscar nombre, correo, teléfono, texto…" />
         <select id="m-status"><option value="">Todos</option><option value="new">Nuevos</option><option value="replied">Respondidos</option><option value="archived">Archivados</option></select>
@@ -66,7 +66,7 @@ import '../../styles/global.css';
     </section>
 
     <!-- QR -->
-    <section data-panel="codes" hidden>
+    <section data-panel="codes">
       <details class="new" open>
         <summary>Nuevo QR</summary>
         <form id="k-form" class="grid">
@@ -361,7 +361,7 @@ import '../../styles/global.css';
     };
 
     // ---- boot ----
-    api('me').then((d) => { $('#who').textContent = d.email; loaders.msgs(); }).catch(() => { $('#who').textContent = 'sin acceso'; });
+    api('me').then((d) => { $('#who').textContent = d.email; loaders.codes(); }).catch(() => { $('#who').textContent = 'sin acceso'; });
   </script>
 
   <style is:global>
